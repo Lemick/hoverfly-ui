@@ -1,0 +1,20 @@
+.form-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-input label {
+  margin-bottom: 0.5rem;
+}
+
+.form-input input,
+.form-input textarea,
+.form-input select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+}
