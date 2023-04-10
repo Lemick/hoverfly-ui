@@ -2,13 +2,14 @@ import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
 import RequestResponsePairListForm from '../misc/RequestResponsePairListForm';
+import { HoverflySimulation } from '../../types/hoverfly';
 
 const WIDTH_SEPARATOR_PX = 10;
 
 export default function Editor() {
   const editorRef = useRef<any>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
+  const [hoverflyMockData, setHoverflyMockData] = useState<HoverflySimulation | undefined>();
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth / 2);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
@@ -34,6 +35,14 @@ export default function Editor() {
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  function handleCodeChange(value: string | undefined) {
+    try {
+      setHoverflyMockData(value ? JSON.parse(value) : undefined);
+    } catch (_) {
+      setHoverflyMockData(undefined);
+    }
+  }
+
   return (
     <div className="editor-layout" ref={layoutRef}>
       <div className="left-panel" style={{ width: leftPanelWidth }}>
@@ -44,6 +53,7 @@ export default function Editor() {
           defaultValue="{ }"
           theme="vs-dark"
           onMount={handleEditorDidMount}
+          onChange={handleCodeChange}
           options={{
             wordWrap: 'on'
           }}
@@ -57,10 +67,14 @@ export default function Editor() {
       <div
         className="right-panel"
         style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
-        <RequestResponsePairListForm
-          requestResponsePairs={[]}
-          onSubmit={(requestResponsePairs) => {}}
-        />
+        {hoverflyMockData?.pairs ? (
+          <RequestResponsePairListForm
+            requestResponsePairs={hoverflyMockData.pairs}
+            onSubmit={(requestResponsePairs) => {}}
+          />
+        ) : (
+          <span>Invalid mock data :( </span>
+        )}
       </div>
     </div>
   );

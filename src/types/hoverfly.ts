@@ -65,5 +65,5 @@ export type HoverflyMetadata = {
 };
 
 export type HoverflySimulation = {
-  data: RequestResponsePair[];
+  pairs: RequestResponsePair[];
 };

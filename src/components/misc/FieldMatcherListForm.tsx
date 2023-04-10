@@ -35,17 +35,18 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
     <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Field Matcher List</legend>
-        {matchers.map((fieldMatcher, index) => (
-          <div key={index}>
-            <FieldMatcherForm
-              fieldMatcher={fieldMatcher}
-              onSubmit={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
-            />
-            <button type="button" onClick={() => handleDelete(index)}>
-              Delete
-            </button>
-          </div>
-        ))}
+        {matchers &&
+          matchers.map((fieldMatcher, index) => (
+            <div key={index}>
+              <FieldMatcherForm
+                fieldMatcher={fieldMatcher}
+                onSubmit={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
+              />
+              <button type="button" onClick={() => handleDelete(index)}>
+                Delete
+              </button>
+            </div>
+          ))}
         <button type="button" onClick={handleAdd}>
           Add Field Matcher
         </button>
