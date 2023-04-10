@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FieldMatcher } from '../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
 
@@ -8,36 +8,29 @@ type Props = {
 };
 
 const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit }) => {
-  const [matchers, setMatchers] = useState<FieldMatcher[]>(fieldMatchers);
-
   const handleAdd = () => {
-    setMatchers([...matchers, { matcher: '', value: '' }]);
+    onSubmit([...fieldMatchers, { matcher: '', value: '' }]);
   };
 
   const handleUpdate = (index: number, fieldMatcher: FieldMatcher) => {
-    const newMatchers = [...matchers];
+    const newMatchers = [...fieldMatchers];
     newMatchers[index] = fieldMatcher;
-    setMatchers(newMatchers);
+    onSubmit(newMatchers);
   };
 
   const handleDelete = (index: number) => {
-    const newMatchers = [...matchers];
+    const newMatchers = [...fieldMatchers];
     newMatchers.splice(index, 1);
-    setMatchers(newMatchers);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(matchers);
+    onSubmit(newMatchers);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <fieldset>
         <legend>Field Matcher List</legend>
-        {matchers &&
-          matchers.map((fieldMatcher, index) => (
-            <div key={index}>
+        {fieldMatchers &&
+          fieldMatchers.map((fieldMatcher, index) => (
+            <div key={Math.random()}>
               <FieldMatcherForm
                 fieldMatcher={fieldMatcher}
                 onSubmit={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
@@ -51,7 +44,6 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
           Add Field Matcher
         </button>
       </fieldset>
-      <button type="submit">Save</button>
     </form>
   );
 };

@@ -1,32 +1,49 @@
-import React, { useState } from 'react';
-import { FieldMatcher, MatcherConfig } from '../../types/hoverfly';
+import React from 'react';
+import { FieldMatcher } from '../../types/hoverfly';
 
 type Props = {
   fieldMatcher?: FieldMatcher;
   onSubmit: (fieldMatcher: FieldMatcher) => void;
 };
 
-const FieldMatcherForm: React.FC<Props> = ({ fieldMatcher, onSubmit }) => {
-  const [matcher, setMatcher] = useState<string>(fieldMatcher?.matcher || '');
-  const [value, setValue] = useState<any>(fieldMatcher?.value || '');
-  const [config, setConfig] = useState<MatcherConfig>(fieldMatcher?.config || {});
+const FieldMatcherForm: React.FC<Props> = ({
+  fieldMatcher = { matcher: '', value: '', config: {} },
+  onSubmit
+}) => {
+  const handleMatcherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const newFieldMatcher = { ...fieldMatcher, [name]: value };
+    onSubmit(newFieldMatcher);
+  };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit({ matcher, value, config });
+  const handleConfigChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    const newConfig = { ...fieldMatcher.config, [name]: checked };
+    const newFieldMatcher = { ...fieldMatcher, config: newConfig };
+    onSubmit(newFieldMatcher);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <fieldset>
         <legend>Field Matcher</legend>
         <label>
           Matcher:
-          <input type="text" value={matcher} onChange={(e) => setMatcher(e.target.value)} />
+          <input
+            type="text"
+            name="matcher"
+            value={fieldMatcher.matcher}
+            onChange={handleMatcherChange}
+          />
         </label>
         <label>
           Value:
-          <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
+          <input
+            type="text"
+            name="value"
+            value={fieldMatcher.value}
+            onChange={handleMatcherChange}
+          />
         </label>
         <label>
           Config:
@@ -35,30 +52,32 @@ const FieldMatcherForm: React.FC<Props> = ({ fieldMatcher, onSubmit }) => {
               Ignore Unknown:
               <input
                 type="checkbox"
-                checked={config?.ignoreUnknown}
-                onChange={(e) => setConfig({ ...config, ignoreUnknown: e.target.checked })}
+                name="ignoreUnknown"
+                checked={fieldMatcher.config?.ignoreUnknown}
+                onChange={handleConfigChange}
               />
             </label>
             <label>
               Ignore Order:
               <input
                 type="checkbox"
-                checked={config?.ignoreOrder}
-                onChange={(e) => setConfig({ ...config, ignoreOrder: e.target.checked })}
+                name="ignoreOrder"
+                checked={fieldMatcher.config?.ignoreOrder}
+                onChange={handleConfigChange}
               />
             </label>
             <label>
               Ignore Occurrences:
               <input
                 type="checkbox"
-                checked={config?.ignoreOccurrences}
-                onChange={(e) => setConfig({ ...config, ignoreOccurrences: e.target.checked })}
+                name="ignoreOccurrences"
+                checked={fieldMatcher.config?.ignoreOccurrences}
+                onChange={handleConfigChange}
               />
             </label>
           </div>
         </label>
       </fieldset>
-      <button type="submit">{fieldMatcher ? 'Save' : 'Create'}</button>
     </form>
   );
 };

@@ -38,6 +38,7 @@ export default function Editor() {
   function handleCodeChange(value: string | undefined) {
     try {
       setHoverflyMockData(value ? JSON.parse(value) : undefined);
+      console.log('code change');
     } catch (_) {
       setHoverflyMockData(undefined);
     }
@@ -70,7 +71,11 @@ export default function Editor() {
         {hoverflyMockData?.pairs ? (
           <RequestResponsePairListForm
             requestResponsePairs={hoverflyMockData.pairs}
-            onSubmit={(requestResponsePairs) => {}}
+            onSubmit={(pairs) => {
+              console.log(JSON.stringify({ ...hoverflyMockData, pairs }));
+              editorRef.current.setValue(JSON.stringify({ ...hoverflyMockData, pairs }));
+              editorRef.current.getAction('editor.action.formatDocument').run();
+            }}
           />
         ) : (
           <span>Invalid mock data :( </span>
