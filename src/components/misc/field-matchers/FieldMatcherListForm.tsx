@@ -1,6 +1,7 @@
 import React from 'react';
-import { FieldMatcher } from '../../types/hoverfly';
+import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
+import './FieldMatcherListForm.scss';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
@@ -25,12 +26,12 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
   };
 
   return (
-    <form>
+    <form className="field-matcher-list-form">
       <fieldset>
         <legend>Field Matcher List</legend>
         {fieldMatchers &&
           fieldMatchers.map((fieldMatcher, index) => (
-            <div key={Math.random()}>
+            <div key={Math.random()} className="field-matcher-list-form__field-matcher">
               <FieldMatcherForm
                 fieldMatcher={fieldMatcher}
                 onSubmit={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
@@ -40,7 +41,7 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
               </button>
             </div>
           ))}
-        <button type="button" onClick={handleAdd}>
+        <button type="button" onClick={handleAdd} className="field-matcher-list-form__add-button">
           Add Field Matcher
         </button>
       </fieldset>

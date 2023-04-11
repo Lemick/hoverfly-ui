@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Request } from '../../types/hoverfly';
-import FieldMatcherListForm from './FieldMatcherListForm';
+import FieldMatcherListForm from './field-matchers/FieldMatcherListForm';
+import RecordStringFieldMatcherListForm from './field-matchers/RecordStringFieldMatcherListForm';
+import './RequestMatcherForm.scss';
 
 type Props = {
   request: Request;
@@ -8,68 +10,91 @@ type Props = {
 };
 
 const RequestMatcherForm = ({ request, onSubmit }: Props) => {
-  console.log('request compo', request);
+  const [selectedField, setSelectedField] = useState('');
+
+  const handleFieldClick = (fieldName: string) => {
+    setSelectedField(fieldName === selectedField ? '' : fieldName);
+  };
+
+  const renderArrow = (fieldName: string) => {
+    if (selectedField === fieldName) {
+      return <span>&#9660;</span>; // down arrow
+    }
+    return <span>&#9654;</span>; // right arrow
+  };
+
   return (
-    <form>
+    <form className="request-matcher-form">
       <fieldset>
         <legend>Request</legend>
-        <label>
-          Body:
-          <FieldMatcherListForm
-            fieldMatchers={request.body}
-            onSubmit={(fieldMatchers) => onSubmit({ ...request, body: fieldMatchers })}
-          />
-        </label>
-        <label>
-          Destination:
-          <FieldMatcherListForm
-            fieldMatchers={request.destination}
-            onSubmit={(fieldMatchers) => onSubmit({ ...request, destination: fieldMatchers })}
-          />
-        </label>
-        <label>
-          Headers:
-          <textarea
-            value={JSON.stringify(request.headers)}
-            onSubmit={(fieldMatchers) => onSubmit({ ...request, headers: request.headers })}
-          />
-        </label>
-        <label>
-          Path:
-          <FieldMatcherListForm
-            fieldMatchers={request.path}
-            onSubmit={(fieldMatchers) => {
-              onSubmit({ ...request, path: fieldMatchers });
-              console.log('update path', { ...request, path: fieldMatchers });
-            }}
-          />
-        </label>
-        <label>
-          Query:
-          <textarea
-            value={JSON.stringify(request.query)}
-            onSubmit={(fieldMatchers) => onSubmit({ ...request, query: request.query })}
-          />
-        </label>
-        <label>
-          Requires State:
-          <textarea
-            value={JSON.stringify(request.requiresState)}
-            onSubmit={(fieldMatchers) =>
-              onSubmit({ ...request, requiresState: request.requiresState })
-            }
-          />
-        </label>
-        <label>
-          Scheme:
-          <FieldMatcherListForm
-            fieldMatchers={request.scheme}
-            onSubmit={(fieldMatchers) => onSubmit({ ...request, scheme: fieldMatchers })}
-          />
-        </label>
+        <div className="field-group">
+          <label className="field-label" onClick={() => handleFieldClick('body')}>
+            Body:
+            {renderArrow('body')}
+          </label>
+          <div className={`field-content ${selectedField === 'body' ? 'expanded' : ''}`}>
+            <FieldMatcherListForm
+              fieldMatchers={request.body}
+              onSubmit={(fieldMatchers) => onSubmit({ ...request, body: fieldMatchers })}
+            />
+          </div>
+        </div>
+        <div className="field-group">
+          <label className="field-label" onClick={() => handleFieldClick('destination')}>
+            Destination:
+            {renderArrow('destination')}
+          </label>
+          <div className={`field-content ${selectedField === 'destination' ? 'expanded' : ''}`}>
+            <FieldMatcherListForm
+              fieldMatchers={request.destination}
+              onSubmit={(fieldMatchers) => onSubmit({ ...request, destination: fieldMatchers })}
+            />
+          </div>
+        </div>
+        <div className="field-group">
+          <label className="field-label" onClick={() => handleFieldClick('headers')}>
+            Headers:
+            {renderArrow('headers')}
+          </label>
+          <div className={`field-content ${selectedField === 'headers' ? 'expanded' : ''}`}>
+            <RecordStringFieldMatcherListForm
+              entries={request.headers}
+              onSubmit={(entries) => {
+                onSubmit({ ...request, headers: entries });
+              }}
+            />
+          </div>
+        </div>
+        <div className="field-group">
+          <label className="field-label" onClick={() => handleFieldClick('path')}>
+            Path:
+            {renderArrow('path')}
+          </label>
+          <div className={`field-content ${selectedField === 'path' ? 'expanded' : ''}`}>
+            <FieldMatcherListForm
+              fieldMatchers={request.path}
+              onSubmit={(fieldMatchers) => {
+                onSubmit({ ...request, path: fieldMatchers });
+              }}
+            />
+          </div>
+        </div>
+        <div className="field-group">
+          <label className="field-label" onClick={() => handleFieldClick('query')}>
+            Query:
+            {renderArrow('query')}
+          </label>
+          <div className={`field-content ${selectedField === 'query' ? 'expanded' : ''}`}>
+            <RecordStringFieldMatcherListForm
+              entries={request.query}
+              onSubmit={(entries) => {
+                onSubmit({ ...request, query: entries });
+              }}
+            />
+          </div>
+        </div>
       </fieldset>
-
-      <button type="submit">Submit</button>
+      <button type="submit">Save</button>
     </form>
   );
 };

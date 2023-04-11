@@ -3,9 +3,10 @@ import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
 import RequestResponsePairListForm from '../misc/RequestResponsePairListForm';
 import { HoverflySimulation } from '../../types/hoverfly';
+import defaultEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 10;
-
+console.log('aaa', defaultEditorContent);
 export default function Editor() {
   const editorRef = useRef<any>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -14,13 +15,14 @@ export default function Editor() {
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
+    editor.setValue(JSON.stringify(defaultEditorContent, null, 4));
+    setHoverflyMockData(defaultEditorContent as any);
     editor.focus();
   };
 
   const onMouseMove = (event: MouseEvent) => {
     setLeftPanelWidth(event.clientX);
     console.log('left client ', event.clientX);
-    editorRef.current?.layout();
   };
 
   const onMouseUp = () => {
@@ -51,7 +53,7 @@ export default function Editor() {
           width="100%"
           height="100%"
           defaultLanguage="json"
-          defaultValue="{ }"
+          defaultValue=""
           theme="vs-dark"
           onMount={handleEditorDidMount}
           onChange={handleCodeChange}
@@ -73,8 +75,7 @@ export default function Editor() {
             requestResponsePairs={hoverflyMockData.pairs}
             onSubmit={(pairs) => {
               console.log(JSON.stringify({ ...hoverflyMockData, pairs }));
-              editorRef.current.setValue(JSON.stringify({ ...hoverflyMockData, pairs }));
-              editorRef.current.getAction('editor.action.formatDocument').run();
+              editorRef.current.setValue(JSON.stringify({ ...hoverflyMockData, pairs }, null, 4));
             }}
           />
         ) : (
