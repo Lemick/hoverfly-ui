@@ -1,6 +1,5 @@
 import React from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
-import './FieldMatchersForm.scss';
 
 type Props = {
   fieldMatcher?: FieldMatcher;
@@ -15,6 +14,7 @@ const FieldMatcherForm: React.FC<Props> = ({
     const { name, value } = event.target;
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
     onSubmit(newFieldMatcher);
+    event.target.focus();
   };
 
   const handleConfigChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,64 +25,70 @@ const FieldMatcherForm: React.FC<Props> = ({
   };
 
   return (
-    <form>
-      <fieldset>
-        <legend>Field Matcher</legend>
-        <div className="form-group">
-          <label className="form-label" htmlFor="matcher-input">
+    <form className="uk-form-stacked">
+      <fieldset className="uk-fieldset">
+        <div className="uk-margin">
+          <label className="uk-form-label" htmlFor="matcher-input">
             Matcher:
           </label>
-          <input
-            className="form-input"
-            type="text"
-            name="matcher"
-            id="matcher-input"
-            value={fieldMatcher.matcher}
-            onChange={handleMatcherChange}
-          />
+          <div className="uk-form-controls">
+            <input
+              className="uk-input"
+              type="text"
+              name="matcher"
+              id="matcher-input"
+              value={fieldMatcher.matcher}
+              onChange={handleMatcherChange}
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label className="form-label" htmlFor="value-input">
+        <div className="uk-margin">
+          <label className="uk-form-label" htmlFor="value-input">
             Value:
           </label>
-          <input
-            className="form-input"
-            type="text"
-            name="value"
-            id="value-input"
-            value={fieldMatcher.value}
-            onChange={handleMatcherChange}
-          />
+          <div className="uk-form-controls">
+            <input
+              className="uk-input"
+              type="text"
+              name="value"
+              id="value-input"
+              value={fieldMatcher.value}
+              onChange={handleMatcherChange}
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label className="form-label">Config:</label>
-          <div className="form-checkbox-group">
-            <label className="form-checkbox">
+        <div className="uk-margin">
+          <label className="uk-form-label">Config:</label>
+          <div className="uk-form-controls uk-flex uk-flex-between">
+            <label className="uk-flex uk-flex-middle">
               <input
+                className="uk-checkbox"
                 type="checkbox"
                 name="ignoreUnknown"
                 checked={fieldMatcher.config?.ignoreUnknown}
                 onChange={handleConfigChange}
               />
-              <span className="form-checkbox-label">Ignore Unknown</span>
+              <span>Ignore Unknown</span>
             </label>
-            <label className="form-checkbox">
+            <label className="uk-flex uk-flex-middle">
               <input
+                className="uk-checkbox"
                 type="checkbox"
                 name="ignoreOrder"
                 checked={fieldMatcher.config?.ignoreOrder}
                 onChange={handleConfigChange}
               />
-              <span className="form-checkbox-label">Ignore Order</span>
+              <span>Ignore Order</span>
             </label>
-            <label className="form-checkbox">
+            <label className="uk-flex uk-flex-middle">
               <input
+                className="uk-checkbox"
                 type="checkbox"
                 name="ignoreOccurrences"
                 checked={fieldMatcher.config?.ignoreOccurrences}
                 onChange={handleConfigChange}
               />
-              <span className="form-checkbox-label">Ignore Occurrences</span>
+              <span>Ignore Occurrences</span>
             </label>
           </div>
         </div>

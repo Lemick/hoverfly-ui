@@ -11,7 +11,6 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
-    console.log('update pair', requestResponsePair);
     onSubmit(newPairs);
   };
 
@@ -22,26 +21,34 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
   };
 
   return (
-    <form>
-      <fieldset>
-        <legend>Request Response Pair List</legend>
-        {requestResponsePairs.map((pair, index) => (
-          <div key={index}>
+    <form className="uk-form-stacked">
+      <legend className="uk-legend">Request Response Pair List</legend>
+      {requestResponsePairs.map((pair, index) => (
+        <div className="uk-card uk-card-default uk-card-body uk-margin-bottom" key={index}>
+          <div className="uk-margin-bottom">
             <RequestResponseMatcherForm
               pair={pair}
               onSubmit={(newPair) => handleUpdate(index, newPair)}
             />
-            <button type="button" onClick={() => handleDelete(index)}>
+          </div>
+          <div className="uk-flex uk-flex-right">
+            <button
+              className="uk-button uk-button-danger"
+              type="button"
+              onClick={() => handleDelete(index)}>
               Delete
             </button>
           </div>
-        ))}
+        </div>
+      ))}
+      <div className="uk-flex uk-flex-right">
         <button
+          className="uk-button uk-button-primary"
           type="button"
           onClick={() => onSubmit([...requestResponsePairs, { request: {}, response: {} }])}>
           Add Request Response Pair
         </button>
-      </fieldset>
+      </div>
     </form>
   );
 };

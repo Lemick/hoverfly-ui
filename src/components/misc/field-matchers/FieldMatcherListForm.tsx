@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
-import './FieldMatcherListForm.scss';
+import 'uikit/dist/css/uikit.min.css';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
@@ -26,22 +26,31 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
   };
 
   return (
-    <form className="field-matcher-list-form">
-      <fieldset>
-        <legend>Field Matcher List</legend>
-        {fieldMatchers &&
-          fieldMatchers.map((fieldMatcher, index) => (
-            <div key={Math.random()} className="field-matcher-list-form__field-matcher">
+    <form className="uk-form-horizontal uk-margin-large-top">
+      <fieldset className="uk-fieldset">
+        <legend className="uk-legend">Matchers</legend>
+        {fieldMatchers.map((fieldMatcher, index) => (
+          <div
+            key={Math.random()}
+            className="uk-card uk-card-default uk-margin-bottom uk-position-relative">
+            <button
+              type="button"
+              className="uk-close uk-align-right uk-button-danger"
+              onClick={() => handleDelete(index)}>
+              Remove
+            </button>
+            <div style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '20px' }}>
               <FieldMatcherForm
                 fieldMatcher={fieldMatcher}
                 onSubmit={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
               />
-              <button type="button" onClick={() => handleDelete(index)}>
-                Delete
-              </button>
             </div>
-          ))}
-        <button type="button" onClick={handleAdd} className="field-matcher-list-form__add-button">
+          </div>
+        ))}
+        <button
+          type="button"
+          className="uk-button uk-button-default uk-margin-top"
+          onClick={handleAdd}>
           Add Field Matcher
         </button>
       </fieldset>

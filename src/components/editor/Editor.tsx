@@ -6,7 +6,7 @@ import { HoverflySimulation } from '../../types/hoverfly';
 import defaultEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 10;
-console.log('aaa', defaultEditorContent);
+
 export default function Editor() {
   const editorRef = useRef<any>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -74,8 +74,8 @@ export default function Editor() {
           <RequestResponsePairListForm
             requestResponsePairs={hoverflyMockData.pairs}
             onSubmit={(pairs) => {
-              console.log(JSON.stringify({ ...hoverflyMockData, pairs }));
-              editorRef.current.setValue(JSON.stringify({ ...hoverflyMockData, pairs }, null, 4));
+              const json = JSON.stringify({ ...hoverflyMockData, pairs }, null, 4);
+              editorRef.current.setValue(json);
             }}
           />
         ) : (

@@ -94,7 +94,6 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
           </div>
         </div>
       </fieldset>
-      <button type="submit">Save</button>
     </form>
   );
 };

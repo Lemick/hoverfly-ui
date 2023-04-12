@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
+import 'uikit/dist/css/uikit.min.css';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
@@ -37,41 +38,75 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onSub
   };
 
   return (
-    <form>
+    <div className="uk-card uk-card-default uk-card-body uk-margin-bottom">
+      <h3 className="uk-card-title">Field Matchers</h3>
+      <div className="uk-margin-bottom">
+        <div className="uk-grid-small uk-flex-middle">
+          <div className="uk-width-auto">
+            <label className="uk-form-label" htmlFor="new-entry-input">
+              New Entry Key:
+            </label>
+          </div>
+          <div className="uk-width-expand">
+            <div className="uk-inline">
+              <input
+                className="uk-input"
+                id="new-entry-input"
+                type="text"
+                placeholder="Enter a new key"
+                value={newEntryKey}
+                onChange={(e) => setNewEntryKey(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="uk-width-auto">
+            <button
+              className="uk-button uk-button-primary"
+              type="button"
+              onClick={handleAddEntry}
+              disabled={!newEntryKey}>
+              Add Entry
+            </button>
+          </div>
+        </div>
+      </div>
       {Object.entries(entries).map(([entryKey, matchers]) => (
         <fieldset key={entryKey}>
-          <legend>{entryKey}</legend>
-          {matchers.map((fieldMatcher, index) => (
-            <div key={Math.random()}>
-              <FieldMatcherForm
-                fieldMatcher={fieldMatcher}
-                onSubmit={(newFieldMatcher: FieldMatcher) =>
-                  handleUpdateFieldMatcher(entryKey, index, newFieldMatcher)
-                }
-              />
-              <button type="button" onClick={() => handleDeleteFieldMatcher(entryKey, index)}>
-                Delete
-              </button>
+          <legend className="uk-legend">{entryKey}</legend>
+          <div className="uk-grid-small">
+            <div className="uk-width-expand">
+              {matchers.map((fieldMatcher, index) => (
+                <div
+                  key={Math.random()}
+                  style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '20px' }}
+                  className="uk-card uk-card-body uk-card-small uk-margin-bottom">
+                  <FieldMatcherForm
+                    fieldMatcher={fieldMatcher}
+                    onSubmit={(newFieldMatcher: FieldMatcher) =>
+                      handleUpdateFieldMatcher(entryKey, index, newFieldMatcher)
+                    }
+                  />
+                  <button
+                    className="uk-button uk-button-danger uk-margin-top"
+                    type="button"
+                    onClick={() => handleDeleteFieldMatcher(entryKey, index)}>
+                    Delete
+                  </button>
+                </div>
+              ))}
+              <div className="uk-card uk-card-body uk-card-small uk-margin-bottom">
+                <button
+                  className="uk-button uk-button-default"
+                  type="button"
+                  onClick={() => handleAddFieldMatcher(entryKey)}>
+                  Add Field Matcher
+                </button>
+              </div>
             </div>
-          ))}
-          <button type="button" onClick={() => handleAddFieldMatcher(entryKey)}>
-            Add Field Matcher
-          </button>
+          </div>
         </fieldset>
       ))}
-      <div>
-        <label htmlFor="new-entry-input">New Entry Key:</label>
-        <input
-          id="new-entry-input"
-          type="text"
-          value={newEntryKey}
-          onChange={(e) => setNewEntryKey(e.target.value)}
-        />
-        <button type="button" onClick={handleAddEntry}>
-          Add Entry
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
 
