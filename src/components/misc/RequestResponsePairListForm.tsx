@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 import { RequestResponsePair } from '../../types/hoverfly';
+import { Accordion, Button, Card } from 'react-bootstrap';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -8,6 +9,8 @@ type Props = {
 };
 
 const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, onSubmit }) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
@@ -23,31 +26,40 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
   return (
     <form className="uk-form-stacked">
       <legend className="uk-legend">Request Response Pair List</legend>
-      {requestResponsePairs.map((pair, index) => (
-        <div className="uk-card uk-card-default uk-card-body uk-margin-bottom" key={index}>
-          <div className="uk-margin-bottom">
-            <RequestResponseMatcherForm
-              pair={pair}
-              onSubmit={(newPair) => handleUpdate(index, newPair)}
-            />
-          </div>
-          <div className="uk-flex uk-flex-right">
-            <button
-              className="uk-button uk-button-danger"
-              type="button"
-              onClick={() => handleDelete(index)}>
-              Delete
-            </button>
-          </div>
-        </div>
-      ))}
+      <Accordion>
+        {requestResponsePairs.map((pair, index) => (
+          <Card key={index}>
+            <Card.Header
+              onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+              aria-controls={`pair-${index}`}
+              aria-expanded={activeIndex === index}>
+              {index}
+            </Card.Header>
+            <Accordion.Collapse eventKey={`pair-${index}`} in={activeIndex === index}>
+              <Card.Body>
+                <div className="uk-margin-bottom">
+                  <RequestResponseMatcherForm
+                    pair={pair}
+                    onSubmit={(newPair) => handleUpdate(index, newPair)}
+                  />
+                </div>
+                <div className="uk-flex uk-flex-right">
+                  <Button variant="danger" type="button" onClick={() => handleDelete(index)}>
+                    Delete
+                  </Button>
+                </div>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+        ))}
+      </Accordion>
       <div className="uk-flex uk-flex-right">
-        <button
-          className="uk-button uk-button-primary"
+        <Button
+          variant="primary"
           type="button"
           onClick={() => onSubmit([...requestResponsePairs, { request: {}, response: {} }])}>
           Add Request Response Pair
-        </button>
+        </Button>
       </div>
     </form>
   );

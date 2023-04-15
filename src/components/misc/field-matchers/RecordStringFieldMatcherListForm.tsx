@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
-import 'uikit/dist/css/uikit.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
@@ -38,75 +39,57 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onSub
   };
 
   return (
-    <div className="uk-card uk-card-default uk-card-body uk-margin-bottom">
-      <h3 className="uk-card-title">Field Matchers</h3>
-      <div className="uk-margin-bottom">
-        <div className="uk-grid-small uk-flex-middle">
-          <div className="uk-width-auto">
-            <label className="uk-form-label" htmlFor="new-entry-input">
-              New Entry Key:
-            </label>
-          </div>
-          <div className="uk-width-expand">
-            <div className="uk-inline">
-              <input
-                className="uk-input"
-                id="new-entry-input"
-                type="text"
-                placeholder="Enter a new key"
-                value={newEntryKey}
-                onChange={(e) => setNewEntryKey(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="uk-width-auto">
-            <button
-              className="uk-button uk-button-primary"
-              type="button"
-              onClick={handleAddEntry}
-              disabled={!newEntryKey}>
+    <Card className="my-3">
+      <Card.Body>
+        <Card.Title>Field Matchers</Card.Title>
+        <Form.Group className="my-3">
+          <Form.Label>New Entry Key:</Form.Label>
+          <InputGroup>
+            <Form.Control
+              type="text"
+              placeholder="Enter a new key"
+              value={newEntryKey}
+              onChange={(e) => setNewEntryKey(e.target.value)}
+            />
+            <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
               Add Entry
-            </button>
-          </div>
-        </div>
-      </div>
-      {Object.entries(entries).map(([entryKey, matchers]) => (
-        <fieldset key={entryKey}>
-          <legend className="uk-legend">{entryKey}</legend>
-          <div className="uk-grid-small">
-            <div className="uk-width-expand">
+            </Button>
+          </InputGroup>
+        </Form.Group>
+        {Object.entries(entries).map(([entryKey, matchers]) => (
+          <fieldset key={entryKey}>
+            <legend>{entryKey}</legend>
+            <div className="my-3">
               {matchers.map((fieldMatcher, index) => (
-                <div
-                  key={Math.random()}
-                  style={{ border: '1px solid #ccc', borderRadius: '5px', padding: '20px' }}
-                  className="uk-card uk-card-body uk-card-small uk-margin-bottom">
-                  <FieldMatcherForm
-                    fieldMatcher={fieldMatcher}
-                    onSubmit={(newFieldMatcher: FieldMatcher) =>
-                      handleUpdateFieldMatcher(entryKey, index, newFieldMatcher)
-                    }
-                  />
-                  <button
-                    className="uk-button uk-button-danger uk-margin-top"
-                    type="button"
-                    onClick={() => handleDeleteFieldMatcher(entryKey, index)}>
-                    Delete
-                  </button>
-                </div>
+                <Card className="my-3" key={Math.random()}>
+                  <Card.Body>
+                    <FieldMatcherForm
+                      fieldMatcher={fieldMatcher}
+                      onSubmit={(newFieldMatcher: FieldMatcher) =>
+                        handleUpdateFieldMatcher(entryKey, index, newFieldMatcher)
+                      }
+                    />
+                    <Button
+                      variant="danger"
+                      className="my-3"
+                      onClick={() => handleDeleteFieldMatcher(entryKey, index)}>
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
               ))}
-              <div className="uk-card uk-card-body uk-card-small uk-margin-bottom">
-                <button
-                  className="uk-button uk-button-default"
-                  type="button"
-                  onClick={() => handleAddFieldMatcher(entryKey)}>
-                  Add Field Matcher
-                </button>
-              </div>
+              <Card className="my-3">
+                <Card.Body>
+                  <Button variant="default" onClick={() => handleAddFieldMatcher(entryKey)}>
+                    Add Field Matcher
+                  </Button>
+                </Card.Body>
+              </Card>
             </div>
-          </div>
-        </fieldset>
-      ))}
-    </div>
+          </fieldset>
+        ))}
+      </Card.Body>
+    </Card>
   );
 };
 

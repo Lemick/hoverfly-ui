@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import { FieldMatcher } from '../../../types/hoverfly';
 
 type Props = {
@@ -25,75 +26,52 @@ const FieldMatcherForm: React.FC<Props> = ({
   };
 
   return (
-    <form className="uk-form-stacked">
-      <fieldset className="uk-fieldset">
-        <div className="uk-margin">
-          <label className="uk-form-label" htmlFor="matcher-input">
-            Matcher:
-          </label>
-          <div className="uk-form-controls">
-            <input
-              className="uk-input"
-              type="text"
-              name="matcher"
-              id="matcher-input"
-              value={fieldMatcher.matcher}
-              onChange={handleMatcherChange}
-            />
-          </div>
+    <Form>
+      <Form.Group>
+        <Form.Label>Matcher:</Form.Label>
+        <Form.Control
+          type="text"
+          name="matcher"
+          value={fieldMatcher.matcher}
+          onChange={handleMatcherChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Value:</Form.Label>
+        <Form.Control
+          type="text"
+          name="value"
+          value={fieldMatcher.value}
+          onChange={handleMatcherChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Config:</Form.Label>
+        <div className="d-flex justify-content-between">
+          <Form.Check
+            type="checkbox"
+            label="Ignore Unknown"
+            name="ignoreUnknown"
+            checked={fieldMatcher.config?.ignoreUnknown}
+            onChange={handleConfigChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Ignore Order"
+            name="ignoreOrder"
+            checked={fieldMatcher.config?.ignoreOrder}
+            onChange={handleConfigChange}
+          />
+          <Form.Check
+            type="checkbox"
+            label="Ignore Occurrences"
+            name="ignoreOccurrences"
+            checked={fieldMatcher.config?.ignoreOccurrences}
+            onChange={handleConfigChange}
+          />
         </div>
-        <div className="uk-margin">
-          <label className="uk-form-label" htmlFor="value-input">
-            Value:
-          </label>
-          <div className="uk-form-controls">
-            <input
-              className="uk-input"
-              type="text"
-              name="value"
-              id="value-input"
-              value={fieldMatcher.value}
-              onChange={handleMatcherChange}
-            />
-          </div>
-        </div>
-        <div className="uk-margin">
-          <label className="uk-form-label">Config:</label>
-          <div className="uk-form-controls uk-flex uk-flex-between">
-            <label className="uk-flex uk-flex-middle">
-              <input
-                className="uk-checkbox"
-                type="checkbox"
-                name="ignoreUnknown"
-                checked={fieldMatcher.config?.ignoreUnknown}
-                onChange={handleConfigChange}
-              />
-              <span>Ignore Unknown</span>
-            </label>
-            <label className="uk-flex uk-flex-middle">
-              <input
-                className="uk-checkbox"
-                type="checkbox"
-                name="ignoreOrder"
-                checked={fieldMatcher.config?.ignoreOrder}
-                onChange={handleConfigChange}
-              />
-              <span>Ignore Order</span>
-            </label>
-            <label className="uk-flex uk-flex-middle">
-              <input
-                className="uk-checkbox"
-                type="checkbox"
-                name="ignoreOccurrences"
-                checked={fieldMatcher.config?.ignoreOccurrences}
-                onChange={handleConfigChange}
-              />
-              <span>Ignore Occurrences</span>
-            </label>
-          </div>
-        </div>
-      </fieldset>
-    </form>
+      </Form.Group>
+    </Form>
   );
 };
 
