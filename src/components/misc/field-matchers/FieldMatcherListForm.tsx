@@ -27,11 +27,11 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onSubmit })
   };
 
   return (
-    <Form className="mt-5">
+    <Form className="mt-1">
       <fieldset>
         <legend>Matchers</legend>
         {fieldMatchers.map((fieldMatcher, index) => (
-          <Card key={Math.random()} className="mb-3">
+          <Card key={index} className="mb-3">
             <Button variant="danger" className="float-right" onClick={() => handleDelete(index)}>
               Remove
             </Button>

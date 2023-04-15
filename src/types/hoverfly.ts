@@ -18,6 +18,7 @@ export type LogNormalDelay = {
 };
 
 export type FieldMatcher = {
+  key?: string; // transient
   matcher: string;
   value: any;
   config?: MatcherConfig;

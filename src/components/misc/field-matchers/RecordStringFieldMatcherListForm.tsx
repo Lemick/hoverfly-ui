@@ -61,7 +61,7 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onSub
             <legend>{entryKey}</legend>
             <div className="my-3">
               {matchers.map((fieldMatcher, index) => (
-                <Card className="my-3" key={Math.random()}>
+                <Card className="my-3" key={index}>
                   <Card.Body>
                     <FieldMatcherForm
                       fieldMatcher={fieldMatcher}

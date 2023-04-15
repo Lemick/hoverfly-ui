@@ -18,13 +18,10 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
           <legend>Request</legend>
           <Nav variant="tabs">
             <Nav.Item>
-              <Nav.Link eventKey="body">Body</Nav.Link>
+              <Nav.Link eventKey="scheme">Scheme</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="destination">Destination</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="headers">Headers</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="path">Path</Nav.Link>
@@ -33,7 +30,10 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <Nav.Link eventKey="queryParams">Query Params</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="scheme">Scheme</Nav.Link>
+              <Nav.Link eventKey="headers">Headers</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="body">Body</Nav.Link>
             </Nav.Item>
           </Nav>
           <Tab.Content>

@@ -11,28 +11,27 @@ export default function Editor() {
   const editorRef = useRef<any>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
   const [hoverflyMockData, setHoverflyMockData] = useState<HoverflySimulation | undefined>();
-  const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth / 2);
+  const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.55);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     editor.setValue(JSON.stringify(defaultEditorContent, null, 4));
-    setHoverflyMockData(defaultEditorContent as any);
+
+    const defaultSimulation = defaultEditorContent as HoverflySimulation;
+    setHoverflyMockData(defaultSimulation);
     editor.focus();
   };
 
   const onMouseMove = (event: MouseEvent) => {
     setLeftPanelWidth(event.clientX);
-    console.log('left client ', event.clientX);
   };
 
   const onMouseUp = () => {
-    console.log('onMouseUp');
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
 
   const onDragStart = () => {
-    console.log('on drag start');
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   };
@@ -49,6 +48,26 @@ export default function Editor() {
   return (
     <div className="editor-layout" ref={layoutRef}>
       <div className="left-panel" style={{ width: leftPanelWidth }}>
+        {hoverflyMockData?.pairs ? (
+          <RequestResponsePairListForm
+            requestResponsePairs={hoverflyMockData.pairs}
+            onSubmit={(pairs) => {
+              const json = JSON.stringify({ ...hoverflyMockData, pairs }, null, 4);
+              editorRef.current.setValue(json);
+            }}
+          />
+        ) : (
+          <span>Invalid mock data :( </span>
+        )}
+      </div>
+      <div
+        className="divider"
+        onMouseDown={onDragStart}
+        style={{ width: WIDTH_SEPARATOR_PX, left: leftPanelWidth }}
+      />
+      <div
+        className="right-panel"
+        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
         <MonacoEditor
           width="100%"
           height="100%"
@@ -61,26 +80,6 @@ export default function Editor() {
             wordWrap: 'on'
           }}
         />
-      </div>
-      <div
-        className="divider"
-        onMouseDown={onDragStart}
-        style={{ width: WIDTH_SEPARATOR_PX, left: leftPanelWidth }}
-      />
-      <div
-        className="right-panel"
-        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
-        {hoverflyMockData?.pairs ? (
-          <RequestResponsePairListForm
-            requestResponsePairs={hoverflyMockData.pairs}
-            onSubmit={(pairs) => {
-              const json = JSON.stringify({ ...hoverflyMockData, pairs }, null, 4);
-              editorRef.current.setValue(json);
-            }}
-          />
-        ) : (
-          <span>Invalid mock data :( </span>
-        )}
       </div>
     </div>
   );

@@ -28,24 +28,18 @@
           ]
         },
         "headers": {
-          "Authorization": ["Bearer token"]
+          "Authorization": [
+            {
+              "matcher": "exact",
+              "value": "Bearer token"
+            }
+          ]
         },
         "method": "GET"
       },
       "response": {
         "status": 200,
-        "body": {
-          "users": [
-            {
-              "id": 1,
-              "name": "Alice"
-            },
-            {
-              "id": 2,
-              "name": "Bob"
-            }
-          ]
-        }
+        "body": "{\n          \"users\": [\n            {\n              \"id\": 1,\n              \"name\": \"Alice\"\n            },\n            {\n              \"id\": 2,\n              \"name\": \"Bob\"\n            }\n          ]\n        }"
       }
     }
   ]

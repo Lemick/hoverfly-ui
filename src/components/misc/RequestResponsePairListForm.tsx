@@ -33,7 +33,17 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
               onClick={() => setActiveIndex(activeIndex === index ? null : index)}
               aria-controls={`pair-${index}`}
               aria-expanded={activeIndex === index}>
-              {index}
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="col-4"></div>
+                <div className="col-4">
+                  <span>{index}</span>
+                </div>
+                <div className="col-4 d-flex justify-content-end">
+                  <Button variant="danger" type="button" onClick={() => handleDelete(index)}>
+                    Delete
+                  </Button>
+                </div>
+              </div>
             </Card.Header>
             <Accordion.Collapse eventKey={`pair-${index}`} in={activeIndex === index}>
               <Card.Body>
@@ -43,11 +53,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
                     onSubmit={(newPair) => handleUpdate(index, newPair)}
                   />
                 </div>
-                <div className="uk-flex uk-flex-right">
-                  <Button variant="danger" type="button" onClick={() => handleDelete(index)}>
-                    Delete
-                  </Button>
-                </div>
+                <div className="uk-flex uk-flex-right"></div>
               </Card.Body>
             </Accordion.Collapse>
           </Card>

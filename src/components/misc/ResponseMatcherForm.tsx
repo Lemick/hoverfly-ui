@@ -16,6 +16,9 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
           <legend>Response</legend>
           <Nav variant="tabs">
             <Nav.Item>
+              <Nav.Link eventKey="status">Status</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link eventKey="body">Body</Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -29,9 +32,6 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="logNormalDelay">Log Normal Delay</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="status">Status</Nav.Link>
             </Nav.Item>
           </Nav>
           <Tab.Content>
