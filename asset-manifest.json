@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/hoverfly-view/static/css/main.38cea30d.css",
-    "main.js": "/hoverfly-view/static/js/main.94a981cd.js",
+    "main.js": "/hoverfly-view/static/js/main.da97c175.js",
     "index.html": "/hoverfly-view/index.html",
     "main.38cea30d.css.map": "/hoverfly-view/static/css/main.38cea30d.css.map",
-    "main.94a981cd.js.map": "/hoverfly-view/static/js/main.94a981cd.js.map"
+    "main.da97c175.js.map": "/hoverfly-view/static/js/main.da97c175.js.map"
   },
   "entrypoints": [
     "static/css/main.38cea30d.css",
-    "static/js/main.94a981cd.js"
+    "static/js/main.da97c175.js"
   ]
 }
