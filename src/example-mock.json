@@ -4,43 +4,45 @@
     "hoverflyVersion": "v1.6.0",
     "timeExported": "2023-04-10T12:00:00Z"
   },
-  "pairs": [
-    {
-      "request": {
-        "path": [
-          {
-            "matcher": "exact",
-            "value": "/api/users"
-          }
-        ],
-        "query": {
-          "limit": [
+  "data": {
+    "pairs": [
+      {
+        "request": {
+          "path": [
             {
               "matcher": "exact",
-              "value": "10"
+              "value": "/api/users"
             }
           ],
-          "offset": [
-            {
-              "matcher": "exact",
-              "value": "20"
-            }
-          ]
+          "query": {
+            "limit": [
+              {
+                "matcher": "exact",
+                "value": "10"
+              }
+            ],
+            "offset": [
+              {
+                "matcher": "exact",
+                "value": "20"
+              }
+            ]
+          },
+          "headers": {
+            "Authorization": [
+              {
+                "matcher": "exact",
+                "value": "Bearer token"
+              }
+            ]
+          },
+          "method": "GET"
         },
-        "headers": {
-          "Authorization": [
-            {
-              "matcher": "exact",
-              "value": "Bearer token"
-            }
-          ]
-        },
-        "method": "GET"
-      },
-      "response": {
-        "status": 200,
-        "body": "{\n          \"users\": [\n            {\n              \"id\": 1,\n              \"name\": \"Alice\"\n            },\n            {\n              \"id\": 2,\n              \"name\": \"Bob\"\n            }\n          ]\n        }"
+        "response": {
+          "status": 200,
+          "body": "{\n          \"users\": [\n            {\n              \"id\": 1,\n              \"name\": \"Alice\"\n            },\n            {\n              \"id\": 2,\n              \"name\": \"Bob\"\n            }\n          ]\n        }"
+        }
       }
-    }
-  ]
+    ]
+  }
 }

@@ -35,7 +35,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
               aria-expanded={activeIndex === index}>
               <div className="d-flex justify-content-between align-items-center">
                 <div className="col-4"></div>
-                <div className="col-4">
+                <div className="col-4 text-center">
                   <span>{index}</span>
                 </div>
                 <div className="col-4 d-flex justify-content-end">
