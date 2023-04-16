@@ -34,7 +34,7 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onChange })
         {fieldMatchers.map((fieldMatcher, index) => (
           <Card key={index} className="mb-3 mx-1 position-relative">
             <div className="position-absolute" style={{ right: '0px' }}>
-              <Button variant="danger" onClick={() => handleDelete(index)} className="w-5">
+              <Button variant="outline-danger" onClick={() => handleDelete(index)} className="w-5">
                 <TrashFill />
               </Button>
             </div>

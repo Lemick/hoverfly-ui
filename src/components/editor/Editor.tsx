@@ -81,7 +81,8 @@ export default function Editor() {
           onMount={handleEditorDidMount}
           onChange={handleCodeChange}
           options={{
-            wordWrap: 'on'
+            wordWrap: 'on',
+            smoothScrolling: true
           }}
         />
       </div>

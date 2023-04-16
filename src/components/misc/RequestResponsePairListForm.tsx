@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 import { RequestResponsePair } from '../../types/hoverfly';
 import { Accordion, Button, Card } from 'react-bootstrap';
+import { getPairDisplayName } from '../../services/request-matcher-service';
+import { TrashFill } from 'react-bootstrap-icons';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -33,14 +35,18 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
               onClick={() => setActiveIndex(activeIndex === index ? null : index)}
               aria-controls={`pair-${index}`}
               aria-expanded={activeIndex === index}>
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="col-4"></div>
-                <div className="col-4 text-center">
-                  <span>{index}</span>
+              <div className="d-flex justify-content-between align-items-center cursor-pointer">
+                <div className="col fw-semibold">
+                  <span>
+                    {index} - {getPairDisplayName(pair.request)}
+                  </span>
                 </div>
-                <div className="col-4 d-flex justify-content-end">
-                  <Button variant="danger" type="button" onClick={() => handleDelete(index)}>
-                    Delete
+                <div className="col-1 d-flex justify-content-end">
+                  <Button
+                    variant="outline-danger"
+                    type="button"
+                    onClick={() => handleDelete(index)}>
+                    <TrashFill />
                   </Button>
                 </div>
               </div>
@@ -63,10 +69,10 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
           </Card>
         ))}
       </Accordion>
-      <div className="uk-flex uk-flex-right">
+
+      <div className="row mx-0 mt-4">
         <Button
-          variant="primary"
-          type="button"
+          variant="outline-success"
           onClick={() => onChange([...requestResponsePairs, { request: {}, response: {} }])}>
           Add Request Response Pair
         </Button>
