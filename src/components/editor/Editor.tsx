@@ -38,17 +38,18 @@ export default function Editor() {
 
   function handleCodeChange(value: string | undefined) {
     try {
-      setHoverflyMockData(value ? JSON.parse(value) : undefined);
-      console.log('code change');
+      if (editorRef.current.hasTextFocus() && value) {
+        setHoverflyMockData(JSON.parse(value));
+      }
     } catch (_) {
       setHoverflyMockData(undefined);
     }
   }
 
-  function onMockPairsChange(pairs: RequestResponsePair[]) {
-    const updatedData = { ...(hoverflyMockData?.data || []), pairs };
-    const json = JSON.stringify({ ...hoverflyMockData, data: updatedData }, null, 4);
+  function onChangeFromMockForms(pairs: RequestResponsePair[]) {
+    const json = JSON.stringify(hoverflyMockData, null, 4);
     editorRef.current.setValue(json);
+    setHoverflyMockData({ ...hoverflyMockData, data: { pairs } });
   }
 
   return (
@@ -57,7 +58,7 @@ export default function Editor() {
         {hoverflyMockData?.data?.pairs ? (
           <RequestResponsePairListForm
             requestResponsePairs={hoverflyMockData.data.pairs}
-            onChange={onMockPairsChange}
+            onChange={onChangeFromMockForms}
           />
         ) : (
           <span>Invalid mock data :( </span>

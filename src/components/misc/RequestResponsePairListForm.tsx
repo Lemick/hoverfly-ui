@@ -45,7 +45,11 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
                 </div>
               </div>
             </Card.Header>
-            <Accordion.Collapse eventKey={`pair-${index}`} in={activeIndex === index}>
+            <Accordion.Collapse
+              eventKey={`pair-${index}`}
+              in={activeIndex === index}
+              mountOnEnter={true}
+              unmountOnExit={true}>
               <Card.Body>
                 <div className="uk-margin-bottom">
                   <RequestResponseMatcherForm
