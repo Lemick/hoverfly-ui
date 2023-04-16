@@ -8,7 +8,7 @@ import App from './App';
 
 /**
  * TODO
- * Remove a json node if a boolean is false (useless)
+ * Scroll the the right request pair on the editor json when it is expanded
  */
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

@@ -18,9 +18,8 @@ export type LogNormalDelay = {
 };
 
 export type FieldMatcher = {
-  key?: string; // transient
-  matcher: string;
-  value: any;
+  matcher?: 'exact' | 'glob' | 'regex' | 'json';
+  value: string;
   config?: MatcherConfig;
   doMatch?: FieldMatcher;
 };
@@ -65,6 +64,12 @@ export type HoverflyMetadata = {
   timeExported?: string;
 };
 
-export type HoverflySimulation = {
+export type HoverflySimulationData = {
   pairs: RequestResponsePair[];
+  globalActions: object;
+};
+
+export type HoverflySimulation = {
+  data: HoverflySimulationData;
+  meta?: HoverflyMetadata;
 };

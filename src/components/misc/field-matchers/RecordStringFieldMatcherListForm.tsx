@@ -1,41 +1,35 @@
 import React, { useState } from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
-import FieldMatcherForm from './FieldMatchersForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Form, InputGroup } from 'react-bootstrap';
+import FieldMatcherListForm from './FieldMatcherListForm';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
-  onSubmit: (entries: Record<string, FieldMatcher[]>) => void;
+  onChange: (entries: Record<string, FieldMatcher[]>) => void;
 };
 
-const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onSubmit }) => {
+const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onChange }) => {
   const [newEntryKey, setNewEntryKey] = useState('');
 
   const handleAddEntry = () => {
-    onSubmit({ ...entries, [newEntryKey]: [] });
+    onChange({ ...entries, [newEntryKey]: [] });
     setNewEntryKey('');
   };
 
   const handleAddFieldMatcher = (entryKey: string) => {
     const newMatchers = entries[entryKey] ? [...entries[entryKey]] : [];
-    onSubmit({ ...entries, [entryKey]: [...newMatchers, { matcher: '', value: '' }] });
+    onChange({ ...entries, [entryKey]: [...newMatchers, { matcher: 'exact', value: '' }] });
   };
 
-  const handleUpdateFieldMatcher = (
-    entryKey: string,
-    index: number,
-    fieldMatcher: FieldMatcher
-  ) => {
-    const newMatchers = [...entries[entryKey]];
-    newMatchers[index] = fieldMatcher;
-    onSubmit({ ...entries, [entryKey]: newMatchers });
+  const handleUpdateFieldMatchers = (entryKey: string, fieldMatchers: FieldMatcher[]) => {
+    onChange({ ...entries, [entryKey]: fieldMatchers });
   };
 
   const handleDeleteFieldMatcher = (entryKey: string, index: number) => {
     const newMatchers = [...entries[entryKey]];
     newMatchers.splice(index, 1);
-    onSubmit({ ...entries, [entryKey]: newMatchers });
+    onChange({ ...entries, [entryKey]: newMatchers });
   };
 
   return (
@@ -60,31 +54,10 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onSub
           <fieldset key={entryKey}>
             <legend>{entryKey}</legend>
             <div className="my-3">
-              {matchers.map((fieldMatcher, index) => (
-                <Card className="my-3" key={index}>
-                  <Card.Body>
-                    <FieldMatcherForm
-                      fieldMatcher={fieldMatcher}
-                      onSubmit={(newFieldMatcher: FieldMatcher) =>
-                        handleUpdateFieldMatcher(entryKey, index, newFieldMatcher)
-                      }
-                    />
-                    <Button
-                      variant="danger"
-                      className="my-3"
-                      onClick={() => handleDeleteFieldMatcher(entryKey, index)}>
-                      Delete
-                    </Button>
-                  </Card.Body>
-                </Card>
-              ))}
-              <Card className="my-3">
-                <Card.Body>
-                  <Button variant="default" onClick={() => handleAddFieldMatcher(entryKey)}>
-                    Add Field Matcher
-                  </Button>
-                </Card.Body>
-              </Card>
+              <FieldMatcherListForm
+                fieldMatchers={matchers}
+                onChange={(fieldMatchers) => handleUpdateFieldMatchers(entryKey, fieldMatchers)}
+              />
             </div>
           </fieldset>
         ))}

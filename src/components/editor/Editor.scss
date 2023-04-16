@@ -9,6 +9,7 @@
 }
 
 .left-panel {
+  padding: 20px;
   overflow: auto;
   flex: 1 1 auto;
   position: relative;
@@ -19,7 +20,6 @@
   overflow: auto;
   flex: 1 1 auto;
   position: relative;
-  padding: 20px;
   min-width: 100px;
 }
 

@@ -5,22 +5,22 @@ import { Accordion, Button, Card } from 'react-bootstrap';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
-  onSubmit: (requestResponsePairs: RequestResponsePair[]) => void;
+  onChange: (requestResponsePairs: RequestResponsePair[]) => void;
 };
 
-const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, onSubmit }) => {
+const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, onChange }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
-    onSubmit(newPairs);
+    onChange(newPairs);
   };
 
   const handleDelete = (index: number) => {
     const newPairs = [...requestResponsePairs];
     newPairs.splice(index, 1);
-    onSubmit(newPairs);
+    onChange(newPairs);
   };
 
   return (
@@ -50,7 +50,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
                 <div className="uk-margin-bottom">
                   <RequestResponseMatcherForm
                     pair={pair}
-                    onSubmit={(newPair) => handleUpdate(index, newPair)}
+                    onChange={(newPair) => handleUpdate(index, newPair)}
                   />
                 </div>
                 <div className="uk-flex uk-flex-right"></div>
@@ -63,7 +63,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
         <Button
           variant="primary"
           type="button"
-          onClick={() => onSubmit([...requestResponsePairs, { request: {}, response: {} }])}>
+          onClick={() => onChange([...requestResponsePairs, { request: {}, response: {} }])}>
           Add Request Response Pair
         </Button>
       </div>

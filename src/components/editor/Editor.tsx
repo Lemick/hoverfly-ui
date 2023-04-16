@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
 import RequestResponsePairListForm from '../misc/RequestResponsePairListForm';
-import { HoverflySimulation } from '../../types/hoverfly';
+import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
 import defaultEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 10;
@@ -17,7 +17,7 @@ export default function Editor() {
     editorRef.current = editor;
     editor.setValue(JSON.stringify(defaultEditorContent, null, 4));
 
-    const defaultSimulation = defaultEditorContent as HoverflySimulation;
+    const defaultSimulation = defaultEditorContent as unknown as HoverflySimulation;
     setHoverflyMockData(defaultSimulation);
     editor.focus();
   };
@@ -45,16 +45,19 @@ export default function Editor() {
     }
   }
 
+  function onMockPairsChange(pairs: RequestResponsePair[]) {
+    const updatedData = { ...(hoverflyMockData?.data || []), pairs };
+    const json = JSON.stringify({ ...hoverflyMockData, data: updatedData }, null, 4);
+    editorRef.current.setValue(json);
+  }
+
   return (
     <div className="editor-layout" ref={layoutRef}>
       <div className="left-panel" style={{ width: leftPanelWidth }}>
-        {hoverflyMockData?.pairs ? (
+        {hoverflyMockData?.data?.pairs ? (
           <RequestResponsePairListForm
-            requestResponsePairs={hoverflyMockData.pairs}
-            onSubmit={(pairs) => {
-              const json = JSON.stringify({ ...hoverflyMockData, pairs }, null, 4);
-              editorRef.current.setValue(json);
-            }}
+            requestResponsePairs={hoverflyMockData.data.pairs}
+            onChange={onMockPairsChange}
           />
         ) : (
           <span>Invalid mock data :( </span>

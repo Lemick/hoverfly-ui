@@ -7,10 +7,10 @@ import Tab from 'react-bootstrap/Tab';
 
 type Props = {
   request: Request;
-  onSubmit: (request: Request) => void;
+  onChange: (request: Request) => void;
 };
 
-const RequestMatcherForm = ({ request, onSubmit }: Props) => {
+const RequestMatcherForm = ({ request, onChange }: Props) => {
   return (
     <form className="request-matcher-form">
       <Tab.Container defaultActiveKey="first">
@@ -41,7 +41,7 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.body}
-                  onSubmit={(fieldMatchers) => onSubmit({ ...request, body: fieldMatchers })}
+                  onChange={(fieldMatchers) => onChange({ ...request, body: fieldMatchers })}
                 />
               </div>
             </Tab.Pane>
@@ -49,7 +49,7 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.destination}
-                  onSubmit={(fieldMatchers) => onSubmit({ ...request, destination: fieldMatchers })}
+                  onChange={(fieldMatchers) => onChange({ ...request, destination: fieldMatchers })}
                 />
               </div>
             </Tab.Pane>
@@ -57,8 +57,8 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.headers}
-                  onSubmit={(entries) => {
-                    onSubmit({ ...request, headers: entries });
+                  onChange={(entries) => {
+                    onChange({ ...request, headers: entries });
                   }}
                 />
               </div>
@@ -67,8 +67,8 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.path}
-                  onSubmit={(fieldMatchers) => {
-                    onSubmit({ ...request, path: fieldMatchers });
+                  onChange={(fieldMatchers) => {
+                    onChange({ ...request, path: fieldMatchers });
                   }}
                 />
               </div>
@@ -77,8 +77,8 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.query}
-                  onSubmit={(entries) => {
-                    onSubmit({ ...request, query: entries });
+                  onChange={(entries) => {
+                    onChange({ ...request, query: entries });
                   }}
                 />
               </div>
@@ -87,8 +87,8 @@ const RequestMatcherForm = ({ request, onSubmit }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.scheme}
-                  onSubmit={(fieldMatchers) => {
-                    onSubmit({ ...request, scheme: fieldMatchers });
+                  onChange={(fieldMatchers) => {
+                    onChange({ ...request, scheme: fieldMatchers });
                   }}
                 />
               </div>

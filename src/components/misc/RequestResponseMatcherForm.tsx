@@ -5,23 +5,23 @@ import ResponseMatcherForm from './ResponseMatcherForm';
 
 type Props = {
   pair?: RequestResponsePair;
-  onSubmit: (pair: RequestResponsePair) => void;
+  onChange: (pair: RequestResponsePair) => void;
 };
 
-const RequestResponseMatcherForm = ({ pair, onSubmit }: Props) => {
+const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
   return (
     <form>
       {pair?.request && (
         <RequestMatcherForm
           request={pair.request}
-          onSubmit={(request) => onSubmit({ ...pair, request })}
+          onChange={(request) => onChange({ ...pair, request })}
         />
       )}
 
       {pair?.response && (
         <ResponseMatcherForm
           response={pair.response}
-          onSubmit={(response) => onSubmit({ ...pair, response })}
+          onChange={(response) => onChange({ ...pair, response })}
         />
       )}
     </form>

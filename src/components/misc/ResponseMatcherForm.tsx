@@ -5,10 +5,10 @@ import Nav from 'react-bootstrap/Nav';
 
 type Props = {
   response?: Response;
-  onSubmit: (response: Response) => void;
+  onChange: (response: Response) => void;
 };
 
-const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
+const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   return (
     <form className="response-matcher-form">
       <Tab.Container>
@@ -42,7 +42,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                   <textarea
                     className="form-control"
                     value={response.body}
-                    onChange={(e) => onSubmit({ ...response, body: e.target.value })}
+                    onChange={(e) => onChange({ ...response, body: e.target.value })}
                   />
                 </label>
               </div>
@@ -55,7 +55,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                     type="checkbox"
                     className="form-check-input"
                     checked={response.encodedBody || false}
-                    onChange={(e) => onSubmit({ ...response, encodedBody: e.target.checked })}
+                    onChange={(e) => onChange({ ...response, encodedBody: e.target.checked })}
                   />
                 </label>
               </div>
@@ -69,7 +69,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                     className="form-control"
                     value={response.fixedDelay}
                     onChange={(e) =>
-                      onSubmit({ ...response, fixedDelay: parseInt(e.target.value) })
+                      onChange({ ...response, fixedDelay: parseInt(e.target.value) })
                     }
                   />
                 </label>
@@ -82,7 +82,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                   <textarea
                     className="form-control"
                     value={JSON.stringify(response.headers)}
-                    onChange={(e) => onSubmit({ ...response, headers: JSON.parse(e.target.value) })}
+                    onChange={(e) => onChange({ ...response, headers: JSON.parse(e.target.value) })}
                   />
                 </label>
               </div>
@@ -96,7 +96,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                     className="form-control"
                     value={JSON.stringify(response.logNormalDelay)}
                     onChange={(e) =>
-                      onSubmit({ ...response, logNormalDelay: JSON.parse(e.target.value) })
+                      onChange({ ...response, logNormalDelay: JSON.parse(e.target.value) })
                     }
                   />
                 </label>
@@ -110,7 +110,7 @@ const ResponseMatcherForm = ({ response = {}, onSubmit }: Props) => {
                     type="number"
                     className="form-control"
                     value={response.status}
-                    onChange={(e) => onSubmit({ ...response, status: parseInt(e.target.value) })}
+                    onChange={(e) => onChange({ ...response, status: parseInt(e.target.value) })}
                   />
                 </label>
               </div>
