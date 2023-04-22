@@ -28,9 +28,8 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onChange })
   };
 
   return (
-    <Form className="mt-1">
+    <Form className="mt-3">
       <fieldset>
-        <h5>Matchers</h5>
         {fieldMatchers.map((fieldMatcher, index) => (
           <Card key={index} className="mb-3 mx-1 position-relative">
             <div className="position-absolute" style={{ right: '0px' }}>

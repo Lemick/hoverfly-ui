@@ -63,8 +63,11 @@ export default function Editor() {
 
     setIndexActivePair(index);
     const model = editorRef.current?.getModel()!;
-    const match = model.findMatches('"request"', true, false, true, null, true)[index];
-    editorRef.current?.revealRangeAtTop(match.range);
+    const match = model.findMatches('"request"', true, false, true, null, true);
+
+    if (index < match.length) {
+      editorRef.current?.revealRangeAtTop(match[index].range);
+    }
   }
 
   return (

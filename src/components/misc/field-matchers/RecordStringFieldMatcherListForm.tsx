@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 import FieldMatcherListForm from './FieldMatcherListForm';
+import { TrashFill } from 'react-bootstrap-icons';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
@@ -11,48 +11,62 @@ type Props = {
 
 const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onChange }) => {
   const [newEntryKey, setNewEntryKey] = useState('');
+  const [showAddEntryControl, setShowAddEntryControl] = useState(false);
 
   const handleAddEntry = () => {
     onChange({ ...entries, [newEntryKey]: [] });
     setNewEntryKey('');
-  };
-
-  const handleAddFieldMatcher = (entryKey: string) => {
-    const newMatchers = entries[entryKey] ? [...entries[entryKey]] : [];
-    onChange({ ...entries, [entryKey]: [...newMatchers, { matcher: 'exact', value: '' }] });
+    setShowAddEntryControl(false);
   };
 
   const handleUpdateFieldMatchers = (entryKey: string, fieldMatchers: FieldMatcher[]) => {
     onChange({ ...entries, [entryKey]: fieldMatchers });
   };
 
-  const handleDeleteFieldMatcher = (entryKey: string, index: number) => {
-    const newMatchers = [...entries[entryKey]];
-    newMatchers.splice(index, 1);
-    onChange({ ...entries, [entryKey]: newMatchers });
+  const handleDeleteEntry = (entryKey: string) => {
+    const newEntries = { ...entries };
+    delete newEntries[entryKey];
+    onChange(newEntries);
   };
 
   return (
     <Card className="my-3">
       <Card.Body>
-        <Card.Title>Field Matchers</Card.Title>
-        <Form.Group className="my-3">
-          <Form.Label>New Entry Key:</Form.Label>
-          <InputGroup>
-            <Form.Control
-              type="text"
-              placeholder="Enter a new key"
-              value={newEntryKey}
-              onChange={(e) => setNewEntryKey(e.target.value)}
-            />
-            <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
-              Add Entry
-            </Button>
-          </InputGroup>
-        </Form.Group>
+        {showAddEntryControl ? (
+          <Form.Group className="my-3">
+            <Form.Label>New Entry Key:</Form.Label>
+            <InputGroup>
+              <Form.Control
+                type="text"
+                placeholder="Enter a new key"
+                value={newEntryKey}
+                onChange={(e) => setNewEntryKey(e.target.value)}
+              />
+              <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
+                Add Entry
+              </Button>
+            </InputGroup>
+          </Form.Group>
+        ) : (
+          <Button
+            variant="outline-success"
+            onClick={() => setShowAddEntryControl(true)}
+            className="mb-3">
+            Add
+          </Button>
+        )}
         {Object.entries(entries).map(([entryKey, matchers]) => (
           <fieldset key={entryKey}>
-            <legend>{entryKey}</legend>
+            <div className="row align-items-center">
+              <span className="h4 w-auto inline">{entryKey}</span>
+              <Button
+                variant="outline-danger"
+                onClick={() => handleDeleteEntry(entryKey)}
+                className="w-auto">
+                <TrashFill />
+              </Button>
+            </div>
+
             <div className="my-3">
               <FieldMatcherListForm
                 fieldMatchers={matchers}

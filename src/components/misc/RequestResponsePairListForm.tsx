@@ -39,7 +39,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({
 
   return (
     <form className="uk-form-stacked">
-      <legend className="uk-legend">Request Response Pair List</legend>
+      <legend className="uk-legend text-center mb-3">Simulations</legend>
       <Accordion>
         {requestResponsePairs.map((pair, index) => (
           <Card key={index}>
