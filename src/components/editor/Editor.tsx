@@ -4,13 +4,16 @@ import './Editor.scss';
 import RequestResponsePairListForm from '../misc/RequestResponsePairListForm';
 import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
 import defaultEditorContent from '../../example-mock.json';
+import { stringify } from '../../services/json-service';
+import { editor } from 'monaco-editor';
 
 const WIDTH_SEPARATOR_PX = 10;
 
 export default function Editor() {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const layoutRef = useRef<HTMLDivElement>(null);
   const [hoverflyMockData, setHoverflyMockData] = useState<HoverflySimulation | undefined>();
+  const [indexActivePair, setIndexActivePair] = useState<number>(0);
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.55);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
@@ -38,7 +41,7 @@ export default function Editor() {
 
   function handleCodeChange(value: string | undefined) {
     try {
-      if (editorRef.current.hasTextFocus() && value) {
+      if (editorRef.current?.hasTextFocus() && value) {
         setHoverflyMockData(JSON.parse(value));
       }
     } catch (_) {
@@ -47,9 +50,21 @@ export default function Editor() {
   }
 
   function onChangeFromMockForms(updatedPairs: RequestResponsePair[]) {
-    const json = JSON.stringify(updatedPairs, null, 4);
-    editorRef.current.setValue(json);
+    const json = stringify(updatedPairs);
+    editorRef.current?.setValue(json);
+    scrollToPairIndex(indexActivePair);
     setHoverflyMockData({ ...hoverflyMockData, data: { pairs: updatedPairs } });
+  }
+
+  function scrollToPairIndex(index: number) {
+    if (!hoverflyMockData) {
+      return;
+    }
+
+    setIndexActivePair(index);
+    const model = editorRef.current?.getModel()!;
+    const match = model.findMatches('"request"', true, false, true, null, true)[index];
+    editorRef.current?.revealRangeAtTop(match.range);
   }
 
   return (
@@ -59,9 +74,10 @@ export default function Editor() {
           <RequestResponsePairListForm
             requestResponsePairs={hoverflyMockData.data.pairs}
             onChange={onChangeFromMockForms}
+            onOpenPair={scrollToPairIndex}
           />
         ) : (
-          <span>Invalid mock data :( </span>
+          <span>No data pairs </span>
         )}
       </div>
       <div

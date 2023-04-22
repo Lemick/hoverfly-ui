@@ -8,9 +8,14 @@ import { TrashFill } from 'react-bootstrap-icons';
 type Props = {
   requestResponsePairs: RequestResponsePair[];
   onChange: (requestResponsePairs: RequestResponsePair[]) => void;
+  onOpenPair: (index: number) => void;
 };
 
-const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, onChange }) => {
+const RequestResponsePairListForm: React.FC<Props> = ({
+  requestResponsePairs,
+  onChange,
+  onOpenPair
+}) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
@@ -25,6 +30,13 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
     onChange(newPairs);
   };
 
+  const onClickHeader = (index: number) => {
+    if (activeIndex !== index) {
+      setActiveIndex(index);
+      onOpenPair(index);
+    }
+  };
+
   return (
     <form className="uk-form-stacked">
       <legend className="uk-legend">Request Response Pair List</legend>
@@ -32,7 +44,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({ requestResponsePairs, on
         {requestResponsePairs.map((pair, index) => (
           <Card key={index}>
             <Card.Header
-              onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+              onClick={() => onClickHeader(index)}
               aria-controls={`pair-${index}`}
               aria-expanded={activeIndex === index}>
               <div className="d-flex justify-content-between align-items-center cursor-pointer">
