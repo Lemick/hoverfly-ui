@@ -46,10 +46,10 @@ export default function Editor() {
     }
   }
 
-  function onChangeFromMockForms(pairs: RequestResponsePair[]) {
-    const json = JSON.stringify(hoverflyMockData, null, 4);
+  function onChangeFromMockForms(updatedPairs: RequestResponsePair[]) {
+    const json = JSON.stringify(updatedPairs, null, 4);
     editorRef.current.setValue(json);
-    setHoverflyMockData({ ...hoverflyMockData, data: { pairs } });
+    setHoverflyMockData({ ...hoverflyMockData, data: { pairs: updatedPairs } });
   }
 
   return (

@@ -31,6 +31,7 @@ export type RequestQueries = Record<string, FieldMatcher[]>;
 export type RequestHeaders = Record<string, FieldMatcher[]>;
 
 export type Request = {
+  method?: FieldMatcher[];
   body?: FieldMatcher[];
   destination?: FieldMatcher[];
   headers?: RequestHeaders;

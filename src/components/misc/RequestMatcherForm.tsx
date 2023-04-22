@@ -18,6 +18,9 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
           <legend>Request</legend>
           <Nav variant="tabs">
             <Nav.Item>
+              <Nav.Link eventKey="method">Method</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link eventKey="scheme">Scheme</Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -37,6 +40,14 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             </Nav.Item>
           </Nav>
           <Tab.Content>
+            <Tab.Pane eventKey="method">
+              <div>
+                <FieldMatcherListForm
+                  fieldMatchers={request.method}
+                  onChange={(fieldMatchers) => onChange({ ...request, method: fieldMatchers })}
+                />
+              </div>
+            </Tab.Pane>
             <Tab.Pane eventKey="body">
               <div>
                 <FieldMatcherListForm

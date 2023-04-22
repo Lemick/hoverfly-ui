@@ -36,7 +36,12 @@
               }
             ]
           },
-          "method": "GET"
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ]
         },
         "response": {
           "status": 200,
