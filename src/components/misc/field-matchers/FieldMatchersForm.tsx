@@ -18,7 +18,7 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
   const handleConfigChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     const newConfig = { ...fieldMatcher.config, [name]: checked };
-    const atLeastOneTrueValue = Object.values(newConfig).some((v) => !!v);
+    const atLeastOneTrueValue = Object.values(newConfig).some((v) => v);
 
     const newFieldMatcher = {
       ...fieldMatcher,

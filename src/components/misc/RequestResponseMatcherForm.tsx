@@ -1,7 +1,13 @@
 import React from 'react';
-import { RequestResponsePair } from '../../types/hoverfly';
+import { Request, RequestResponsePair, Response } from '../../types/hoverfly';
 import RequestMatcherForm from './RequestMatcherForm';
 import ResponseMatcherForm from './ResponseMatcherForm';
+
+function removeEmptyArrays(obj: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, value]) => !Array.isArray(value) || value.length > 0)
+  );
+}
 
 type Props = {
   pair: RequestResponsePair;
@@ -9,17 +15,21 @@ type Props = {
 };
 
 const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
+  function onRequestChange(request: Request) {
+    const newRequest = removeEmptyArrays(request);
+    onChange({ ...pair, request: newRequest });
+  }
+
+  function onResponseChange(request: Response) {
+    const newRequest = removeEmptyArrays(request);
+    onChange({ ...pair, request: newRequest });
+  }
+
   return (
     <form>
-      <RequestMatcherForm
-        request={pair.request || {}}
-        onChange={(request) => onChange({ ...pair, request })}
-      />
+      <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
 
-      <ResponseMatcherForm
-        response={pair.response || {}}
-        onChange={(response) => onChange({ ...pair, response })}
-      />
+      <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
     </form>
   );
 };

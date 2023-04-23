@@ -4,10 +4,24 @@ import FieldMatcherListForm from './field-matchers/FieldMatcherListForm';
 import RecordStringFieldMatcherListForm from './field-matchers/RecordStringFieldMatcherListForm';
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
+import { Badge } from 'react-bootstrap';
 
 type Props = {
   request: Request;
   onChange: (request: Request) => void;
+};
+
+const CountMatcherBadge = ({ elements }: { elements?: unknown[] | object }) => {
+  if (!elements) {
+    return null;
+  }
+
+  const elementsCount = Array.isArray(elements) ? elements.length : Object.keys(elements).length;
+  return (
+    <Badge pill={true} bg={elementsCount > 0 ? 'success' : 'secondary'}>
+      {elementsCount}
+    </Badge>
+  );
 };
 
 const RequestMatcherForm = ({ request, onChange }: Props) => {
@@ -18,25 +32,45 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
           <legend>Request</legend>
           <Nav variant="tabs">
             <Nav.Item>
-              <Nav.Link eventKey="method">Method</Nav.Link>
+              <Nav.Link eventKey="method">
+                Method &#8239;
+                <CountMatcherBadge elements={request.method} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="scheme">Scheme</Nav.Link>
+              <Nav.Link eventKey="scheme">
+                Scheme &#8239;
+                <CountMatcherBadge elements={request.scheme} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="destination">Destination</Nav.Link>
+              <Nav.Link eventKey="destination">
+                Destination &#8239; <CountMatcherBadge elements={request.destination} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="path">Path</Nav.Link>
+              <Nav.Link eventKey="path">
+                Path &#8239;
+                <CountMatcherBadge elements={request.path} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="queryParams">Query Params</Nav.Link>
+              <Nav.Link eventKey="queryParams">
+                Query Params &#8239;
+                <CountMatcherBadge elements={request.query} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="headers">Headers</Nav.Link>
+              <Nav.Link eventKey="headers">
+                Headers &#8239;
+                <CountMatcherBadge elements={request.headers} />
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="body">Body</Nav.Link>
+              <Nav.Link eventKey="body">
+                Body &#8239;
+                <CountMatcherBadge elements={request.body} />
+              </Nav.Link>
             </Nav.Item>
           </Nav>
           <Tab.Content>
