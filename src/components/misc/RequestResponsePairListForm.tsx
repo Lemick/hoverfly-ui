@@ -11,11 +11,7 @@ type Props = {
   onOpenPair: (index: number) => void;
 };
 
-const RequestResponsePairListForm: React.FC<Props> = ({
-  requestResponsePairs,
-  onChange,
-  onOpenPair
-}) => {
+const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPair }: Props) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
@@ -85,7 +81,7 @@ const RequestResponsePairListForm: React.FC<Props> = ({
         <Button
           variant="outline-success"
           onClick={() => onChange([...requestResponsePairs, { request: {}, response: {} }])}>
-          Add Request Response Pair
+          Add request/response pair
         </Button>
       </div>
     </form>

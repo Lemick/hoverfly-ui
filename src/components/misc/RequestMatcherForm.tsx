@@ -44,6 +44,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.method}
+                  type="method"
                   onChange={(fieldMatchers) => onChange({ ...request, method: fieldMatchers })}
                 />
               </div>
@@ -52,6 +53,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.body}
+                  type="body"
                   onChange={(fieldMatchers) => onChange({ ...request, body: fieldMatchers })}
                 />
               </div>
@@ -60,6 +62,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.destination}
+                  type="destination"
                   onChange={(fieldMatchers) => onChange({ ...request, destination: fieldMatchers })}
                 />
               </div>
@@ -68,6 +71,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.headers}
+                  type="header"
                   onChange={(entries) => {
                     onChange({ ...request, headers: entries });
                   }}
@@ -78,6 +82,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.path}
+                  type="method"
                   onChange={(fieldMatchers) => {
                     onChange({ ...request, path: fieldMatchers });
                   }}
@@ -88,6 +93,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.query}
+                  type="query"
                   onChange={(entries) => {
                     onChange({ ...request, query: entries });
                   }}
@@ -98,6 +104,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.scheme}
+                  type="scheme"
                   onChange={(fieldMatchers) => {
                     onChange({ ...request, scheme: fieldMatchers });
                   }}

@@ -7,10 +7,11 @@ import { TrashFill } from 'react-bootstrap-icons';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
+  type: string;
   onChange: (fieldMatchers: FieldMatcher[]) => void;
 };
 
-const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onChange }) => {
+const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => {
   const handleAdd = () => {
     onChange([...fieldMatchers, { matcher: 'exact', value: '' }]);
   };
@@ -48,7 +49,7 @@ const FieldMatcherListForm: React.FC<Props> = ({ fieldMatchers = [], onChange })
         ))}
         <div className="row mx-1">
           <Button variant="outline-success" onClick={handleAdd}>
-            Add Field Matcher
+            Add {type} field matcher
           </Button>
         </div>
       </fieldset>

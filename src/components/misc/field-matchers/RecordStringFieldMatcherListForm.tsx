@@ -6,10 +6,11 @@ import { TrashFill } from 'react-bootstrap-icons';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
+  type: string;
   onChange: (entries: Record<string, FieldMatcher[]>) => void;
 };
 
-const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onChange }) => {
+const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Props) => {
   const [newEntryKey, setNewEntryKey] = useState('');
 
   const handleAddEntry = () => {
@@ -49,6 +50,7 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onCha
             <div className="my-3">
               <FieldMatcherListForm
                 fieldMatchers={matchers}
+                type={`${type} '${entryKey}'`}
                 onChange={(fieldMatchers) => handleUpdateFieldMatchers(entryKey, fieldMatchers)}
               />
             </div>
@@ -58,12 +60,12 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onCha
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder="Enter the name of the new key"
+              placeholder={`Enter the key of the new ${type}`}
               value={newEntryKey}
               onChange={(e) => setNewEntryKey(e.target.value)}
             />
-            <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
-              Add Entry
+            <Button variant="success" onClick={handleAddEntry} disabled={!newEntryKey}>
+              Add
             </Button>
           </InputGroup>
         </Form.Group>

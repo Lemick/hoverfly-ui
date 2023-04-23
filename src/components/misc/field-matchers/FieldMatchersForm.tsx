@@ -3,14 +3,11 @@ import { Form } from 'react-bootstrap';
 import { FieldMatcher } from '../../../types/hoverfly';
 
 type Props = {
-  fieldMatcher?: FieldMatcher;
+  fieldMatcher: FieldMatcher;
   onChange: (fieldMatcher: FieldMatcher) => void;
 };
 
-const FieldMatcherForm: React.FC<Props> = ({
-  fieldMatcher = { matcher: 'exact', value: '' },
-  onChange
-}) => {
+const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onChange }: Props) => {
   const handleMatcherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
