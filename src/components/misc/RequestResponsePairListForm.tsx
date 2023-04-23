@@ -38,8 +38,8 @@ const RequestResponsePairListForm: React.FC<Props> = ({
   };
 
   return (
-    <form className="uk-form-stacked">
-      <legend className="uk-legend text-center mb-3">Simulations</legend>
+    <form>
+      <legend className="text-center mb-3">Simulations</legend>
       <Accordion>
         {requestResponsePairs.map((pair, index) => (
           <Card key={index}>
@@ -69,13 +69,12 @@ const RequestResponsePairListForm: React.FC<Props> = ({
               mountOnEnter={true}
               unmountOnExit={true}>
               <Card.Body>
-                <div className="uk-margin-bottom">
+                <div>
                   <RequestResponseMatcherForm
                     pair={pair}
                     onChange={(newPair) => handleUpdate(index, newPair)}
                   />
                 </div>
-                <div className="uk-flex uk-flex-right"></div>
               </Card.Body>
             </Accordion.Collapse>
           </Card>

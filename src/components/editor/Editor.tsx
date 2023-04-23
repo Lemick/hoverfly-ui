@@ -18,7 +18,7 @@ export default function Editor() {
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
-    editor.setValue(JSON.stringify(defaultEditorContent, null, 4));
+    editor.setValue(stringify(defaultEditorContent));
 
     const defaultSimulation = defaultEditorContent as unknown as HoverflySimulation;
     setHoverflyMockData(defaultSimulation);
@@ -39,21 +39,21 @@ export default function Editor() {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  function handleCodeChange(value: string | undefined) {
+  function onChangeFromCodeEditor(json: string | undefined) {
     try {
-      if (editorRef.current?.hasTextFocus() && value) {
-        setHoverflyMockData(JSON.parse(value));
+      if (editorRef.current?.hasTextFocus() && json) {
+        setHoverflyMockData(JSON.parse(json));
       }
     } catch (_) {
-      setHoverflyMockData(undefined);
+      // Silent catch
     }
   }
 
-  function onChangeFromMockForms(updatedPairs: RequestResponsePair[]) {
-    const json = stringify(updatedPairs);
-    editorRef.current?.setValue(json);
+  function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
+    const updatedSimulation = { ...hoverflyMockData, data: { pairs: updatedPairs } };
+    editorRef.current?.setValue(stringify(updatedSimulation));
+    setHoverflyMockData(updatedSimulation);
     scrollToPairIndex(indexActivePair);
-    setHoverflyMockData({ ...hoverflyMockData, data: { pairs: updatedPairs } });
   }
 
   function scrollToPairIndex(index: number) {
@@ -76,7 +76,7 @@ export default function Editor() {
         {hoverflyMockData?.data?.pairs ? (
           <RequestResponsePairListForm
             requestResponsePairs={hoverflyMockData.data.pairs}
-            onChange={onChangeFromMockForms}
+            onChange={onChangeFromForms}
             onOpenPair={scrollToPairIndex}
           />
         ) : (
@@ -98,7 +98,7 @@ export default function Editor() {
           defaultValue=""
           theme="vs-dark"
           onMount={handleEditorDidMount}
-          onChange={handleCodeChange}
+          onChange={onChangeFromCodeEditor}
           options={{
             wordWrap: 'on',
             smoothScrolling: true

@@ -11,12 +11,14 @@ type Props = {
 
 const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onChange }) => {
   const [newEntryKey, setNewEntryKey] = useState('');
-  const [showAddEntryControl, setShowAddEntryControl] = useState(false);
 
   const handleAddEntry = () => {
+    if (entries[newEntryKey]) {
+      return;
+    }
+
     onChange({ ...entries, [newEntryKey]: [] });
     setNewEntryKey('');
-    setShowAddEntryControl(false);
   };
 
   const handleUpdateFieldMatchers = (entryKey: string, fieldMatchers: FieldMatcher[]) => {
@@ -32,29 +34,6 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onCha
   return (
     <Card className="my-3">
       <Card.Body>
-        {showAddEntryControl ? (
-          <Form.Group className="my-3">
-            <Form.Label>New Entry Key:</Form.Label>
-            <InputGroup>
-              <Form.Control
-                type="text"
-                placeholder="Enter a new key"
-                value={newEntryKey}
-                onChange={(e) => setNewEntryKey(e.target.value)}
-              />
-              <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
-                Add Entry
-              </Button>
-            </InputGroup>
-          </Form.Group>
-        ) : (
-          <Button
-            variant="outline-success"
-            onClick={() => setShowAddEntryControl(true)}
-            className="mb-3">
-            Add
-          </Button>
-        )}
         {Object.entries(entries).map(([entryKey, matchers]) => (
           <fieldset key={entryKey}>
             <div className="row align-items-center">
@@ -75,6 +54,19 @@ const RecordStringFieldMatcherListForm: React.FC<Props> = ({ entries = {}, onCha
             </div>
           </fieldset>
         ))}
+        <Form.Group className="my-3">
+          <InputGroup>
+            <Form.Control
+              type="text"
+              placeholder="Enter the name of the new key"
+              value={newEntryKey}
+              onChange={(e) => setNewEntryKey(e.target.value)}
+            />
+            <Button variant="primary" onClick={handleAddEntry} disabled={!newEntryKey}>
+              Add Entry
+            </Button>
+          </InputGroup>
+        </Form.Group>
       </Card.Body>
     </Card>
   );
