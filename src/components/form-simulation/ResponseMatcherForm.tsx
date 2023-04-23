@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Response } from '../../types/hoverfly';
+import ArrowCollapse from '../utilities/ArrowCollapse';
 
 type Props = {
   response?: Response;
@@ -7,12 +8,6 @@ type Props = {
 };
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-
-  const toggleAdvancedOptions = () => {
-    setShowAdvancedOptions(!showAdvancedOptions);
-  };
-
   return (
     <form className="response-matcher-form">
       <fieldset>
@@ -45,12 +40,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             onChange={(e) => onChange({ ...response, body: e.target.value })}
           />
         </div>
-        <div className="form-group">
-          <button type="button" className="btn btn-link" onClick={toggleAdvancedOptions}>
-            {showAdvancedOptions ? 'Hide' : 'Show'} Advanced Options
-          </button>
-        </div>
-        {showAdvancedOptions && (
+        <ArrowCollapse visibleByDefault={false}>
           <>
             <div className="form-group">
               <label htmlFor="encodedBody">Encoded Body:</label>
@@ -94,7 +84,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               />
             </div>
           </>
-        )}
+        </ArrowCollapse>
       </fieldset>
     </form>
   );

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
-import RequestResponsePairListForm from '../misc/RequestResponsePairListForm';
+import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
 import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
 import defaultEditorContent from '../../example-mock.json';
 import { stringify } from '../../services/json-service';
@@ -11,17 +11,16 @@ const WIDTH_SEPARATOR_PX = 10;
 
 export default function Editor() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
-  const layoutRef = useRef<HTMLDivElement>(null);
-  const [hoverflyMockData, setHoverflyMockData] = useState<HoverflySimulation | undefined>();
+  const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
   const [indexActivePair, setIndexActivePair] = useState<number>(0);
-  const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.55);
+  const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     editor.setValue(stringify(defaultEditorContent));
 
     const defaultSimulation = defaultEditorContent as unknown as HoverflySimulation;
-    setHoverflyMockData(defaultSimulation);
+    setHoverflySimulation(defaultSimulation);
     editor.focus();
   };
 
@@ -42,7 +41,7 @@ export default function Editor() {
   function onChangeFromCodeEditor(json: string | undefined) {
     try {
       if (editorRef.current?.hasTextFocus() && json) {
-        setHoverflyMockData(JSON.parse(json));
+        setHoverflySimulation(JSON.parse(json));
       }
     } catch (_) {
       // Silent catch
@@ -50,14 +49,14 @@ export default function Editor() {
   }
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
-    const updatedSimulation = { ...hoverflyMockData, data: { pairs: updatedPairs } };
+    const updatedSimulation = { ...hoverflySimulation, data: { pairs: updatedPairs } };
     editorRef.current?.setValue(stringify(updatedSimulation));
-    setHoverflyMockData(updatedSimulation);
+    setHoverflySimulation(updatedSimulation);
     scrollToPairIndex(indexActivePair);
   }
 
   function scrollToPairIndex(index: number) {
-    if (!hoverflyMockData) {
+    if (!hoverflySimulation) {
       return;
     }
 
@@ -71,11 +70,11 @@ export default function Editor() {
   }
 
   return (
-    <div className="editor-layout" ref={layoutRef}>
+    <div className="editor-layout">
       <div className="left-panel" style={{ width: leftPanelWidth }}>
-        {hoverflyMockData?.data?.pairs ? (
+        {hoverflySimulation?.data?.pairs ? (
           <RequestResponsePairListForm
-            requestResponsePairs={hoverflyMockData.data.pairs}
+            requestResponsePairs={hoverflySimulation.data.pairs}
             onChange={onChangeFromForms}
             onOpenPair={scrollToPairIndex}
           />
