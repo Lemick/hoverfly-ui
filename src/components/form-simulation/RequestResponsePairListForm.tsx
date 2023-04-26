@@ -12,7 +12,7 @@ type Props = {
 };
 
 const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPair }: Props) => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>();
 
   const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
@@ -30,6 +30,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
     if (activeIndex !== index) {
       setActiveIndex(index);
       onOpenPair(index);
+    } else {
+      setActiveIndex(undefined);
     }
   };
 

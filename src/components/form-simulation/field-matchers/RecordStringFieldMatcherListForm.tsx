@@ -60,7 +60,7 @@ const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Prop
           <InputGroup>
             <Form.Control
               type="text"
-              placeholder={`Enter the key of the new ${type}`}
+              placeholder={`Enter the name of the new ${type}`}
               value={newEntryKey}
               onChange={(e) => setNewEntryKey(e.target.value)}
             />

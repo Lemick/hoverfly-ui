@@ -34,6 +34,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
         <div className="form-group">
           <label htmlFor="body">Body:</label>
           <textarea
+            rows={response.body ? 10 : 1}
             id="body"
             className="form-control"
             value={response.body}

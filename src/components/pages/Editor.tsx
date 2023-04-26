@@ -49,7 +49,13 @@ export default function Editor() {
   }
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
-    const updatedSimulation = { ...hoverflySimulation, data: { pairs: updatedPairs } };
+    const updatedSimulation = {
+      ...hoverflySimulation,
+      data: {
+        ...hoverflySimulation?.data,
+        pairs: updatedPairs
+      }
+    };
     editorRef.current?.setValue(stringify(updatedSimulation));
     setHoverflySimulation(updatedSimulation);
     scrollToPairIndex(indexActivePair);

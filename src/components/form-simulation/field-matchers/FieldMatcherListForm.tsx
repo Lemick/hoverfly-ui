@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Form } from 'react-bootstrap';
-import { TrashFill } from 'react-bootstrap-icons';
-import ArrowCollapse from '../../utilities/ArrowCollapse';
+import { Plus, TrashFill } from 'react-bootstrap-icons';
+import cn from 'classnames';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
@@ -13,8 +13,6 @@ type Props = {
 };
 
 const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => {
-  const [isAddButtonVisibleByDefault] = useState(fieldMatchers?.length === 0);
-
   const handleAdd = () => {
     onChange([...fieldMatchers, { matcher: 'exact', value: '' }]);
   };
@@ -34,7 +32,9 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
   return (
     <Form className="mt-3">
       {fieldMatchers.map((fieldMatcher, index) => (
-        <Card key={index} className="mb-3 mx-1 position-relative">
+        <Card
+          key={index}
+          className={cn({ 'mb-3': index < fieldMatchers.length - 1 }, 'mx-1 position-relative')}>
           <div className="position-absolute" style={{ right: '0px' }}>
             <Button variant="outline-danger" onClick={() => handleDelete(index)} className="w-5">
               <TrashFill />
@@ -49,12 +49,15 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
           </Card.Body>
         </Card>
       ))}
-
-      <ArrowCollapse visibleByDefault={isAddButtonVisibleByDefault}>
-        <Button className="w-100" variant="outline-success" onClick={handleAdd}>
-          Add {type} field matcher
-        </Button>
-      </ArrowCollapse>
+      <div className="mt-1 text-center cursor-pointer" onClick={handleAdd}>
+        {fieldMatchers?.length === 0 ? (
+          <Button className="w-100" variant="outline-success" onClick={handleAdd}>
+            Add first field matcher for {type}
+          </Button>
+        ) : (
+          <Plus size={20} />
+        )}
+      </div>
     </Form>
   );
 };
