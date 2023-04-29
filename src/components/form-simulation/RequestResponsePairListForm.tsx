@@ -48,7 +48,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
               <div className="d-flex justify-content-between align-items-center cursor-pointer">
                 <div className="col fw-semibold">
                   <span>
-                    {index} - {getPairDisplayName(pair.request)}
+                    {index} - {getPairDisplayName(pair)}
                   </span>
                 </div>
                 <div className="col-1 d-flex justify-content-end">

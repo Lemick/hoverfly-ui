@@ -1,6 +1,11 @@
-import React from 'react';
-import { Response } from '../../types/hoverfly';
+import React, { useEffect, useRef } from 'react';
+import { HoverflySimulation, Response } from '../../types/hoverfly';
 import ArrowCollapse from '../utilities/ArrowCollapse';
+import MonacoEditor, { OnMount } from '@monaco-editor/react';
+import { prettify, stringify } from '../../services/json-service';
+import defaultEditorContent from '../../example-mock.json';
+import { editor } from 'monaco-editor';
+import ResponseBodyEditor from './ResponseBodyEditor';
 
 type Props = {
   response?: Response;
@@ -33,12 +38,9 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
         </div>
         <div className="form-group">
           <label htmlFor="body">Body:</label>
-          <textarea
-            rows={response.body ? 10 : 1}
-            id="body"
-            className="form-control"
-            value={response.body}
-            onChange={(e) => onChange({ ...response, body: e.target.value })}
+          <ResponseBodyEditor
+            value={response?.body}
+            onChange={(value) => onChange({ ...response, body: value })}
           />
         </div>
         <ArrowCollapse visibleByDefault={false}>

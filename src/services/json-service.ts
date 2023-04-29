@@ -2,6 +2,15 @@ export function stringify(json: any): string {
   return JSON.stringify(json, null, 4);
 }
 
+export function prettify(json: string) {
+  try {
+    const parsedJson = JSON.parse(json);
+    return JSON.stringify(parsedJson, null, 2);
+  } catch (error) {
+    return json;
+  }
+}
+
 export function removeEmptyValues(arg: Record<string, [] | object>) {
   return Object.fromEntries(
     Object.entries(arg).filter(([_, value]) => {
