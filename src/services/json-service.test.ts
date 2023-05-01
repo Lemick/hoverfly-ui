@@ -1,4 +1,4 @@
-import { stringify, removeEmptyValues, prettify } from './json-service';
+import { stringify, removeEmptyValues, prettify, isJSON } from './json-service';
 
 describe('stringify', () => {
   test('should return the stringified JSON with 4 spaces', () => {
@@ -39,5 +39,17 @@ describe('removeEmptyValues', () => {
     const expected = { foo: [1, 2, 3], bar: { name: 'John Doe', age: 30 } };
     const result = removeEmptyValues(arg);
     expect(result).toEqual(expected);
+  });
+});
+
+describe('isJSON', () => {
+  it('returns true for a valid JSON string', () => {
+    const jsonString = '{"name": "John", "age": 30}';
+    expect(isJSON(jsonString)).toBe(true);
+  });
+
+  it('returns false for an invalid JSON string', () => {
+    const invalidString = 'this is not a JSON string';
+    expect(isJSON(invalidString)).toBe(false);
   });
 });

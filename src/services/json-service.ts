@@ -11,6 +11,15 @@ export function prettify(json: string) {
   }
 }
 
+export function isJSON(str: string): boolean {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export function removeEmptyValues(arg: Record<string, [] | object>) {
   return Object.fromEntries(
     Object.entries(arg).filter(([_, value]) => {

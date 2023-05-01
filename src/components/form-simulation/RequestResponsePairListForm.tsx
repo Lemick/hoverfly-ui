@@ -3,7 +3,8 @@ import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 import { RequestResponsePair } from '../../types/hoverfly';
 import { Accordion, Button, Card } from 'react-bootstrap';
 import { getPairDisplayName } from '../../services/request-matcher-service';
-import { TrashFill } from 'react-bootstrap-icons';
+import { TrashFill, Files } from 'react-bootstrap-icons';
+import TooltipDecorator from '../utilities/TooltipDecorator';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -20,7 +21,15 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
     onChange(newPairs);
   };
 
-  const handleDelete = (index: number) => {
+  const handleDuplicate = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    e.stopPropagation();
+    const newPairs = [...requestResponsePairs];
+    newPairs.splice(index, 0, { ...newPairs[index] });
+    onChange(newPairs);
+  };
+
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    e.stopPropagation();
     const newPairs = [...requestResponsePairs];
     newPairs.splice(index, 1);
     onChange(newPairs);
@@ -51,13 +60,24 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     {index} - {getPairDisplayName(pair)}
                   </span>
                 </div>
-                <div className="col-1 d-flex justify-content-end">
-                  <Button
-                    variant="outline-danger"
-                    type="button"
-                    onClick={() => handleDelete(index)}>
-                    <TrashFill />
-                  </Button>
+                <div className="col-1 d-flex gap-2 justify-content-end">
+                  <TooltipDecorator tooltipText="Duplicate">
+                    <Button
+                      variant="outline-secondary"
+                      type="button"
+                      onClick={(e) => handleDuplicate(e, index)}>
+                      <Files />
+                    </Button>
+                  </TooltipDecorator>
+
+                  <TooltipDecorator tooltipText="Delete">
+                    <Button
+                      variant="outline-danger"
+                      type="button"
+                      onClick={(e) => handleDelete(e, index)}>
+                      <TrashFill />
+                    </Button>
+                  </TooltipDecorator>
                 </div>
               </div>
             </Card.Header>
