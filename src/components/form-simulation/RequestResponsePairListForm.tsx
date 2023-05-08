@@ -15,23 +15,28 @@ type Props = {
 const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPair }: Props) => {
   const [activeIndex, setActiveIndex] = useState<number>();
 
-  const handleUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
+  const onUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
     onChange(newPairs);
   };
 
-  const handleDuplicate = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+  const onDuplicate = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
     e.stopPropagation();
     const newPairs = [...requestResponsePairs];
     newPairs.splice(index, 0, { ...newPairs[index] });
     onChange(newPairs);
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+  const onDelete = (e: React.MouseEvent<HTMLButtonElement>, indexToRemove: number) => {
     e.stopPropagation();
+
+    if (activeIndex && indexToRemove < activeIndex) {
+      setActiveIndex(activeIndex - 1);
+    }
+
     const newPairs = [...requestResponsePairs];
-    newPairs.splice(index, 1);
+    newPairs.splice(indexToRemove, 1);
     onChange(newPairs);
   };
 
@@ -65,7 +70,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     <Button
                       variant="outline-secondary"
                       type="button"
-                      onClick={(e) => handleDuplicate(e, index)}>
+                      onClick={(e) => onDuplicate(e, index)}>
                       <Files />
                     </Button>
                   </TooltipDecorator>
@@ -74,7 +79,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     <Button
                       variant="outline-danger"
                       type="button"
-                      onClick={(e) => handleDelete(e, index)}>
+                      onClick={(e) => onDelete(e, index)}>
                       <TrashFill />
                     </Button>
                   </TooltipDecorator>
@@ -90,7 +95,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                 <div>
                   <RequestResponseMatcherForm
                     pair={pair}
-                    onChange={(newPair) => handleUpdate(index, newPair)}
+                    onChange={(newPair) => onUpdate(index, newPair)}
                   />
                 </div>
               </Card.Body>

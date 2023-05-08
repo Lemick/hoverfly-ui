@@ -1,11 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { HoverflySimulation, Response } from '../../types/hoverfly';
+import React from 'react';
+import { Response } from '../../types/hoverfly';
 import ArrowCollapse from '../utilities/ArrowCollapse';
-import MonacoEditor, { OnMount } from '@monaco-editor/react';
-import { prettify, stringify } from '../../services/json-service';
-import defaultEditorContent from '../../example-mock.json';
-import { editor } from 'monaco-editor';
 import ResponseBodyEditor from './ResponseBodyEditor';
+import { Form } from 'react-bootstrap';
 
 type Props = {
   response?: Response;
@@ -14,12 +11,12 @@ type Props = {
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   return (
-    <form className="response-matcher-form">
-      <fieldset>
-        <legend>Response</legend>
-        <div className="form-group">
-          <label htmlFor="status">Status:</label>
-          <select
+    <form>
+      <legend>Response</legend>
+      <fieldset className="d-flex flex-column gap-3">
+        <Form.Group>
+          <Form.Label htmlFor="status">Status:</Form.Label>
+          <Form.Select
             id="status"
             className="form-control"
             value={response.status}
@@ -34,19 +31,19 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             <option value="500">500 Internal Server Error</option>
             <option value="502">502 Bad Gateway</option>
             <option value="503">503 Service Unavailable</option>
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="body">Body:</label>
+          </Form.Select>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="body">Body:</Form.Label>
           <ResponseBodyEditor
             value={response?.body}
             onChange={(value) => onChange({ ...response, body: value })}
           />
-        </div>
+        </Form.Group>
         <ArrowCollapse visibleByDefault={false}>
           <>
-            <div className="form-group">
-              <label htmlFor="encodedBody">Encoded Body:</label>
+            <Form.Group>
+              <Form.Label htmlFor="encodedBody">Encoded Body:</Form.Label>
               <input
                 id="encodedBody"
                 type="checkbox"
@@ -54,9 +51,9 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                 checked={response.encodedBody || false}
                 onChange={(e) => onChange({ ...response, encodedBody: e.target.checked })}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="fixedDelay">Fixed Delay:</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="fixedDelay">Fixed Delay:</Form.Label>
               <input
                 id="fixedDelay"
                 type="number"
@@ -64,18 +61,18 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                 value={response.fixedDelay}
                 onChange={(e) => onChange({ ...response, fixedDelay: parseInt(e.target.value) })}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="headers">Headers:</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="headers">Headers:</Form.Label>
               <textarea
                 id="headers"
                 className="form-control"
                 value={JSON.stringify(response.headers)}
                 onChange={(e) => onChange({ ...response, headers: JSON.parse(e.target.value) })}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="logNormalDelay">Log Normal Delay:</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="logNormalDelay">Log Normal Delay:</Form.Label>
               <input
                 id="logNormalDelay"
                 type="text"
@@ -85,7 +82,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                   onChange({ ...response, logNormalDelay: JSON.parse(e.target.value) })
                 }
               />
-            </div>
+            </Form.Group>
           </>
         </ArrowCollapse>
       </fieldset>
