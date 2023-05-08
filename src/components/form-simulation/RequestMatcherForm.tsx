@@ -26,7 +26,7 @@ const CountMatcherBadge = ({ elements }: { elements?: unknown[] | object }) => {
 
 const RequestMatcherForm = ({ request, onChange }: Props) => {
   return (
-    <form className="request-matcher-form">
+    <form className="mb-3">
       <Tab.Container defaultActiveKey="first">
         <fieldset>
           <legend>Request</legend>

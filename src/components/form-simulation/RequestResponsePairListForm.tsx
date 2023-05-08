@@ -51,7 +51,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
 
   return (
     <form>
-      <legend className="text-center mb-3">Simulations</legend>
+      <h3 className="text-center mb-3">Simulations</h3>
       <Accordion>
         {requestResponsePairs.map((pair, index) => (
           <Card key={index}>
@@ -65,7 +65,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     {index} - {getPairDisplayName(pair)}
                   </span>
                 </div>
-                <div className="col-1 d-flex gap-2 justify-content-end">
+                <div className="d-flex gap-2 justify-content-end">
                   <TooltipDecorator tooltipText="Duplicate">
                     <Button
                       variant="outline-secondary"

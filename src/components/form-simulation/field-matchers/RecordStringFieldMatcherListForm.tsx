@@ -38,7 +38,9 @@ const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Prop
         {Object.entries(entries).map(([entryKey, matchers]) => (
           <fieldset key={entryKey}>
             <div className="row align-items-center">
-              <span className="h4 w-auto inline">{entryKey}</span>
+              <span style={{ fontSize: 18 }} className="w-auto fw-bold inline">
+                {entryKey}
+              </span>
               <Button
                 variant="outline-danger"
                 onClick={() => handleDeleteEntry(entryKey)}

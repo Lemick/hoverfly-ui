@@ -13,6 +13,7 @@
     "@types/react": "^18.0.34",
     "@types/react-dom": "^18.0.11",
     "bootstrap": "^5.2.3",
+    "bootswatch": "^5.2.3",
     "monaco-editor": "^0.37.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",

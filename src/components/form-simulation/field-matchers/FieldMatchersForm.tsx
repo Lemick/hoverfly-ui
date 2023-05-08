@@ -30,7 +30,7 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
   return (
     <Form>
       <div className="row">
-        <Form.Group className="col-md-6">
+        <Form.Group className="col-md-2">
           <Form.Label>Matcher:</Form.Label>
           <Form.Control
             as="select"
@@ -43,7 +43,7 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
           </Form.Control>
         </Form.Group>
 
-        <Form.Group className="col-md-6">
+        <Form.Group className="col">
           <Form.Label>Value:</Form.Label>
           <Form.Control
             type="text"
