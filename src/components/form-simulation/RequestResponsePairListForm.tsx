@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 import { RequestResponsePair } from '../../types/hoverfly';
 import { Accordion, Button, Card } from 'react-bootstrap';
-import { getPairDisplayName } from '../../services/request-matcher-service';
+import { getRequestHeader } from '../../services/request-matcher-service';
 import { TrashFill, Files } from 'react-bootstrap-icons';
 import TooltipDecorator from '../utilities/TooltipDecorator';
 
@@ -49,6 +49,14 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
     }
   };
 
+  function onAddRequestResponsePair() {
+    const newPair = {
+      request: {},
+      response: { status: 200 }
+    };
+    onChange([...requestResponsePairs, newPair]);
+  }
+
   return (
     <form>
       <h3 className="text-center mb-3">Simulations</h3>
@@ -62,7 +70,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
               <div className="d-flex justify-content-between align-items-center cursor-pointer">
                 <div className="col fw-semibold">
                   <span>
-                    {index} - {getPairDisplayName(pair)}
+                    {index} - {getRequestHeader(pair.request)} →️&nbsp;
+                    <ResponseStatusHeader status={pair.response?.status} />
                   </span>
                 </div>
                 <div className="d-flex gap-2 justify-content-end">
@@ -105,9 +114,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
       </Accordion>
 
       <div className="row mx-0 mt-4">
-        <Button
-          variant="outline-success"
-          onClick={() => onChange([...requestResponsePairs, { request: {}, response: {} }])}>
+        <Button variant="outline-success" onClick={onAddRequestResponsePair}>
           Add request/response pair
         </Button>
       </div>
@@ -116,3 +123,27 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
 };
 
 export default RequestResponsePairListForm;
+
+const ResponseStatusHeader = ({ status }: { status?: number }) => {
+  if (!status) {
+    return null;
+  }
+
+  function getColorForHTTPCode(httpCode: number) {
+    if (httpCode >= 100 && httpCode < 200) {
+      return 'text-info';
+    } else if (httpCode >= 200 && httpCode < 300) {
+      return 'text-success';
+    } else if (httpCode >= 300 && httpCode < 400) {
+      return 'text-primary';
+    } else if (httpCode >= 400 && httpCode < 500) {
+      return 'text-warning';
+    } else if (httpCode >= 500 && httpCode < 600) {
+      return 'text-danger';
+    } else {
+      return 'text-dark';
+    }
+  }
+
+  return <span className={getColorForHTTPCode(status)}>{status}</span>;
+};

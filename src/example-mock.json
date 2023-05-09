@@ -45,7 +45,79 @@
         },
         "response": {
           "status": 200,
-          "body": "{\n          \"users\": [\n            {\n              \"id\": 1,\n              \"name\": \"Alice\"\n            },\n            {\n              \"id\": 2,\n              \"name\": \"Bob\"\n            }\n          ]\n        }"
+          "body": "{\n  \"users\": [\n    {\n      \"id\": 1,\n      \"name\": \"John Frusciante\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Flea\"\n    }\n  ]\n}"
+        }
+      },
+      {
+        "request": {
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/api/users/1"
+            }
+          ],
+          "headers": {
+            "Authorization": [
+              {
+                "matcher": "exact",
+                "value": "Bearer token"
+              }
+            ]
+          },
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ]
+        },
+        "response": {
+          "status": 200,
+          "body": "    {\n      \"id\": 1,\n      \"name\": \"John Frusciante\"\n    }"
+        }
+      },
+      {
+        "request": {
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "GET"
+            }
+          ],
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/api/users/3"
+            }
+          ]
+        },
+        "response": {
+          "status": 404
+        }
+      },
+      {
+        "request": {
+          "method": [
+            {
+              "matcher": "exact",
+              "value": "POST"
+            }
+          ],
+          "path": [
+            {
+              "matcher": "exact",
+              "value": "/api/users"
+            }
+          ],
+          "body": [
+            {
+              "matcher": "regex",
+              "value": "{ \"name\": \"*\"  }"
+            }
+          ]
+        },
+        "response": {
+          "status": 200
         }
       }
     ]

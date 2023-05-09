@@ -40,6 +40,11 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
             <option value="exact">Exact</option>
             <option value="glob">Glob</option>
             <option value="regex">Regex</option>
+            <option value="json">JSON</option>
+            <option value="jsonPartial">JSON Partial</option>
+            <option value="jsonPath">JSON Path</option>
+            <option value="xml">XML</option>
+            <option value="xpath">XPath</option>
           </Form.Control>
         </Form.Group>
 
