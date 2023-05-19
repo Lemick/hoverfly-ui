@@ -3,11 +3,16 @@ import { Form } from 'react-bootstrap';
 import { FieldMatcher } from '../../../types/hoverfly';
 
 type Props = {
+  id: string;
   fieldMatcher: FieldMatcher;
   onChange: (fieldMatcher: FieldMatcher) => void;
 };
 
-const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onChange }: Props) => {
+const FieldMatcherForm = ({
+  id,
+  fieldMatcher = { matcher: 'exact', value: '' },
+  onChange
+}: Props) => {
   const handleMatcherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
@@ -26,6 +31,8 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
     };
     onChange(newFieldMatcher);
   };
+
+  const generateDomId = (suffix: string) => `${id}_${suffix}`;
 
   return (
     <div>
@@ -63,28 +70,38 @@ const FieldMatcherForm = ({ fieldMatcher = { matcher: 'exact', value: '' }, onCh
         <div className="d-flex justify-content-between">
           <Form.Check
             className="d-flex align-items-center gap-1"
-            id="ignoreUnknown"
+            id={generateDomId('ignoreUnknown')}
             type="checkbox"
-            label={<Form.Check.Label htmlFor="ignoreUnknown">Ignore Unknown</Form.Check.Label>}
+            label={
+              <Form.Check.Label htmlFor={generateDomId('ignoreUnknown')}>
+                Ignore Unknown
+              </Form.Check.Label>
+            }
             name="ignoreUnknown"
             checked={fieldMatcher.config?.ignoreUnknown}
             onChange={handleConfigChange}
           />
           <Form.Check
             className="d-flex align-items-center gap-1"
-            id="ignoreOrder"
+            id={generateDomId('ignoreOrder')}
             type="checkbox"
-            label={<Form.Check.Label htmlFor="ignoreOrder">Ignore Order</Form.Check.Label>}
+            label={
+              <Form.Check.Label htmlFor={generateDomId('ignoreOrder')}>
+                Ignore Order
+              </Form.Check.Label>
+            }
             name="ignoreOrder"
             checked={fieldMatcher.config?.ignoreOrder}
             onChange={handleConfigChange}
           />
           <Form.Check
             className="d-flex align-items-center gap-1"
-            id="ignoreOccurrences"
+            id={generateDomId('ignoreOccurrences')}
             type="checkbox"
             label={
-              <Form.Check.Label htmlFor="ignoreOccurrences">Ignore Occurrences</Form.Check.Label>
+              <Form.Check.Label htmlFor={generateDomId('ignoreOccurrences')}>
+                Ignore Occurrences
+              </Form.Check.Label>
             }
             name="ignoreOccurrences"
             checked={fieldMatcher.config?.ignoreOccurrences}

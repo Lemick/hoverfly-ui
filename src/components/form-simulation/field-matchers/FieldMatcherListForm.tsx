@@ -43,6 +43,7 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
 
           <Card.Body>
             <FieldMatcherForm
+              id={crypto.randomUUID()}
               fieldMatcher={fieldMatcher}
               onChange={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
             />
