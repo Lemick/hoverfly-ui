@@ -20,11 +20,11 @@ const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
   }
 
   return (
-    <form>
+    <div>
       <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
 
       <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
-    </form>
+    </div>
   );
 };
 

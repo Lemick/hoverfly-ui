@@ -58,7 +58,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
   }
 
   return (
-    <form>
+    <div>
       <h3 className="text-center mb-3">Simulations</h3>
       <Accordion>
         {requestResponsePairs.map((pair, index) => (
@@ -118,7 +118,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
           Add request/response pair
         </Button>
       </div>
-    </form>
+    </div>
   );
 };
 

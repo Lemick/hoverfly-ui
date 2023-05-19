@@ -30,7 +30,7 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
   };
 
   return (
-    <Form className="mt-3">
+    <div className="mt-3">
       {fieldMatchers.map((fieldMatcher, index) => (
         <Card
           key={index}
@@ -58,7 +58,7 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
           <Plus size={20} />
         )}
       </div>
-    </Form>
+    </div>
   );
 };
 
