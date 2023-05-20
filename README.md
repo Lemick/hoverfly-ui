@@ -4,4 +4,4 @@ Pprovide a user-friendly interface for creating and manipulating simulations. Th
 
 ## Live Demo
 
-You can try out the Hoverfly Simulation Editor UI [here](https://lemick.github.io/hoverfly-view/).
+You can try out the Hoverfly Simulation Editor UI [here](https://lemick.github.io/hoverfly-ui/).
