@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
-import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
 import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
 import defaultEditorContent from '../../example-mock.json';
 import { stringify } from '../../services/json-service';
 import { editor } from 'monaco-editor';
+import SimulationFormRouter from '../SimulationFormRouter';
 
 const WIDTH_SEPARATOR_PX = 10;
 
@@ -19,7 +19,7 @@ export default function Editor() {
     editorRef.current = editor;
     editor.setValue(stringify(defaultEditorContent));
 
-    const defaultSimulation = defaultEditorContent as unknown as HoverflySimulation;
+    const defaultSimulation = defaultEditorContent as HoverflySimulation;
     setHoverflySimulation(defaultSimulation);
     editor.focus();
   };
@@ -79,10 +79,10 @@ export default function Editor() {
     <div className="editor-layout">
       <div className="left-panel" style={{ width: leftPanelWidth }}>
         {hoverflySimulation?.data?.pairs ? (
-          <RequestResponsePairListForm
-            requestResponsePairs={hoverflySimulation.data.pairs}
+          <SimulationFormRouter
+            requestResponsePairs={hoverflySimulation.data?.pairs}
             onChange={onChangeFromForms}
-            onOpenPair={scrollToPairIndex}
+            onPairOpened={scrollToPairIndex}
           />
         ) : (
           <span>No data pairs </span>

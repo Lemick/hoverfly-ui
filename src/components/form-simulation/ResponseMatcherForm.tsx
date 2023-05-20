@@ -12,7 +12,6 @@ type Props = {
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   return (
     <div>
-      <legend>Response</legend>
       <fieldset className="d-flex flex-column gap-3">
         <Form.Group>
           <Form.Label htmlFor="status">Status:</Form.Label>

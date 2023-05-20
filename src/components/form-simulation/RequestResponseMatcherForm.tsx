@@ -3,6 +3,9 @@ import { Request, RequestResponsePair, Response } from '../../types/hoverfly';
 import RequestMatcherForm from './RequestMatcherForm';
 import ResponseMatcherForm from './ResponseMatcherForm';
 import { removeEmptyValues } from '../../services/json-service';
+import { Card } from 'react-bootstrap';
+import { getRequestHeader } from '../../services/request-matcher-service';
+import ResponseStatusHeader from '../utilities/SimulationPairHeader';
 
 type Props = {
   pair: RequestResponsePair;
@@ -20,10 +23,23 @@ const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
   }
 
   return (
-    <div>
-      <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
+    <div className="d-flex flex-column gap-3">
+      <div className="text-center h5">
+        <ResponseStatusHeader pair={pair} />
+      </div>
+      <Card>
+        <Card.Body>
+          <Card.Title className="mb-3">Request</Card.Title>
+          <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
+        </Card.Body>
+      </Card>
 
-      <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
+      <Card>
+        <Card.Body>
+          <Card.Title className="mb-3">Response</Card.Title>
+          <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
+        </Card.Body>
+      </Card>
     </div>
   );
 };

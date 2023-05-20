@@ -5,6 +5,7 @@ import { Accordion, Button, Card } from 'react-bootstrap';
 import { getRequestHeader } from '../../services/request-matcher-service';
 import { TrashFill, Files } from 'react-bootstrap-icons';
 import TooltipDecorator from '../utilities/TooltipDecorator';
+import ResponseStatusHeader from '../utilities/SimulationPairHeader';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -70,8 +71,7 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
               <div className="d-flex justify-content-between align-items-center cursor-pointer">
                 <div className="col fw-semibold">
                   <span>
-                    {index} - {getRequestHeader(pair.request)} →️&nbsp;
-                    <ResponseStatusHeader status={pair.response?.status} />
+                    {index} - <ResponseStatusHeader pair={pair} />
                   </span>
                 </div>
                 <div className="d-flex gap-2 justify-content-end">
@@ -95,20 +95,6 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                 </div>
               </div>
             </Card.Header>
-            <Accordion.Collapse
-              eventKey={`pair-${index}`}
-              in={activeIndex === index}
-              mountOnEnter={true}
-              unmountOnExit={true}>
-              <Card.Body>
-                <div>
-                  <RequestResponseMatcherForm
-                    pair={pair}
-                    onChange={(newPair) => onUpdate(index, newPair)}
-                  />
-                </div>
-              </Card.Body>
-            </Accordion.Collapse>
           </Card>
         ))}
       </Accordion>
@@ -123,27 +109,3 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
 };
 
 export default RequestResponsePairListForm;
-
-const ResponseStatusHeader = ({ status }: { status?: number }) => {
-  if (!status) {
-    return null;
-  }
-
-  function getColorForHTTPCode(httpCode: number) {
-    if (httpCode >= 100 && httpCode < 200) {
-      return 'text-info';
-    } else if (httpCode >= 200 && httpCode < 300) {
-      return 'text-success';
-    } else if (httpCode >= 300 && httpCode < 400) {
-      return 'text-primary';
-    } else if (httpCode >= 400 && httpCode < 500) {
-      return 'text-warning';
-    } else if (httpCode >= 500 && httpCode < 600) {
-      return 'text-danger';
-    } else {
-      return 'text-dark';
-    }
-  }
-
-  return <span className={getColorForHTTPCode(status)}>{status}</span>;
-};
