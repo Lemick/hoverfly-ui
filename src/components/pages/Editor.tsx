@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
 import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
 import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
-import defaultEditorContent from '../../example-mock.json';
+import exampleEditorContent from '../../example-mock.json';
 import { stringify } from '../../services/json-service';
 import { editor } from 'monaco-editor';
+import { useDebounce, useLocalStorage } from 'usehooks-ts';
 
 const WIDTH_SEPARATOR_PX = 10;
 
@@ -15,12 +16,25 @@ export default function Editor() {
   const [indexActivePair, setIndexActivePair] = useState<number>(0);
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
-    editorRef.current = editor;
-    editor.setValue(stringify(defaultEditorContent));
+  const [editorContent, setEditorContent] = useState('');
+  const debouncedEditorContent = useDebounce(editorContent, 1000);
+  const [storedEditorContent, setStoredEditorContent] = useLocalStorage('content', '');
 
-    const defaultSimulation = defaultEditorContent as unknown as HoverflySimulation;
-    setHoverflySimulation(defaultSimulation);
+  useEffect(() => {
+    setStoredEditorContent(debouncedEditorContent);
+  }, [debouncedEditorContent]);
+
+  const handleEditorDidMount: OnMount = (editor, monaco) => {
+    const contentToLoad = storedEditorContent || stringify(exampleEditorContent);
+    editor.setValue(contentToLoad);
+
+    try {
+      setHoverflySimulation(JSON.parse(contentToLoad));
+    } catch (_) {
+      // Silent catch
+    }
+
+    editorRef.current = editor;
     editor.focus();
   };
 
@@ -40,7 +54,13 @@ export default function Editor() {
 
   function onChangeFromCodeEditor(json: string | undefined) {
     try {
-      if (editorRef.current?.hasTextFocus() && json) {
+      if (!json) {
+        return;
+      }
+
+      setEditorContent(json);
+
+      if (editorRef.current?.hasTextFocus()) {
         setHoverflySimulation(JSON.parse(json));
       }
     } catch (_) {
@@ -85,7 +105,7 @@ export default function Editor() {
             onOpenPair={scrollToPairIndex}
           />
         ) : (
-          <span>No data pairs </span>
+          <span>No valid data pairs </span>
         )}
       </div>
       <div
@@ -95,8 +115,7 @@ export default function Editor() {
       />
       <div
         className="right-panel"
-        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}
-      >
+        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
         <MonacoEditor
           width="100%"
           height="100%"
