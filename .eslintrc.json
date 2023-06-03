@@ -13,6 +13,7 @@
   "plugins": ["prettier"],
   "rules": {
     "no-unused-vars": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "linebreak-style": ["error", "unix"]
   }
 }

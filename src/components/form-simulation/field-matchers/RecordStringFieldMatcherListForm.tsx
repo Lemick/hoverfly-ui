@@ -48,7 +48,6 @@ const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Prop
                 <TrashFill />
               </Button>
             </div>
-
             <div className="my-3">
               <FieldMatcherListForm
                 fieldMatchers={matchers}

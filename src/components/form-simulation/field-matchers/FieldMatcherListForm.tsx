@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Form } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { Plus, TrashFill } from 'react-bootstrap-icons';
 import cn from 'classnames';
 
@@ -34,8 +34,7 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
       {fieldMatchers.map((fieldMatcher, index) => (
         <Card
           key={index}
-          className={cn({ 'mb-3': index < fieldMatchers.length - 1 }, 'mx-1 position-relative')}
-        >
+          className={cn({ 'mb-3': index < fieldMatchers.length - 1 }, 'mx-1 position-relative')}>
           <div className="position-absolute" style={{ right: '0px' }}>
             <Button variant="outline-danger" onClick={() => handleDelete(index)} className="w-5">
               <TrashFill />
