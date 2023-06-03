@@ -20,7 +20,8 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             id="status"
             className="form-control"
             value={response.status}
-            onChange={(e) => onChange({ ...response, status: parseInt(e.target.value) })}>
+            onChange={(e) => onChange({ ...response, status: parseInt(e.target.value) })}
+          >
             <option value="200">200 OK</option>
             <option value="201">201 Created</option>
             <option value="204">204 No Content</option>

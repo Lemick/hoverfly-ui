@@ -44,7 +44,8 @@ const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Prop
               <Button
                 variant="outline-danger"
                 onClick={() => handleDeleteEntry(entryKey)}
-                className="w-auto">
+                className="w-auto"
+              >
                 <TrashFill />
               </Button>
             </div>

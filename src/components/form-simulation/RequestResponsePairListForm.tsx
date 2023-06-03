@@ -66,7 +66,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
             <Card.Header
               onClick={() => onClickHeader(index)}
               aria-controls={`pair-${index}`}
-              aria-expanded={activeIndex === index}>
+              aria-expanded={activeIndex === index}
+            >
               <div className="d-flex justify-content-between align-items-center cursor-pointer">
                 <div className="col fw-semibold">
                   <span>
@@ -79,7 +80,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     <Button
                       variant="outline-secondary"
                       type="button"
-                      onClick={(e) => onDuplicate(e, index)}>
+                      onClick={(e) => onDuplicate(e, index)}
+                    >
                       <Files />
                     </Button>
                   </TooltipDecorator>
@@ -88,7 +90,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
                     <Button
                       variant="outline-danger"
                       type="button"
-                      onClick={(e) => onDelete(e, index)}>
+                      onClick={(e) => onDelete(e, index)}
+                    >
                       <TrashFill />
                     </Button>
                   </TooltipDecorator>
@@ -99,7 +102,8 @@ const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPai
               eventKey={`pair-${index}`}
               in={activeIndex === index}
               mountOnEnter={true}
-              unmountOnExit={true}>
+              unmountOnExit={true}
+            >
               <Card.Body>
                 <div>
                   <RequestResponseMatcherForm

@@ -43,7 +43,8 @@ const FieldMatcherForm = ({
             as="select"
             name="matcher"
             value={fieldMatcher.matcher}
-            onChange={handleMatcherChange}>
+            onChange={handleMatcherChange}
+          >
             <option value="exact">Exact</option>
             <option value="glob">Glob</option>
             <option value="regex">Regex</option>

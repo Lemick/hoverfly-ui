@@ -34,7 +34,8 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
       {fieldMatchers.map((fieldMatcher, index) => (
         <Card
           key={index}
-          className={cn({ 'mb-3': index < fieldMatchers.length - 1 }, 'mx-1 position-relative')}>
+          className={cn({ 'mb-3': index < fieldMatchers.length - 1 }, 'mx-1 position-relative')}
+        >
           <div className="position-absolute" style={{ right: '0px' }}>
             <Button variant="outline-danger" onClick={() => handleDelete(index)} className="w-5">
               <TrashFill />

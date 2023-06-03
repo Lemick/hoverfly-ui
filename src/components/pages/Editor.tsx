@@ -95,7 +95,8 @@ export default function Editor() {
       />
       <div
         className="right-panel"
-        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
+        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}
+      >
         <MonacoEditor
           width="100%"
           height="100%"
