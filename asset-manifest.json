@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/hoverfly-ui/static/css/main.5fd12fc2.css",
-    "main.js": "/hoverfly-ui/static/js/main.f8126a5c.js",
+    "main.js": "/hoverfly-ui/static/js/main.f7556cd9.js",
     "index.html": "/hoverfly-ui/index.html",
     "main.5fd12fc2.css.map": "/hoverfly-ui/static/css/main.5fd12fc2.css.map",
-    "main.f8126a5c.js.map": "/hoverfly-ui/static/js/main.f8126a5c.js.map"
+    "main.f7556cd9.js.map": "/hoverfly-ui/static/js/main.f7556cd9.js.map"
   },
   "entrypoints": [
     "static/css/main.5fd12fc2.css",
-    "static/js/main.f8126a5c.js"
+    "static/js/main.f7556cd9.js"
   ]
 }
