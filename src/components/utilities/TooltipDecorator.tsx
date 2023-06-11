@@ -7,7 +7,11 @@ interface TooltipDecoratorProps {
   children: JSX.Element;
 }
 
-const TooltipDecorator = ({ tooltipText, placement = 'top', children }: TooltipDecoratorProps) => {
+const TooltipDecorator = ({
+  tooltipText,
+  placement = 'bottom',
+  children
+}: TooltipDecoratorProps) => {
   const renderTooltip = (props: any) => (
     <Tooltip id="button-tooltip" {...props}>
       {tooltipText}

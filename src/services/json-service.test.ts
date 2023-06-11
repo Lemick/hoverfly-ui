@@ -1,4 +1,4 @@
-import { stringify, removeEmptyValues, prettify, isJSON } from './json-service';
+import { stringify, removeEmptyValues, prettify, isJSON, parse } from './json-service';
 
 describe('stringify', () => {
   test('should return the stringified JSON with 4 spaces', () => {
@@ -6,6 +6,20 @@ describe('stringify', () => {
     const expected = '{\n    "name": "John Doe",\n    "age": 30\n}';
     const result = stringify(json);
     expect(result).toEqual(expected);
+  });
+});
+
+describe('parse', () => {
+  it('should parse valid JSON', () => {
+    const json = '{"key": "value"}';
+    const result = parse(json);
+    expect(result).toEqual({ key: 'value' });
+  });
+
+  it('should return undefined for invalid JSON', () => {
+    const json = '{key: "value"}'; // Invalid JSON due to missing quotes around the key
+    const result = parse(json);
+    expect(result).toBeUndefined();
   });
 });
 

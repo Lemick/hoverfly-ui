@@ -1,70 +1,47 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import './Editor.scss';
 import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
 import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
 import exampleEditorContent from '../../example-mock.json';
-import { stringify } from '../../services/json-service';
+import { parse, stringify } from '../../services/json-service';
 import { editor } from 'monaco-editor';
-import { useDebounce, useLocalStorage } from 'usehooks-ts';
+import useDrag from '../../hooks/use-drag';
+import useStoreDebounce from '../../hooks/use-store-debounce';
+import TooltipDecorator from '../utilities/TooltipDecorator';
+import { Button } from 'react-bootstrap';
+import { BoxArrowLeft, BoxArrowRight } from 'react-bootstrap-icons';
+import { useToggle } from 'usehooks-ts';
 
 const WIDTH_SEPARATOR_PX = 10;
+const LOCAL_STORAGE_KEY = 'content';
 
 export default function Editor() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
-  const [indexActivePair, setIndexActivePair] = useState<number>(0);
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
-
   const [editorContent, setEditorContent] = useState('');
-  const debouncedEditorContent = useDebounce(editorContent, 1000);
-  const [storedEditorContent, setStoredEditorContent] = useLocalStorage('content', '');
-
-  useEffect(() => {
-    setStoredEditorContent(debouncedEditorContent);
-  }, [debouncedEditorContent]);
+  const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
+  const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
+  const [isTextEditorVisible, toggleTextEditor] = useToggle(true);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
     const contentToLoad = storedEditorContent || stringify(exampleEditorContent);
+    setHoverflySimulation(parse(contentToLoad));
+
     editor.setValue(contentToLoad);
-
-    try {
-      setHoverflySimulation(JSON.parse(contentToLoad));
-    } catch (_) {
-      // Silent catch
-    }
-
     editorRef.current = editor;
     editor.focus();
   };
 
-  const onMouseMove = (event: MouseEvent) => {
-    setLeftPanelWidth(event.clientX);
-  };
-
-  const onMouseUp = () => {
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-
-  const onDragStart = () => {
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  };
-
   function onChangeFromCodeEditor(json: string | undefined) {
-    try {
-      if (!json) {
-        return;
-      }
+    if (!json) {
+      return;
+    }
+    setEditorContent(json);
 
-      setEditorContent(json);
-
-      if (editorRef.current?.hasTextFocus()) {
-        setHoverflySimulation(JSON.parse(json));
-      }
-    } catch (_) {
-      // Silent catch
+    if (editorRef.current?.hasTextFocus()) {
+      setHoverflySimulation(parse(json));
     }
   }
 
@@ -78,15 +55,9 @@ export default function Editor() {
     };
     editorRef.current?.setValue(stringify(updatedSimulation));
     setHoverflySimulation(updatedSimulation);
-    scrollToPairIndex(indexActivePair);
   }
 
   function scrollToPairIndex(index: number) {
-    if (!hoverflySimulation) {
-      return;
-    }
-
-    setIndexActivePair(index);
     const model = editorRef.current?.getModel()!;
     const match = model.findMatches('"request"', true, false, true, null, true);
 
@@ -97,7 +68,19 @@ export default function Editor() {
 
   return (
     <div className="editor-layout">
-      <div className="left-panel" style={{ width: leftPanelWidth }}>
+      <div className="left-panel" style={isTextEditorVisible ? { width: leftPanelWidth } : {}}>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <span className="col-1"></span>
+          <h3 className="text-center">Simulations</h3>
+          <div className="col-1 d-flex justify-content-end">
+            <TooltipDecorator tooltipText="Toggle JSON editor">
+              <Button variant="outline-secondary" type="button" onClick={() => toggleTextEditor()}>
+                {isTextEditorVisible ? <BoxArrowRight /> : <BoxArrowLeft />}
+              </Button>
+            </TooltipDecorator>
+          </div>
+        </div>
+
         {hoverflySimulation?.data?.pairs ? (
           <RequestResponsePairListForm
             requestResponsePairs={hoverflySimulation.data.pairs}
@@ -105,17 +88,25 @@ export default function Editor() {
             onOpenPair={scrollToPairIndex}
           />
         ) : (
-          <span>No valid data pairs </span>
+          <span>No valid data pairs</span>
         )}
       </div>
       <div
         className="divider"
-        onMouseDown={onDragStart}
-        style={{ width: WIDTH_SEPARATOR_PX, left: leftPanelWidth }}
+        onMouseUp={dragHandle.stop}
+        onMouseDown={dragHandle.start}
+        style={{
+          width: WIDTH_SEPARATOR_PX,
+          left: leftPanelWidth,
+          display: isTextEditorVisible ? 'initial' : 'none'
+        }}
       />
       <div
         className="right-panel"
-        style={{ width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)` }}>
+        style={{
+          width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
+          display: isTextEditorVisible ? 'initial' : 'none'
+        }}>
         <MonacoEditor
           width="100%"
           height="100%"

@@ -2,6 +2,14 @@ export function stringify(json: any): string {
   return JSON.stringify(json, null, 4);
 }
 
+export function parse(json: any): any {
+  try {
+    return JSON.parse(json);
+  } catch (e) {
+    return undefined;
+  }
+}
+
 export function prettify(json: string) {
   try {
     const parsedJson = JSON.parse(json);
