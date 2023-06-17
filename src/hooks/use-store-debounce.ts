@@ -7,6 +7,9 @@ export default function useStoreDebounce(key: string, value: string, debounceDel
   const debouncedEditorContent = useDebounce(value, debounceDelay);
 
   useEffect(() => {
+    if (!value) {
+      return;
+    }
     setStoredEditorContent(debouncedEditorContent);
   }, [debouncedEditorContent]);
 
