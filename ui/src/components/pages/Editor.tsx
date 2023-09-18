@@ -17,22 +17,30 @@ const WIDTH_SEPARATOR_PX = 10;
 const LOCAL_STORAGE_KEY = 'content';
 
 export default function Editor() {
+  window.setSimulations = setSimulations;
+
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
   const [editorContent, setEditorContent] = useState('');
-  const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
+  //  const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
   const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
-  const [isTextEditorVisible, toggleTextEditor] = useToggle(true);
+  const [isTextEditorVisible, toggleTextEditor] = useToggle(false);
 
   const handleEditorDidMount: OnMount = (editor, monaco) => {
-    const contentToLoad = storedEditorContent || stringify(exampleEditorContent);
+    const contentToLoad = window.initialSimulations; //storedEditorContent || stringify(exampleEditorContent);
     setHoverflySimulation(parse(contentToLoad));
 
     editor.setValue(contentToLoad);
     editorRef.current = editor;
     editor.focus();
   };
+
+  function setSimulations(json: string) {
+    editorRef.current?.setValue(json);
+    setEditorContent(json);
+    setHoverflySimulation(parse(json));
+  }
 
   function onChangeFromCodeEditor(json: string | undefined) {
     if (!json) {
@@ -55,6 +63,7 @@ export default function Editor() {
     };
     editorRef.current?.setValue(stringify(updatedSimulation));
     setHoverflySimulation(updatedSimulation);
+    window.simulationsUpdated(stringify(updatedSimulation));
   }
 
   function scrollToPairIndex(index: number) {

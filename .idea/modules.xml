@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../hoverfly-ui.iml" filepath="$PROJECT_DIR$/../hoverfly-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/hoverfly-ui.iml" filepath="$PROJECT_DIR$/.idea/modules/hoverfly-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/intellij-plugin/hoverfly-ui.intellij-plugin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ui/hoverfly-ui.ui.iml" filepath="$PROJECT_DIR$/.idea/modules/ui/hoverfly-ui.ui.iml" />
     </modules>
   </component>
 </project>

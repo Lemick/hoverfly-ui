@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jetbrains:annotations:24.0.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.jetbrains" artifactId="annotations" version="24.0.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.0/69b8b443c437fdeefa8d20c18d257b94836a92b9/annotations-24.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.0/d0f77e3bd1ba4927fc8bcf0e1ca3b76f6e9b34f8/annotations-24.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

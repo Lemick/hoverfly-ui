@@ -1,12 +1,18 @@
-name: Build and Deploy
+name: Build and Deploy UI
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'ui/**'
 
 permissions:
   contents: write
+
+defaults:
+  run:
+    working-directory: ./ui
 
 jobs:
   build-and-deploy:
