@@ -1,9 +1,10 @@
 export {};
 
 declare global {
-    interface Window {
-        initialSimulations: string;
-        setSimulations: any;
-        simulationsUpdated: any;
-    }
+  interface Window {
+    hoverflyUi_enablePluginMode?: boolean;
+    hoverflyUi_initialSimulationData?: string;
+    hoverflyUi_setUiSimulation?: (simulationJson: string) => void;
+    hoverflyUi_onUiSimulationChange?: (simulationJson: string) => void;
+  }
 }

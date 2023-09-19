@@ -9,10 +9,14 @@ import TooltipDecorator from '../utilities/TooltipDecorator';
 type Props = {
   requestResponsePairs: RequestResponsePair[];
   onChange: (requestResponsePairs: RequestResponsePair[]) => void;
-  onOpenPair: (index: number) => void;
+  onOpenPair?: (index: number) => void;
 };
 
-const RequestResponsePairListForm = ({ requestResponsePairs, onChange, onOpenPair }: Props) => {
+const RequestResponsePairListForm = ({
+  requestResponsePairs,
+  onChange,
+  onOpenPair = (_) => {}
+}: Props) => {
   const [activeIndex, setActiveIndex] = useState<number>();
 
   const onUpdate = (index: number, requestResponsePair: RequestResponsePair) => {

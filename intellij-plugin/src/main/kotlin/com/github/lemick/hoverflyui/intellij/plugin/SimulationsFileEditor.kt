@@ -22,8 +22,14 @@ internal class SimulationsFileEditor(private val project: Project, private val f
 
     private val browser = JBCefBrowser()
 
-    init {
+    companion object {
+        private const val JS_VAR_ENABLE_PLUGIN_MODE = "window.hoverflyUi_enablePluginMode";
+        private const val JS_VAR_INITIAL_SIMULATION_DATA = "window.hoverflyUi_initialSimulationData";
+        private const val JS_VAR_SET_UI_SIMULATION = "window.hoverflyUi_setUiSimulation";
+        private const val JS_VAR_ON_UI_SIMULATION_CHANGE = "window.hoverflyUi_onUiSimulationChange";
+    }
 
+    init {
         val javascriptCallback = prepareJavascriptCallback()
 
         subscribeFileChanges()
@@ -34,6 +40,7 @@ internal class SimulationsFileEditor(private val project: Project, private val f
 
         browser.jbCefClient.addLoadHandler(object : CefLoadHandlerAdapter() {
             override fun onLoadingStateChange(cfeBrowser: CefBrowser, isLoading: Boolean, canGoBack: Boolean, canGoForward: Boolean) {
+                enablePluginModeUI()
                 setInitialContent()
                 browser.cefBrowser.executeJavaScript(javascriptCallback, browser.cefBrowser.url, 0)
             }
@@ -46,7 +53,7 @@ internal class SimulationsFileEditor(private val project: Project, private val f
             WriteCommandAction.runWriteCommandAction(project, "Edit Simulations", null, { file.setBinaryContent(result.encodeToByteArray()) })
             JBCefJSQuery.Response("")
         }
-        return "window.simulationsUpdated = function(param) { ${jsCallback.inject("param")} return true; }"
+        return "$JS_VAR_ON_UI_SIMULATION_CHANGE = function(simulationJson) { ${jsCallback.inject("simulationJson")} return true; }"
     }
 
     private fun subscribeFileChanges() {
@@ -70,12 +77,16 @@ internal class SimulationsFileEditor(private val project: Project, private val f
             .replace("\\n", "\\\\n") // Escape already escaped EOL from embedded JSON
     }
 
+    private fun enablePluginModeUI() {
+        browser.cefBrowser.executeJavaScript("$JS_VAR_ENABLE_PLUGIN_MODE = true", browser.cefBrowser.url, 0)
+    }
+
     private fun setInitialContent() {
-        browser.cefBrowser.executeJavaScript("window.initialSimulations = '" + getContent() + "'", browser.cefBrowser.url, 0)
+        browser.cefBrowser.executeJavaScript("$JS_VAR_INITIAL_SIMULATION_DATA = '${getContent()}'", browser.cefBrowser.url, 0)
     }
 
     private fun syncToEditor() {
-        browser.cefBrowser.executeJavaScript("window.setSimulations('" + getContent() + "')", browser.cefBrowser.url, 0)
+        browser.cefBrowser.executeJavaScript("$JS_VAR_SET_UI_SIMULATION('${getContent()}')", browser.cefBrowser.url, 0)
     }
 
     override fun getFile(): VirtualFile = file
@@ -94,4 +105,5 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     private fun registerAppSchemeHandler() {
         CefApp.getInstance().registerSchemeHandlerFactory("http", "localhost") { _, _, _, _ -> StaticResourceHandler("hoverfly-ui") }
     }
+
 }

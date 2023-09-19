@@ -12,8 +12,14 @@
   },
   "plugins": ["prettier"],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "no-unused-vars": "off",
     "no-undef": "off",
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": "off"
   }
 }
