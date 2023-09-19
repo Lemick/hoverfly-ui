@@ -62,7 +62,13 @@ internal class SimulationsFileEditor(private val project: Project, private val f
             })
     }
 
-    private fun getContent() = String(file.contentsToByteArray()).replace("\"", "\\\"").replace("\n", "\\\n").replace("'", "\\'")
+    private fun getContent(): String {
+        return String(file.contentsToByteArray())
+            .replace("\"", "\\\"") // Escape double quotes
+            .replace("'", "\\'") // Escape single quotes
+            .replace("\n", "\\\n") // Escape "real" EOL of file
+            .replace("\\n", "\\\\n") // Escape already escaped EOL from embedded JSON
+    }
 
     private fun setInitialContent() {
         browser.cefBrowser.executeJavaScript("window.initialSimulations = '" + getContent() + "'", browser.cefBrowser.url, 0)
