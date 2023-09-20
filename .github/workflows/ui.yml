@@ -39,5 +39,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: /ui/build
+          folder: ../ui/build
           branch: gh-pages
