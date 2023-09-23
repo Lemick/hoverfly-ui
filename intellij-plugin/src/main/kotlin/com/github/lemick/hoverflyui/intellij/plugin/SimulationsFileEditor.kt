@@ -18,15 +18,16 @@ import org.cef.handler.CefLoadHandlerAdapter
 import java.beans.PropertyChangeListener
 import javax.swing.JComponent
 
-internal class SimulationsFileEditor(private val project: Project, private val file: VirtualFile) : UserDataHolderBase(), FileEditor {
+internal class SimulationsFileEditor(private val project: Project, private val file: VirtualFile) :
+    UserDataHolderBase(), FileEditor {
 
     private val browser = JBCefBrowser()
 
     companion object {
-        private const val JS_VAR_ENABLE_PLUGIN_MODE = "window.hoverflyUi_enablePluginMode";
-        private const val JS_VAR_INITIAL_SIMULATION_DATA = "window.hoverflyUi_initialSimulationData";
-        private const val JS_VAR_SET_UI_SIMULATION = "window.hoverflyUi_setUiSimulation";
-        private const val JS_VAR_ON_UI_SIMULATION_CHANGE = "window.hoverflyUi_onUiSimulationChange";
+        private const val JS_VAR_ENABLE_PLUGIN_MODE = "window.hoverflyUi_enablePluginMode"
+        private const val JS_VAR_INITIAL_SIMULATION_DATA = "window.hoverflyUi_initialSimulationData"
+        private const val JS_VAR_SET_UI_SIMULATION = "window.hoverflyUi_setUiSimulation"
+        private const val JS_VAR_ON_UI_SIMULATION_CHANGE = "window.hoverflyUi_onUiSimulationChange"
     }
 
     init {
@@ -39,7 +40,12 @@ internal class SimulationsFileEditor(private val project: Project, private val f
         browser.loadURL("http://localhost/hoverfly-ui/index.html")
 
         browser.jbCefClient.addLoadHandler(object : CefLoadHandlerAdapter() {
-            override fun onLoadingStateChange(cfeBrowser: CefBrowser, isLoading: Boolean, canGoBack: Boolean, canGoForward: Boolean) {
+            override fun onLoadingStateChange(
+                cfeBrowser: CefBrowser,
+                isLoading: Boolean,
+                canGoBack: Boolean,
+                canGoForward: Boolean
+            ) {
                 enablePluginModeUI()
                 setInitialContent()
                 browser.cefBrowser.executeJavaScript(javascriptCallback, browser.cefBrowser.url, 0)
@@ -50,7 +56,11 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     private fun prepareJavascriptCallback(): String {
         val jsCallback = JBCefJSQuery.create(browser as JBCefBrowserBase)
         jsCallback.addHandler { result ->
-            WriteCommandAction.runWriteCommandAction(project, "Edit Simulations", null, { file.setBinaryContent(result.encodeToByteArray()) })
+            WriteCommandAction.runWriteCommandAction(
+                project,
+                "Edit Simulations",
+                null,
+                { file.setBinaryContent(result.encodeToByteArray()) })
             JBCefJSQuery.Response("")
         }
         return "$JS_VAR_ON_UI_SIMULATION_CHANGE = function(simulationJson) { ${jsCallback.inject("simulationJson")} return true; }"
@@ -73,7 +83,9 @@ internal class SimulationsFileEditor(private val project: Project, private val f
         return String(file.contentsToByteArray())
             .replace("\"", "\\\"") // Escape double quotes
             .replace("'", "\\'") // Escape single quotes
-            .replace("\n", "\\\n") // Escape "real" EOL of file
+            .replace("/", "\\/") // Escape slash
+            .replace("\n", "\\\n") // Escape LF of file
+            .replace("\r", "\\\r") // Escape CR of file
             .replace("\\n", "\\\\n") // Escape already escaped EOL from embedded JSON
     }
 
@@ -82,7 +94,11 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     }
 
     private fun setInitialContent() {
-        browser.cefBrowser.executeJavaScript("$JS_VAR_INITIAL_SIMULATION_DATA = '${getContent()}'", browser.cefBrowser.url, 0)
+        browser.cefBrowser.executeJavaScript(
+            "$JS_VAR_INITIAL_SIMULATION_DATA = '${getContent()}'",
+            browser.cefBrowser.url,
+            0
+        )
     }
 
     private fun syncToEditor() {
@@ -103,7 +119,8 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     }
 
     private fun registerAppSchemeHandler() {
-        CefApp.getInstance().registerSchemeHandlerFactory("http", "localhost") { _, _, _, _ -> StaticResourceHandler("hoverfly-ui") }
+        CefApp.getInstance()
+            .registerSchemeHandlerFactory("http", "localhost") { _, _, _, _ -> StaticResourceHandler("hoverfly-ui") }
     }
 
 }
