@@ -1,4 +1,4 @@
- * text=auto
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
 
-*.yml text eol=lf
-*.sh text eol=lf
+* text eol=lf
