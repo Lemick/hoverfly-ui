@@ -79,8 +79,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("222")
-        untilBuild.set("232.*")
+        sinceBuild.set(localGradleProperty("pluginSinceBuild").get())
+        untilBuild.set(localGradleProperty("pluginUntilBuild").get())
     }
 
     signPlugin {
