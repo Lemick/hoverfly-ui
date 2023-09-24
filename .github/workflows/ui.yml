@@ -16,7 +16,7 @@ defaults:
     working-directory: ./ui
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-ui:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
