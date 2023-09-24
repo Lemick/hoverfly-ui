@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.filename }}
-          path: ./build/distributions/content/*/*
+          path: ${{ github.workspace }}/intellij-plugin/build/distributions/content/*/*
 
   test:
     name: Test
