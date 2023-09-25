@@ -76,7 +76,6 @@ jobs:
 
   test:
     name: Test
-    if: false
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
@@ -101,7 +100,6 @@ jobs:
   # Run plugin structure verification along with IntelliJ Plugin Verifier
   verify:
     name: Verify plugin
-    if: false
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
