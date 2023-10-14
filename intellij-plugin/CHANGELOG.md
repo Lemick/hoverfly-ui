@@ -4,8 +4,6 @@
 
 [Unreleased]: https://github.com/Lemick/hoverfly-ui/commits
 
-## [0.0.1]
-
-### Added
+## [1.0.0]
 
 - Initial project
