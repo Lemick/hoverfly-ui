@@ -30,11 +30,17 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Test App
+      - name: Run unit tests
         run: npm run test
 
-      - name: Build App
+      - name: Build App & Run e2e tests
         run: npm run build
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

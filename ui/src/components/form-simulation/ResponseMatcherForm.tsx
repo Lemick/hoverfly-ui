@@ -11,13 +11,14 @@ type Props = {
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   return (
-    <div>
+    <div data-testid="response-form">
       <legend>Response</legend>
       <fieldset className="d-flex flex-column gap-3">
         <Form.Group>
           <Form.Label htmlFor="status">Status:</Form.Label>
           <Form.Select
             id="status"
+            data-test-id="response-status-select"
             className="form-control"
             value={response.status}
             onChange={(e) => onChange({ ...response, status: parseInt(e.target.value) })}>

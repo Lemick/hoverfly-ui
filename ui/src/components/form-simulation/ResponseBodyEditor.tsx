@@ -77,7 +77,7 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
           Prettify
         </Button>
       </div>
-      <div className="col-11">
+      <div className="col-11" data-testid="response-body-editor">
         <MonacoEditor
           width="100%"
           height={`${editorHeightPx}px`}

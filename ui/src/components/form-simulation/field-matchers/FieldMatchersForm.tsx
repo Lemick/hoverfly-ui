@@ -40,6 +40,7 @@ const FieldMatcherForm = ({
         <Form.Group className="col-md-2">
           <Form.Label>Matcher:</Form.Label>
           <Form.Control
+            data-testid="select-matcher"
             as="select"
             name="matcher"
             value={fieldMatcher.matcher}
@@ -58,6 +59,7 @@ const FieldMatcherForm = ({
         <Form.Group className="col">
           <Form.Label>Value:</Form.Label>
           <Form.Control
+            data-testid="matcher-input-value"
             type="text"
             name="value"
             value={fieldMatcher.value}

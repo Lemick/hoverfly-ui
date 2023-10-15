@@ -74,7 +74,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             </Nav.Item>
           </Nav>
           <Tab.Content>
-            <Tab.Pane eventKey="method">
+            <Tab.Pane eventKey="method" data-testid="tab-content-method">
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.method}
@@ -83,7 +83,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="body">
+            <Tab.Pane eventKey="body" data-testid="tab-content-body">
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.body}
@@ -92,7 +92,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="destination">
+            <Tab.Pane eventKey="destination" data-testid="tab-content-destination">
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.destination}
@@ -101,7 +101,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="headers">
+            <Tab.Pane eventKey="headers" data-testid="tab-content-headers">
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.headers}
@@ -112,7 +112,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="path">
+            <Tab.Pane eventKey="path" data-testid="tab-content-path">
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.path}
@@ -123,7 +123,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="queryParams">
+            <Tab.Pane eventKey="queryParams" data-testid="tab-content-query">
               <div>
                 <RecordStringFieldMatcherListForm
                   entries={request.query}
@@ -134,7 +134,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 />
               </div>
             </Tab.Pane>
-            <Tab.Pane eventKey="scheme">
+            <Tab.Pane eventKey="scheme" data-testid="tab-content-scheme">
               <div>
                 <FieldMatcherListForm
                   fieldMatchers={request.scheme}

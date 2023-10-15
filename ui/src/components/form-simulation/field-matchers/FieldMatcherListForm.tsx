@@ -50,7 +50,10 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
           </Card.Body>
         </Card>
       ))}
-      <div className="mt-1 text-center cursor-pointer" onClick={handleAdd}>
+      <div
+        className="mt-1 text-center cursor-pointer"
+        onClick={handleAdd}
+        data-testid="add-matcher-button">
         {fieldMatchers?.length === 0 ? (
           <Button className="w-100" variant="outline-success" onClick={handleAdd}>
             Add first field matcher for {type}

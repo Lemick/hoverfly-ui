@@ -4,10 +4,10 @@
   "homepage": "https://lemick.github.io/hoverfly-ui",
   "private": true,
   "dependencies": {
+    "@monaco-editor/react": "4.5.2",
     "bootstrap": "5.2.3",
     "bootswatch": "5.2.3",
     "monaco-editor": "0.43.0",
-    "@monaco-editor/react": "4.5.2",
     "react": "18.2.0",
     "react-bootstrap": "2.7.4",
     "react-bootstrap-icons": "1.10.3",
@@ -17,8 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && npm run e2e",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "e2e": "npx playwright install --with-deps && npx playwright test",
+    "serve": "ws --port 9999 --directory build --spa index.html  --rewrite \"/hoverfly-ui/(.*) -> /$1\"",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
@@ -44,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "1.39.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
@@ -62,8 +65,9 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
     "gh-pages": "5.0.0",
-    "sass": "1.68.0",
     "prettier": "2.8.7",
-    "web-vitals": "2.1.4"
+    "sass": "1.68.0",
+    "web-vitals": "2.1.4",
+    "local-web-server": "5.3.0"
   }
 }

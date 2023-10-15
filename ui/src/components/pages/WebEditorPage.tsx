@@ -106,6 +106,7 @@ export default function WebEditorPage() {
         }}
       />
       <div
+        data-testid="text-editor"
         className="right-panel"
         style={{
           width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
