@@ -56,9 +56,12 @@ export class WebUiSimulationPage {
    * Use clipboard to get monaco editor value as it is not an HTML <input>
    */
   async getTextEditorContent(editor: Locator) {
+    const macOS = process.platform === 'darwin'; // To rework
+
     await editor.click();
     await this.page.keyboard.press('Control+KeyA');
     await this.page.keyboard.press('Control+KeyC');
+    await this.page.keyboard.press(macOS ? 'Meta+KeyC' : 'Control+KeyC');
 
     return await this.page.evaluate<string>('navigator.clipboard.readText()');
   }
