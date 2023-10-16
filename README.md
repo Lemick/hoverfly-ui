@@ -9,7 +9,7 @@ manually modifying a JSON file.
 
 ## Intellij Plugin
 
-You can download the plugin from the marketplace or [here](https://plugins.jetbrains.com/plugin/22779-hoverfly-editor)
+You can download the plugin from the marketplace [here](https://plugins.jetbrains.com/plugin/22779-hoverfly-editor)
 
 ## Web UI
 
