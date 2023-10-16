@@ -20,7 +20,7 @@
     "build": "react-scripts build && npm run e2e",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "e2e": "npx playwright install --with-deps && npx playwright test",
-    "serve": "ws --port 9999 --directory build --spa index.html  --rewrite '/hoverfly-ui/(.*) -> /$1'",
+    "serve": "ws",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
