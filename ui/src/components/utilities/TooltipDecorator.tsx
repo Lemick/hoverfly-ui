@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface TooltipDecoratorProps {
   tooltipText: string;
   placement?: 'top' | 'right' | 'bottom' | 'left';
-  children: JSX.Element;
+  children: ReactElement;
 }
 
 const TooltipDecorator = ({

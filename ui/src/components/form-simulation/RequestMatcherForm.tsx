@@ -79,6 +79,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <FieldMatcherListForm
                   fieldMatchers={request.method}
                   type="method"
+                  valuePlaceholder="GET"
                   onChange={(fieldMatchers) => onChange({ ...request, method: fieldMatchers })}
                 />
               </div>
@@ -88,6 +89,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <FieldMatcherListForm
                   fieldMatchers={request.body}
                   type="body"
+                  valuePlaceholder='{"key": "value"}'
                   onChange={(fieldMatchers) => onChange({ ...request, body: fieldMatchers })}
                 />
               </div>
@@ -97,6 +99,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <FieldMatcherListForm
                   fieldMatchers={request.destination}
                   type="destination"
+                  valuePlaceholder="hoverfly.io"
                   onChange={(fieldMatchers) => onChange({ ...request, destination: fieldMatchers })}
                 />
               </div>
@@ -117,6 +120,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <FieldMatcherListForm
                   fieldMatchers={request.path}
                   type="method"
+                  valuePlaceholder="/pages/keyconcepts/templates.htm"
                   onChange={(fieldMatchers) => {
                     onChange({ ...request, path: fieldMatchers });
                   }}
@@ -128,6 +132,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <RecordStringFieldMatcherListForm
                   entries={request.query}
                   type="query"
+                  valuePlaceholder="query=true"
                   onChange={(entries) => {
                     onChange({ ...request, query: entries });
                   }}
@@ -139,6 +144,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
                 <FieldMatcherListForm
                   fieldMatchers={request.scheme}
                   type="scheme"
+                  valuePlaceholder="https"
                   onChange={(fieldMatchers) => {
                     onChange({ ...request, scheme: fieldMatchers });
                   }}

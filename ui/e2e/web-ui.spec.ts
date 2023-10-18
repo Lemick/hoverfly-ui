@@ -112,9 +112,13 @@ test('should create a full simulation', async ({ page }) => {
       simulationPage.responseBodyEditor,
       '{ "response": "body" }'
     );
+    await page.getByText('Prettify').click();
+    await page.getByTestId('response-status-select').selectOption('204');
   });
 
   await test.step('Assert text editor content is correct', async () => {
+    expect(page.getByText('0 - GET http mock.api.com path1 → 204'));
+
     const textEditorContent = await simulationPage.getTextEditorContent(
       simulationPage.simulationTextEditor
     );

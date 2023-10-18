@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { ChevronDown } from 'react-bootstrap-icons';
 
 type Props = {
-  children: JSX.Element;
+  children: ReactElement;
   visibleByDefault: boolean;
 };
 

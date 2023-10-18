@@ -8,9 +8,15 @@ type Props = {
   entries?: Record<string, FieldMatcher[]>;
   type: string;
   onChange: (entries: Record<string, FieldMatcher[]>) => void;
+  valuePlaceholder?: string;
 };
 
-const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Props) => {
+const RecordStringFieldMatcherListForm = ({
+  entries = {},
+  type,
+  onChange,
+  valuePlaceholder
+}: Props) => {
   const [newEntryKey, setNewEntryKey] = useState('');
 
   const handleAddEntry = () => {
@@ -53,6 +59,7 @@ const RecordStringFieldMatcherListForm = ({ entries = {}, type, onChange }: Prop
                 fieldMatchers={matchers}
                 type={`${type} '${entryKey}'`}
                 onChange={(fieldMatchers) => handleUpdateFieldMatchers(entryKey, fieldMatchers)}
+                valuePlaceholder={valuePlaceholder}
               />
             </div>
           </fieldset>

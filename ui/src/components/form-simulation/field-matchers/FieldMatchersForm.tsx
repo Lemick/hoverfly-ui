@@ -6,18 +6,19 @@ type Props = {
   id: string;
   fieldMatcher: FieldMatcher;
   onChange: (fieldMatcher: FieldMatcher) => void;
+  valuePlaceholder?: string;
 };
 
 const FieldMatcherForm = ({
   id,
   fieldMatcher = { matcher: 'exact', value: '' },
-  onChange
+  onChange,
+  valuePlaceholder
 }: Props) => {
   const handleMatcherChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
     onChange(newFieldMatcher);
-    event.target.focus();
   };
 
   const handleConfigChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +63,7 @@ const FieldMatcherForm = ({
             data-testid="matcher-input-value"
             type="text"
             name="value"
+            placeholder={valuePlaceholder}
             value={fieldMatcher.value}
             onChange={handleMatcherChange}
           />

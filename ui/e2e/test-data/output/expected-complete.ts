@@ -40,8 +40,8 @@ export default {
           body: [objectContaining({ matcher: 'jsonPartial', value: '{ "field1": "value1" }' })]
         }),
         response: objectContaining({
-          status: 200,
-          body: '{ "response": "body" }'
+          status: 204,
+          body: '{\n  "response": "body"\n}'
         })
       })
     ]

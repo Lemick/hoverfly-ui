@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FieldMatcher } from '../../../types/hoverfly';
 import FieldMatcherForm from './FieldMatchersForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,10 +9,13 @@ import cn from 'classnames';
 type Props = {
   fieldMatchers?: FieldMatcher[];
   type: string;
+  valuePlaceholder?: string;
   onChange: (fieldMatchers: FieldMatcher[]) => void;
 };
 
-const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => {
+const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange, valuePlaceholder }: Props) => {
+  const id = useMemo(() => crypto.randomUUID(), []);
+
   const handleAdd = () => {
     onChange([...fieldMatchers, { matcher: 'exact', value: '' }]);
   };
@@ -43,9 +46,10 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange }: Props) => 
 
           <Card.Body>
             <FieldMatcherForm
-              id={crypto.randomUUID()}
+              id={id}
               fieldMatcher={fieldMatcher}
               onChange={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
+              valuePlaceholder={valuePlaceholder}
             />
           </Card.Body>
         </Card>
