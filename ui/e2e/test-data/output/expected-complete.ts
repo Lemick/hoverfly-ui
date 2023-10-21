@@ -1,35 +1,35 @@
-import { objectContaining } from 'expect';
+import { expect } from '@playwright/test';
 
 export default {
-  meta: objectContaining({
+  meta: expect.objectContaining({
     schemaVersion: 'v5',
     hoverflyVersion: 'v1.6.0',
     timeExported: '2023-04-10T12:00:00Z'
   }),
-  data: objectContaining({
+  data: expect.objectContaining({
     pairs: [
-      objectContaining({
-        request: objectContaining({
-          method: [objectContaining({ matcher: 'glob', value: 'GET' })],
-          scheme: [objectContaining({ matcher: 'glob', value: 'http' })],
-          destination: [objectContaining({ matcher: 'glob', value: 'mock.api.com' })],
+      expect.objectContaining({
+        request: expect.objectContaining({
+          method: [expect.objectContaining({ matcher: 'glob', value: 'GET' })],
+          scheme: [expect.objectContaining({ matcher: 'glob', value: 'http' })],
+          destination: [expect.objectContaining({ matcher: 'glob', value: 'mock.api.com' })],
           path: [
-            objectContaining({ matcher: 'glob', value: 'path1' }),
-            objectContaining({ matcher: 'exact', value: 'path2' })
+            expect.objectContaining({ matcher: 'glob', value: 'path1' }),
+            expect.objectContaining({ matcher: 'exact', value: 'path2' })
           ],
-          query: objectContaining({
-            param1: [objectContaining({ matcher: 'glob', value: 'value1' })],
+          query: expect.objectContaining({
+            param1: [expect.objectContaining({ matcher: 'glob', value: 'value1' })],
             param2: [
-              objectContaining({ matcher: 'exact', value: 'value2' }),
-              objectContaining({ matcher: 'exact', value: 'value3' })
+              expect.objectContaining({ matcher: 'exact', value: 'value2' }),
+              expect.objectContaining({ matcher: 'exact', value: 'value3' })
             ]
           }),
-          headers: objectContaining({
+          headers: expect.objectContaining({
             header1: [
-              objectContaining({
+              expect.objectContaining({
                 matcher: 'exact',
                 value: 'valueheader1',
-                config: objectContaining({
+                config: expect.objectContaining({
                   ignoreUnknown: true,
                   ignoreOrder: true,
                   ignoreOccurrences: true
@@ -37,9 +37,11 @@ export default {
               })
             ]
           }),
-          body: [objectContaining({ matcher: 'jsonPartial', value: '{ "field1": "value1" }' })]
+          body: [
+            expect.objectContaining({ matcher: 'jsonPartial', value: '{ "field1": "value1" }' })
+          ]
         }),
-        response: objectContaining({
+        response: expect.objectContaining({
           status: 204,
           body: '{\n  "response": "body"\n}'
         })

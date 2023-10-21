@@ -1,6 +1,6 @@
-@import '~bootswatch/dist/lux/variables';
-@import '~bootstrap/scss/bootstrap';
-@import '~bootswatch/dist/lux/bootswatch';
+@import 'node_modules/bootswatch/dist/lux/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/lux/bootswatch';
 
 .btn {
   --bs-btn-padding-x: 1rem;
