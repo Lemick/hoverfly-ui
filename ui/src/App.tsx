@@ -16,7 +16,7 @@ export default function App() {
   if (window.hoverflyUi_enablePluginMode) {
     return (
       <PluginEditorPage
-        simulationJson={simulationData}
+        simulationData={simulationData}
         onSimulationUpdate={window.hoverflyUi_onUiSimulationChange}
       />
     );
