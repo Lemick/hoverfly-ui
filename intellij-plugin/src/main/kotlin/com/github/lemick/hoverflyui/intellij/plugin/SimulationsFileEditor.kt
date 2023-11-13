@@ -16,6 +16,7 @@ import org.cef.CefApp
 import org.cef.browser.CefBrowser
 import org.cef.handler.CefLoadHandlerAdapter
 import java.beans.PropertyChangeListener
+import java.util.Base64
 import javax.swing.JComponent
 
 internal class SimulationsFileEditor(private val project: Project, private val file: VirtualFile) :
@@ -80,13 +81,7 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     }
 
     private fun getContent(): String {
-        return String(file.contentsToByteArray())
-            .replace("\"", "\\\"") // Escape double quotes
-            .replace("'", "\\'") // Escape single quotes
-            .replace("/", "\\/") // Escape slash
-            .replace("\n", "\\\n") // Escape LF of file
-            .replace("\r", "\\\r") // Escape CR of file
-            .replace("\\n", "\\\\n") // Escape already escaped EOL from embedded JSON
+        return Base64.getEncoder().encodeToString(file.contentsToByteArray());
     }
 
     private fun enablePluginModeUI() {

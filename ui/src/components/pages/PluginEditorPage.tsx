@@ -4,7 +4,7 @@ import { RequestResponsePair } from '../../types/hoverfly';
 import { parse, stringify } from '../../services/json-service';
 
 type PluginEditorPageProps = {
-  simulationJson?: string;
+  simulationData?: string;
   onSimulationUpdate?: (simulationJson: string) => void;
 };
 
@@ -12,10 +12,10 @@ type PluginEditorPageProps = {
  * A light page that only provides the UI to edit simulations.
  */
 export default function PluginEditorPage({
-  simulationJson,
+  simulationData,
   onSimulationUpdate
 }: PluginEditorPageProps) {
-  const parsedJson = parse(simulationJson);
+  const parsedJson = parse(atob(simulationData||""));
   // TODO provide a way to start from scratch
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
