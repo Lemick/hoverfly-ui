@@ -12,6 +12,8 @@ import TooltipDecorator from '../utilities/TooltipDecorator';
 import { Button } from 'react-bootstrap';
 import { BoxArrowLeft, BoxArrowRight } from 'react-bootstrap-icons';
 import { useToggle } from 'usehooks-ts';
+import InvalidSimulation from '../utilities/InvalidSimulation';
+import { initHoverflySimulation } from '../../services/request-matcher-service';
 
 const WIDTH_SEPARATOR_PX = 10;
 const LOCAL_STORAGE_KEY = 'content';
@@ -38,8 +40,13 @@ export default function WebEditorPage() {
     editor.focus();
   };
 
+  function updateFormAndEditor(newHoverflySimulation: HoverflySimulation) {
+    editorRef.current?.setValue(stringify(newHoverflySimulation));
+    setHoverflySimulation(newHoverflySimulation);
+  }
+
   function onChangeFromCodeEditor(json: string | undefined) {
-    if (!json) {
+    if (json === undefined) {
       return;
     }
     setEditorContent(json);
@@ -57,8 +64,7 @@ export default function WebEditorPage() {
         pairs: updatedPairs
       }
     };
-    editorRef.current?.setValue(stringify(updatedSimulation));
-    setHoverflySimulation(updatedSimulation);
+    updateFormAndEditor(updatedSimulation);
   }
 
   function scrollToPairIndex(index: number) {
@@ -91,9 +97,13 @@ export default function WebEditorPage() {
             onChange={onChangeFromForms}
             onOpenPair={scrollToPairIndex}
           />
-        ) : (
-          <span>No valid data pairs</span>
-        )}
+        ) : editorRef.current ? (
+          <InvalidSimulation
+            onClick={() => {
+              updateFormAndEditor(initHoverflySimulation(false));
+            }}
+          />
+        ) : null}
       </div>
       <div
         className="divider"

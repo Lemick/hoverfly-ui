@@ -2,12 +2,25 @@ import { test, expect } from '@playwright/test';
 import empty from './test-data/input/empty';
 import { WebUiSimulationPage } from './utils/WebUiSimulationPage';
 import expectedComplete from './test-data/output/expected-complete';
+import expectedStartFromScratch from './test-data/output/expected-start-from-scratch';
 
 test('should display a simulation example on first app launch', async ({ page }) => {
-  const webSimulationPage = new WebUiSimulationPage(page);
-  await webSimulationPage.goto();
+  const simulationPage = new WebUiSimulationPage(page);
+  await simulationPage.goto();
 
   await expect(page.getByText('0 - GET /api/users →️ 200')).toBeVisible();
+});
+
+test('should be able to start from scratch when simulation is invalid', async ({ page }) => {
+  const simulationPage = new WebUiSimulationPage(page);
+  await simulationPage.goto(JSON.stringify({ data: 'invalid simulation JSON' }));
+
+  await page.getByRole('button', { name: 'Reset simulation' }).click();
+
+  const textEditorContent = await simulationPage.getTextEditorContent(
+    simulationPage.simulationTextEditor
+  );
+  expect(JSON.parse(textEditorContent)).toMatchObject(expectedStartFromScratch);
 });
 
 test('should create a full simulation', async ({ page }) => {
@@ -117,7 +130,7 @@ test('should create a full simulation', async ({ page }) => {
   });
 
   await test.step('Assert text editor content is correct', async () => {
-    expect(page.getByText('0 - GET http mock.api.com path1 → 204'));
+    await expect(page.getByText('0 - GET http mock.api.com path1 →️ 204')).toBeVisible();
 
     const textEditorContent = await simulationPage.getTextEditorContent(
       simulationPage.simulationTextEditor
