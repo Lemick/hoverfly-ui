@@ -2,6 +2,8 @@ import React from 'react';
 import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
 import { RequestResponsePair } from '../../types/hoverfly';
 import { parse, stringify } from '../../services/json-service';
+import InvalidSimulation from '../utilities/InvalidSimulation';
+import { initHoverflySimulation } from '../../services/request-matcher-service';
 
 type PluginEditorPageProps = {
   simulationData?: string;
@@ -13,10 +15,9 @@ type PluginEditorPageProps = {
  */
 export default function PluginEditorPage({
   simulationData,
-  onSimulationUpdate
+  onSimulationUpdate = () => {}
 }: PluginEditorPageProps) {
-  const parsedJson = parse(atob(simulationData||""));
-  // TODO provide a way to start from scratch
+  const parsedJson = parse(atob(simulationData || ''));
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
     const updatedSimulation = {
@@ -27,9 +28,12 @@ export default function PluginEditorPage({
       }
     };
 
-    if (onSimulationUpdate) {
-      onSimulationUpdate(stringify(updatedSimulation));
-    }
+    onSimulationUpdate(stringify(updatedSimulation));
+  }
+
+  function startFromScratch() {
+    const newHoverflySimulation = initHoverflySimulation(true);
+    onSimulationUpdate(stringify(newHoverflySimulation));
   }
 
   return (
@@ -41,7 +45,7 @@ export default function PluginEditorPage({
           onChange={onChangeFromForms}
         />
       ) : (
-        <span>No valid data pairs</span>
+        <InvalidSimulation onClick={startFromScratch} />
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 module.exports = {
-  port: 9999,
+  port: 9696,
   spa: 'index.html',
   rewrite: [
     {

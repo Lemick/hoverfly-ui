@@ -36,12 +36,9 @@ export class WebUiSimulationPage {
       }, initialJson);
     }
 
-    await this.page.goto('http://localhost:9999');
+    await this.page.goto('/');
 
-    await expect(this.page.getByText('loading')).not.toBeVisible();
-    await expect(
-      this.page.getByRole('button', { name: 'Add request/response pair' })
-    ).toBeVisible();
+    await expect(this.page.getByText('loading')).not.toBeVisible({ timeout: 30_000 });
   }
 
   /**

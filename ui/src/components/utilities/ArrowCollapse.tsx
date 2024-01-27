@@ -7,7 +7,7 @@ type Props = {
   visibleByDefault: boolean;
 };
 
-const ArrowCollapse = ({ children, visibleByDefault = false }: Props) => {
+export default function ArrowCollapse({ children, visibleByDefault = false }: Props) {
   const [isVisible, setIsVisible] = useState(visibleByDefault);
 
   return (
@@ -23,6 +23,4 @@ const ArrowCollapse = ({ children, visibleByDefault = false }: Props) => {
       </Collapse>
     </div>
   );
-};
-
-export default ArrowCollapse;
+}
