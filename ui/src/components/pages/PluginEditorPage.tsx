@@ -37,7 +37,7 @@ export default function PluginEditorPage({
   }
 
   return (
-    <div className="p-3">
+    <div className="p-3 prevent-animations">
       <h3 className="mt-2 mb-3 text-center">Simulations</h3>
       {parsedJson?.data?.pairs ? (
         <RequestResponsePairListForm
