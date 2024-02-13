@@ -3,6 +3,8 @@ import empty from './test-data/input/empty';
 import { WebUiSimulationPage } from './utils/WebUiSimulationPage';
 import expectedComplete from './test-data/output/expected-complete';
 import expectedStartFromScratch from './test-data/output/expected-start-from-scratch';
+import { simulationWithContentType } from './test-data/input/simulation-with-content-type';
+import { expectContentTypeUpdated } from './test-data/output/expected-content-type-updated';
 
 test('should display a simulation example on first app launch', async ({ page }) => {
   const simulationPage = new WebUiSimulationPage(page);
@@ -138,4 +140,20 @@ test('should create a full simulation', async ({ page }) => {
 
     expect(JSON.parse(textEditorContent)).toMatchObject(expectedComplete);
   });
+});
+
+test('content-type headers should update when body change', async ({ page }) => {
+  const simulationPage = new WebUiSimulationPage(page);
+  await simulationPage.goto(JSON.stringify(simulationWithContentType));
+
+  await page.locator('.card-header').click();
+  await simulationPage.setTextEditorContent(
+    simulationPage.responseBodyEditor,
+    ', how is it going ?'
+  );
+
+  const textEditorContent = await simulationPage.getTextEditorContent(
+    simulationPage.simulationTextEditor
+  );
+  expect(JSON.parse(textEditorContent)).toMatchObject(expectContentTypeUpdated);
 });
