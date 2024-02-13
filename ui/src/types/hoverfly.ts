@@ -24,7 +24,7 @@ export type FieldMatcher = {
   doMatch?: FieldMatcher;
 };
 
-export type Headers = Record<string, string[]>;
+export type ResponseHeaders = Record<string, string[]>;
 
 export type RequestQueries = Record<string, FieldMatcher[]>;
 
@@ -46,7 +46,7 @@ export type Response = {
   bodyFile?: string;
   encodedBody?: boolean;
   fixedDelay?: number;
-  headers?: Headers;
+  headers?: ResponseHeaders;
   logNormalDelay?: LogNormalDelay;
   removesState?: string[];
   status?: number;
