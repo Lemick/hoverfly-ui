@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react';
 import MonacoEditor, { Monaco, OnMount } from '@monaco-editor/react';
-import { isJSON, prettify } from '../../services/json-service';
+import { isJSON } from '@/services/json-service';
 import { editor } from 'monaco-editor';
-import { Button } from 'react-bootstrap';
+import { useTheme } from '@/hooks/use-theme-provider';
 
 type Props = {
   value?: string;
@@ -15,21 +15,13 @@ const MAX_EDITOR_LINE = 50;
 const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const monacoRef = useRef<Monaco>();
-  const [editorHeightPx, setEditorHeightPx] = useState(100);
   const isBodyJson = useMemo(() => isJSON(value), [value]);
+  const [editorHeightPx, setEditorHeightPx] = useState(100);
+  const { appliedTheme } = useTheme();
 
   const onEditorMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-    updateEditorHeight();
-  };
-
-  const prettifyEditorContent = () => {
-    if (!editorRef.current) {
-      return;
-    }
-
-    onChange(prettify(value));
     updateEditorHeight();
   };
 
@@ -56,17 +48,12 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
 
   return (
     <div className="row gap-2">
-      <div>
-        <Button variant="outline-success" onClick={prettifyEditorContent}>
-          Prettify
-        </Button>
-      </div>
-      <div className="col-11" data-testid="response-body-editor">
+      <div className="border-x border-y rounded overflow-hidden" data-testid="response-body-editor">
         <MonacoEditor
           width="100%"
           height={`${editorHeightPx}px`}
           language={isBodyJson ? 'json' : ''}
-          theme="vs-dark"
+          theme={appliedTheme === 'dark' ? 'vs-dark' : 'vs-light'}
           value={value}
           onMount={onEditorMount}
           onChange={onEditorValueChange}

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { TooltipContent, Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
 
 interface TooltipDecoratorProps {
   tooltipText: string;
@@ -12,16 +12,13 @@ const TooltipDecorator = ({
   placement = 'bottom',
   children
 }: TooltipDecoratorProps) => {
-  const renderTooltip = (props: any) => (
-    <Tooltip id="button-tooltip" {...props}>
-      {tooltipText}
-    </Tooltip>
-  );
-
   return (
-    <OverlayTrigger placement={placement} delay={{ show: 200, hide: 200 }} overlay={renderTooltip}>
-      {children}
-    </OverlayTrigger>
+    <TooltipProvider>
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipContent side={placement}>{tooltipText}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

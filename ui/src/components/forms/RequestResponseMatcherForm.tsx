@@ -1,8 +1,8 @@
 import React from 'react';
-import { Request, RequestResponsePair, Response } from '../../types/hoverfly';
+import { Request, RequestResponsePair, Response } from '@/types/hoverfly';
 import RequestMatcherForm from './RequestMatcherForm';
 import ResponseMatcherForm from './ResponseMatcherForm';
-import { removeEmptyValues } from '../../services/json-service';
+import { removeEmptyValues } from '@/services/json-service';
 
 type Props = {
   pair: RequestResponsePair;
@@ -20,9 +20,8 @@ const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
-
       <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
     </div>
   );

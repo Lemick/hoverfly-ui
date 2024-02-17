@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
-import { RequestResponsePair } from '../../types/hoverfly';
-import { Accordion, Button, Card } from 'react-bootstrap';
-import { getRequestHeader } from '../../services/request-matcher-service';
-import { TrashFill, Files } from 'react-bootstrap-icons';
+import { RequestResponsePair } from '@/types/hoverfly';
+import { Card, CardHeader, CardContent } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import {
+  Accordion,
+  AccordionItem,
+  AccordionContent,
+  AccordionTrigger
+} from '@/components/ui/Accordion';
+import { getRequestHeader } from '@/services/request-matcher-service';
+import { TrashIcon, ClipboardIcon } from '@radix-ui/react-icons';
 import TooltipDecorator from '../utilities/TooltipDecorator';
 
 type Props = {
@@ -63,61 +70,48 @@ const RequestResponsePairListForm = ({
 
   return (
     <div>
-      <Accordion>
+      <Accordion type="single" collapsible={true}>
         {requestResponsePairs.map((pair, index) => (
-          <Card key={index}>
-            <Card.Header
-              onClick={() => onClickHeader(index)}
-              aria-controls={`pair-${index}`}
-              aria-expanded={activeIndex === index}>
-              <div className="d-flex justify-content-between align-items-center cursor-pointer">
-                <div className="col fw-semibold">
-                  <span>
-                    {index} - {getRequestHeader(pair.request)} →️&nbsp;
-                    <ResponseStatusHeader status={pair.response?.status} />
-                  </span>
-                </div>
-                <div className="d-flex gap-2 justify-content-end">
+          <AccordionItem key={index} value={`ìtem-${index}`}>
+            <AccordionTrigger onClick={() => onOpenPair(index)}>
+              <div className="w-full flex justify-between items-center cursor-pointer gap-4 px-6">
+                <span className="font-bold">
+                  {index} - {getRequestHeader(pair.request)} →️&nbsp;
+                  <ResponseStatusHeader status={pair.response?.status} />
+                </span>
+                <div className="flex gap-2 justify-end">
                   <TooltipDecorator tooltipText="Duplicate">
                     <Button
-                      variant="outline-secondary"
+                      variant="secondary"
                       type="button"
                       onClick={(e) => onDuplicate(e, index)}>
-                      <Files />
+                      <ClipboardIcon />
                     </Button>
                   </TooltipDecorator>
 
                   <TooltipDecorator tooltipText="Delete">
-                    <Button
-                      variant="outline-danger"
-                      type="button"
-                      onClick={(e) => onDelete(e, index)}>
-                      <TrashFill />
+                    <Button variant="destructive" type="button" onClick={(e) => onDelete(e, index)}>
+                      <TrashIcon />
                     </Button>
                   </TooltipDecorator>
                 </div>
               </div>
-            </Card.Header>
-            <Accordion.Collapse
-              eventKey={`pair-${index}`}
-              in={activeIndex === index}
-              mountOnEnter={true}
-              unmountOnExit={true}>
-              <Card.Body>
-                <div>
-                  <RequestResponseMatcherForm
-                    pair={pair}
-                    onChange={(newPair) => onUpdate(index, newPair)}
-                  />
-                </div>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
+            </AccordionTrigger>
+
+            <AccordionContent>
+              <CardContent>
+                <RequestResponseMatcherForm
+                  pair={pair}
+                  onChange={(newPair) => onUpdate(index, newPair)}
+                />
+              </CardContent>
+            </AccordionContent>
+          </AccordionItem>
         ))}
       </Accordion>
 
-      <div className="row mx-0 mt-4">
-        <Button variant="outline-success" onClick={onAddRequestResponsePair}>
+      <div className="w-full text-center mt-8">
+        <Button variant="default" onClick={onAddRequestResponsePair}>
           Add request/response pair
         </Button>
       </div>

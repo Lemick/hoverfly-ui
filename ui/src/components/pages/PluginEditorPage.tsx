@@ -1,9 +1,11 @@
 import React from 'react';
-import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
-import { RequestResponsePair } from '../../types/hoverfly';
-import { parse, stringify } from '../../services/json-service';
+import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
+import { RequestResponsePair } from '@/types/hoverfly';
+import { parse, stringify } from '@/services/json-service';
 import InvalidSimulation from '../utilities/InvalidSimulation';
-import { initHoverflySimulation } from '../../services/request-matcher-service';
+import { initHoverflySimulation } from '@/services/request-matcher-service';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { TypographyH2 } from '@/components/ui/Typography';
 
 type PluginEditorPageProps = {
   simulationData?: string;
@@ -37,8 +39,12 @@ export default function PluginEditorPage({
   }
 
   return (
-    <div className="p-3 prevent-animations">
-      <h3 className="mt-2 mb-3 text-center">Simulations</h3>
+    <div className="p-3" style={cssVariables}>
+      <div className="flex justify-between items-center mb-3">
+        <ThemeToggle />
+        <TypographyH2>Simulations</TypographyH2>
+        <div></div>
+      </div>
       {parsedJson?.data?.pairs ? (
         <RequestResponsePairListForm
           requestResponsePairs={parsedJson.data.pairs}
@@ -50,3 +56,5 @@ export default function PluginEditorPage({
     </div>
   );
 }
+
+const cssVariables = { '--accordion-animation-duration': '0s' } as React.CSSProperties;

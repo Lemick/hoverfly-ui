@@ -1,12 +1,18 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), splitVendorChunkPlugin()],
   build: {
     outDir: 'build'
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
   },
   test: {
     globals: true,

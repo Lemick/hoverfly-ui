@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import WebEditorPage from './components/pages/WebEditorPage';
-import './boostrap.scss';
-import 'bootstrap/dist/js/bootstrap.bundle.js';
 import PluginEditorPage from './components/pages/PluginEditorPage';
+import './hooks/use-monaco-worker';
 
 export default function App() {
   const [simulationData, setSimulationData] = useState<string | undefined>(

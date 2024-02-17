@@ -37,8 +37,7 @@ export class WebUiSimulationPage {
     }
 
     await this.page.goto('/');
-
-    await expect(this.page.getByText('loading')).not.toBeVisible({ timeout: 30_000 });
+    await expect(this.page.getByText('Simulations')).toBeVisible();
   }
 
   /**
@@ -63,12 +62,13 @@ export class WebUiSimulationPage {
     return await this.page.evaluate<string>('navigator.clipboard.readText()');
   }
 
-  getSelectMatcherType(nth = 0) {
-    return this.page.getByTestId('select-matcher').nth(nth);
+  async selectMatcherOption(tab: Locator, optionLabel: string) {
+    await tab.getByLabel('Matcher').click();
+    await this.page.getByText(optionLabel, { exact: true }).click();
   }
 
   getMatcherInput(nth = 0) {
-    return this.page.getByTestId('matcher-input-value').nth(nth);
+    return this.page.getByLabel('Value').nth(nth);
   }
 
   getAddMatcherButton(nth = 0) {
