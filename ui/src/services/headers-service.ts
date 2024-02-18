@@ -13,7 +13,11 @@ export const updateContentLengthAccordingToBody = (
   const contentLengthKey = Object.keys(headers).find(
     (key) => key.toLowerCase() === 'content-length'
   );
-  if (!contentLengthKey || headers[contentLengthKey].length == 0) {
+  if (
+    !contentLengthKey ||
+    !Array.isArray(headers[contentLengthKey]) ||
+    headers[contentLengthKey].length == 0
+  ) {
     return headers;
   }
 
