@@ -1,4 +1,4 @@
-name: Build and Deploy UI
+name: Build and Deploy Web UI
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ defaults:
     working-directory: ./ui
 
 jobs:
-  build-and-deploy-ui:
+  build-and-deploy-web-ui:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -47,3 +47,4 @@ jobs:
         with:
           folder: ui/build
           branch: gh-pages
+          clean-exclude: pr-preview
