@@ -4,7 +4,10 @@ import ArrowCollapse from '../utilities/ArrowCollapse';
 import ResponseBodyEditor from './ResponseBodyEditor';
 import { Form } from 'react-bootstrap';
 import SelectHttpStatus from '../utilities/SelectHttpStatus';
-import { byteLengthUtf8, updateContentLengthAccordingToBody } from '../../services/headers-service';
+import {
+  byteLengthUtf8,
+  updateContentLengthAccordingToBodyAltNameTODO
+} from '../../services/headers-service';
 
 type Props = {
   response?: Response;
@@ -13,7 +16,7 @@ type Props = {
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   const onResponseBodyChange = (newBody: string) => {
-    const newHeaders = updateContentLengthAccordingToBody(newBody, response?.headers);
+    const newHeaders = updateContentLengthAccordingToBodyAltNameTODO(newBody, response?.headers);
     onChange({ ...response, body: newBody, headers: newHeaders });
   };
 

@@ -1,4 +1,4 @@
-import { updateContentLengthAccordingToBody } from './headers-service';
+import { updateContentLengthAccordingToBodyAltNameTODO } from './headers-service';
 import { ResponseHeaders } from '../types/hoverfly';
 
 describe('updateContentLengthAccordingToBody', () => {
@@ -21,8 +21,8 @@ describe('updateContentLengthAccordingToBody', () => {
       { 'Other-header': 'Value', 'content-Length': ['13'] }
     ]
   ])('should %s', (_, headers, expected) => {
-    expect(updateContentLengthAccordingToBody('Hello, world!', headers as ResponseHeaders)).toEqual(
-      expected
-    );
+    expect(
+      updateContentLengthAccordingToBodyAltNameTODO('Hello, world!', headers as ResponseHeaders)
+    ).toEqual(expected);
   });
 });
