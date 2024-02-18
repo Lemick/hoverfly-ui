@@ -2,6 +2,7 @@ import { ResponseHeaders } from '../types/hoverfly';
 
 export const byteLengthUtf8 = (str: string) => new Blob([str]).size;
 
+// TODO remove
 export const updateContentLengthAccordingToBody = (
   body: string,
   headers: ResponseHeaders | undefined
