@@ -1,0 +1,50 @@
+name: Build and Deploy Web UI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ui/**'
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: ./ui
+
+jobs:
+  build-and-deploy-web-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Cache node_modules
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build App & Run e2e tests
+        run: npm run build
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ui/build
+          branch: gh-pages
+          clean-exclude: pr-preview

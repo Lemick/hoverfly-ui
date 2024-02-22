@@ -1,22 +1,27 @@
-name: Build and Deploy UI
+name: Build and Deploy Preview Web UI
+concurrency: preview-${{ github.ref }}
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
     paths:
       - 'ui/**'
 
 permissions:
   contents: write
+  pull-requests: write
 
 defaults:
   run:
     working-directory: ./ui
 
 jobs:
-  build-and-deploy-ui:
+  build-and-deploy-preview-web-ui:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -35,15 +40,11 @@ jobs:
 
       - name: Build App & Run e2e tests
         run: npm run build
-      - uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy preview 🚀
+        uses: rossjrw/pr-preview-action@v1
         with:
-          folder: ui/build
-          branch: gh-pages
+          source-dir: ui/build
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto

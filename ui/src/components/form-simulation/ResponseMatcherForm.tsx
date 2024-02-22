@@ -1,9 +1,10 @@
 import React from 'react';
-import { Response } from '../../types/hoverfly';
+import { RequestHeaders, Response, ResponseHeaders } from '../../types/hoverfly';
 import ArrowCollapse from '../utilities/ArrowCollapse';
 import ResponseBodyEditor from './ResponseBodyEditor';
 import { Form } from 'react-bootstrap';
 import SelectHttpStatus from '../utilities/SelectHttpStatus';
+import { byteLengthUtf8, updateContentLengthAccordingToBody } from '../../services/headers-service';
 
 type Props = {
   response?: Response;
@@ -11,6 +12,11 @@ type Props = {
 };
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
+  const onResponseBodyChange = (newBody: string) => {
+    const newHeaders = updateContentLengthAccordingToBody(newBody, response?.headers);
+    onChange({ ...response, body: newBody, headers: newHeaders });
+  };
+
   return (
     <div data-testid="response-form">
       <legend>Response</legend>
@@ -27,10 +33,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
         </Form.Group>
         <Form.Group>
           <Form.Label htmlFor="body">Body:</Form.Label>
-          <ResponseBodyEditor
-            value={response?.body}
-            onChange={(value) => onChange({ ...response, body: value })}
-          />
+          <ResponseBodyEditor value={response?.body} onChange={onResponseBodyChange} />
         </Form.Group>
         <ArrowCollapse visibleByDefault={false}>
           <>

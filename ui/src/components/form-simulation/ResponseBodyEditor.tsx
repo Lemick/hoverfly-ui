@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import MonacoEditor, { Monaco, OnMount } from '@monaco-editor/react';
 import { isJSON, prettify } from '../../services/json-service';
-import { editor, IScrollEvent } from 'monaco-editor';
+import { editor } from 'monaco-editor';
 import { Button } from 'react-bootstrap';
 
 type Props = {
@@ -15,28 +15,12 @@ const MAX_EDITOR_LINE = 50;
 const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const monacoRef = useRef<Monaco>();
-  const [isBodyJson] = useState(isJSON(value));
   const [editorHeightPx, setEditorHeightPx] = useState(100);
-
-  useEffect(() => {
-    if (!editorRef.current || editorRef.current.hasTextFocus()) {
-      return;
-    }
-
-    loadPropValueIntoEditor();
-  }, [value]);
+  const isBodyJson = useMemo(() => isJSON(value), [value]);
 
   const onEditorMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
-    loadPropValueIntoEditor();
-  };
-
-  const loadPropValueIntoEditor = () => {
-    if (!editorRef.current) {
-      return;
-    }
-    editorRef.current.setValue(value);
     updateEditorHeight();
   };
 
@@ -81,8 +65,9 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
         <MonacoEditor
           width="100%"
           height={`${editorHeightPx}px`}
-          defaultLanguage={isBodyJson ? 'json' : ''}
+          language={isBodyJson ? 'json' : ''}
           theme="vs-dark"
+          value={value}
           onMount={onEditorMount}
           onChange={onEditorValueChange}
           options={{
