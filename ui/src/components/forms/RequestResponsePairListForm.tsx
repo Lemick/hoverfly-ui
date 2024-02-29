@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 import { RequestResponsePair } from '@/types/hoverfly';
-import { Card, CardHeader, CardContent } from '@/components/ui/Card';
+import { CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import {
   Accordion,
-  AccordionItem,
   AccordionContent,
+  AccordionItem,
   AccordionTrigger
 } from '@/components/ui/Accordion';
 import { getRequestHeader } from '@/services/request-matcher-service';
-import { TrashIcon, ClipboardIcon } from '@radix-ui/react-icons';
+import { ClipboardIcon, TrashIcon } from '@radix-ui/react-icons';
 import TooltipDecorator from '../utilities/TooltipDecorator';
+import { useTheme } from '@/hooks/use-theme-provider';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -49,15 +50,6 @@ const RequestResponsePairListForm = ({
     const newPairs = [...requestResponsePairs];
     newPairs.splice(indexToRemove, 1);
     onChange(newPairs);
-  };
-
-  const onClickHeader = (index: number) => {
-    if (activeIndex !== index) {
-      setActiveIndex(index);
-      onOpenPair(index);
-    } else {
-      setActiveIndex(undefined);
-    }
   };
 
   function onAddRequestResponsePair() {
@@ -122,23 +114,26 @@ const RequestResponsePairListForm = ({
 export default RequestResponsePairListForm;
 
 const ResponseStatusHeader = ({ status }: { status?: number }) => {
+  const { appliedTheme } = useTheme();
+  const isDark = appliedTheme === 'dark';
+
   if (!status) {
     return null;
   }
 
   function getColorForHTTPCode(httpCode: number) {
     if (httpCode >= 100 && httpCode < 200) {
-      return 'text-info';
+      return isDark ? 'text-yellow-200' : `text-yellow-500`;
     } else if (httpCode >= 200 && httpCode < 300) {
-      return 'text-success';
+      return isDark ? `text-green-200` : `text-green-500`;
     } else if (httpCode >= 300 && httpCode < 400) {
-      return 'text-primary';
+      return isDark ? `text-blue-200` : `text-blue-500`;
     } else if (httpCode >= 400 && httpCode < 500) {
-      return 'text-warning';
+      return isDark ? `text-orange-200` : `text-orange-500`;
     } else if (httpCode >= 500 && httpCode < 600) {
-      return 'text-danger';
+      return isDark ? `text-red-200` : `text-red-500`;
     } else {
-      return 'text-dark';
+      return '';
     }
   }
 
