@@ -155,8 +155,8 @@ test('should create a full simulation', async ({ page }) => {
     await expect(page.getByText('Content-type: application/json')).toBeVisible();
 
     // Edit header
-    await page.getByLabel('Edit response header').click();
-    await page.getByLabel('Header name').last().fill('Content-Type'); // Not sure why nth is needed here
+    await page.getByText('Content-type: application/json').click();
+    await page.getByLabel('Header name').last().fill('Content-Type');
     await page.getByText('Submit').last().click();
     await expect(page.getByText('Content-Type: application/json')).toBeVisible();
 

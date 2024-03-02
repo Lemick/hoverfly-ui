@@ -16,6 +16,7 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const monacoRef = useRef<Monaco>();
   const isBodyJson = useMemo(() => isJSON(value), [value]);
+  const [isFocused, setIsFocused] = useState(false);
   const [editorHeightPx, setEditorHeightPx] = useState(100);
   const { appliedTheme } = useTheme();
 
@@ -46,9 +47,15 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
     }
   };
 
+  const updateFocus = () => setIsFocused(!!editorRef.current?.hasTextFocus());
+
   return (
     <div className="row gap-2">
-      <div className="border-x border-y rounded overflow-hidden" data-testid="response-body-editor">
+      <div
+        className="border-x border-y rounded overflow-hidden"
+        data-testid="response-body-editor"
+        onClick={updateFocus}
+        onBlur={updateFocus}>
         <MonacoEditor
           width="100%"
           height={`${editorHeightPx}px`}
@@ -63,7 +70,7 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
             scrollBeyondLastLine: false,
             formatOnType: true,
             scrollbar: {
-              handleMouseWheel: false
+              handleMouseWheel: isFocused
             }
           }}
         />

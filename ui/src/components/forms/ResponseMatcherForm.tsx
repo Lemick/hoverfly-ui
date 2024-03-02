@@ -10,7 +10,7 @@ import { FormControl } from '@/components/utilities/FormControl';
 import { Button } from '@/components/ui/Button';
 import { prettify } from '@/services/json-service';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
-import { ClockIcon, Cross1Icon, MagicWandIcon, Pencil1Icon } from '@radix-ui/react-icons';
+import { ClockIcon, Cross1Icon, MagicWandIcon } from '@radix-ui/react-icons';
 import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
 import { updateContentLengthAccordingToBody } from '@/services/headers-service';
 
@@ -137,24 +137,22 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
 
           <div>
             <FormControl direction="column">
-              <Label>Headers</Label>
+              <Label className="mb-1">Headers</Label>
 
               {Object.entries(response.headers ?? {}).map(([headerName, headerValues]) => (
                 <div className="flex flex-row items-center gap-3">
-                  <div className="break-all">
-                    <span className="text-sm">{headerName}:&nbsp;</span>
-                    <span className="text-sm">{headerValues.join(',')}</span>
-                  </div>
                   <ResponseHeaderFormPopover
                     onChange={(newName, newValues) =>
                       onHeaderChangeRequest(newName, newValues, headerName)
                     }
                     initialHeaderName={headerName}
                     initialHeaderValues={headerValues}>
-                    <Pencil1Icon
-                      className="cursor-pointer size-4 shrink-0"
-                      aria-label="Edit response header"
-                    />
+                    <div className="break-all text-sm">
+                      <span className="text-sm">
+                        {'-'} {headerName}:&nbsp;
+                      </span>
+                      <span className="text-sm">{headerValues.join(',')}</span>
+                    </div>
                   </ResponseHeaderFormPopover>
                   <Cross1Icon
                     className="cursor-pointer size-4 shrink-0"
