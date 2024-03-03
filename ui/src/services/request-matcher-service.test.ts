@@ -1,4 +1,4 @@
-import { Request } from '../types/hoverfly';
+import { Request } from '@/types/hoverfly';
 import { getRequestHeader } from './request-matcher-service';
 
 describe('getPairDisplayName', () => {

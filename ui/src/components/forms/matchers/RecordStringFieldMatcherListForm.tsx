@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { FieldMatcher } from '../../../types/hoverfly';
-import { Button, Card, Form, InputGroup } from 'react-bootstrap';
+import { FieldMatcher } from '@/types/hoverfly';
+import { Card, CardContent } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import FieldMatcherListForm from './FieldMatcherListForm';
-import { TrashFill } from 'react-bootstrap-icons';
+import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
+import { Input } from '@/components/ui/Input';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
@@ -20,11 +22,11 @@ const RecordStringFieldMatcherListForm = ({
   const [newEntryKey, setNewEntryKey] = useState('');
 
   const handleAddEntry = () => {
-    if (entries[newEntryKey]) {
+    if (!newEntryKey || entries[newEntryKey]) {
       return;
     }
 
-    onChange({ ...entries, [newEntryKey]: [] });
+    onChange({ [newEntryKey]: [], ...entries });
     setNewEntryKey('');
   };
 
@@ -39,22 +41,36 @@ const RecordStringFieldMatcherListForm = ({
   };
 
   return (
-    <Card className="my-3">
-      <Card.Body>
+    <Card>
+      <CardContent className="p-4 flex flex-col gap-0">
+        <div className="flex flex-row gap-2 mb-4">
+          <Input
+            type="text"
+            placeholder={`Enter the name of the new ${type}`}
+            value={newEntryKey}
+            onKeyDown={(e) => (e.key === 'Enter' ? handleAddEntry() : undefined)}
+            onChange={(e) => setNewEntryKey(e.target.value)}
+          />
+          <Button
+            className="flex gap-2"
+            variant="default"
+            onClick={handleAddEntry}
+            disabled={!newEntryKey}>
+            <PlusIcon /> Add
+          </Button>
+        </div>
         {Object.entries(entries).map(([entryKey, matchers]) => (
           <fieldset key={entryKey}>
-            <div className="row align-items-center">
-              <span style={{ fontSize: 18 }} className="w-auto fw-bold inline">
-                {entryKey}
-              </span>
+            <div className="flex flex-row items-center">
+              <span className="w-auto fw-bold inline text-lg">{entryKey}</span>
               <Button
-                variant="outline-danger"
+                variant="ghost"
                 onClick={() => handleDeleteEntry(entryKey)}
                 className="w-auto">
-                <TrashFill />
+                <Cross1Icon />
               </Button>
             </div>
-            <div className="my-3">
+            <div>
               <FieldMatcherListForm
                 fieldMatchers={matchers}
                 type={`${type} '${entryKey}'`}
@@ -64,20 +80,7 @@ const RecordStringFieldMatcherListForm = ({
             </div>
           </fieldset>
         ))}
-        <Form.Group className="my-3">
-          <InputGroup>
-            <Form.Control
-              type="text"
-              placeholder={`Enter the name of the new ${type}`}
-              value={newEntryKey}
-              onChange={(e) => setNewEntryKey(e.target.value)}
-            />
-            <Button variant="success" onClick={handleAddEntry} disabled={!newEntryKey}>
-              Add
-            </Button>
-          </InputGroup>
-        </Form.Group>
-      </Card.Body>
+      </CardContent>
     </Card>
   );
 };

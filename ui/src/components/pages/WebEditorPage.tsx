@@ -1,21 +1,23 @@
 import React, { useRef, useState } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
-import './WebEditorPage.scss';
-import RequestResponsePairListForm from '../form-simulation/RequestResponsePairListForm';
-import { HoverflySimulation, RequestResponsePair } from '../../types/hoverfly';
+import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
+import { HoverflySimulation, RequestResponsePair } from '@/types/hoverfly';
 import exampleEditorContent from '../../example-mock.json';
-import { parse, stringify } from '../../services/json-service';
+import { parse, stringify } from '@/services/json-service';
 import { editor } from 'monaco-editor';
-import useDrag from '../../hooks/use-drag';
-import useStoreDebounce from '../../hooks/use-store-debounce';
-import TooltipDecorator from '../utilities/TooltipDecorator';
-import { Button } from 'react-bootstrap';
-import { BoxArrowLeft, BoxArrowRight } from 'react-bootstrap-icons';
+import useDrag from '@/hooks/use-drag';
+import useStoreDebounce from '@/hooks/use-store-debounce';
+import TooltipDecorator from '@/components/utilities/TooltipDecorator';
+import { Button } from '@/components/ui/Button';
+import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
 import { useToggle } from 'usehooks-ts';
-import InvalidSimulation from '../utilities/InvalidSimulation';
-import { initHoverflySimulation } from '../../services/request-matcher-service';
+import InvalidSimulation from '@/components/utilities/InvalidSimulation';
+import { initHoverflySimulation } from '@/services/request-matcher-service';
+import { TypographyH2 } from '@/components/ui/Typography';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useTheme } from '@/hooks/use-theme-provider';
 
-const WIDTH_SEPARATOR_PX = 10;
+const WIDTH_SEPARATOR_PX = 8;
 const LOCAL_STORAGE_KEY = 'content';
 
 /**
@@ -30,8 +32,9 @@ export default function WebEditorPage() {
   const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
   const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
   const [isTextEditorVisible, toggleTextEditor] = useToggle(true);
+  const { appliedTheme } = useTheme();
 
-  const handleEditorDidMount: OnMount = (editor, monaco) => {
+  const handleEditorDidMount: OnMount = (editor) => {
     const contentToLoad = storedEditorContent || stringify(exampleEditorContent);
     setHoverflySimulation(parse(contentToLoad));
 
@@ -77,15 +80,17 @@ export default function WebEditorPage() {
   }
 
   return (
-    <div className="editor-layout">
-      <div className="left-panel" style={isTextEditorVisible ? { width: leftPanelWidth } : {}}>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <span className="col-1"></span>
-          <h3 className="text-center">Simulations</h3>
-          <div className="col-1 d-flex justify-content-end">
+    <div className="flex absolute inset-0 overflow-hidden" style={cssVariables}>
+      <div
+        className="p-5 relative overflow-auto flex-grow min-w-[100px] flex flex-col gap-6"
+        style={isTextEditorVisible ? { width: leftPanelWidth } : {}}>
+        <div className="flex justify-between items-center mb-3">
+          <ThemeToggle />
+          <TypographyH2>Simulations</TypographyH2>
+          <div className="flex justify-end">
             <TooltipDecorator tooltipText="Toggle JSON editor">
-              <Button variant="outline-secondary" type="button" onClick={toggleTextEditor}>
-                {isTextEditorVisible ? <BoxArrowRight /> : <BoxArrowLeft />}
+              <Button variant="secondary" type="button" onClick={toggleTextEditor}>
+                {isTextEditorVisible ? <ThickArrowRightIcon /> : <ThickArrowLeftIcon />}
               </Button>
             </TooltipDecorator>
           </div>
@@ -106,7 +111,7 @@ export default function WebEditorPage() {
         ) : null}
       </div>
       <div
-        className="divider"
+        className="top-0 bottom-0 cursor-col-resize z-10 bg-foreground/5 hover:bg-foreground/10"
         onMouseUp={dragHandle.stop}
         onMouseDown={dragHandle.start}
         style={{
@@ -117,7 +122,7 @@ export default function WebEditorPage() {
       />
       <div
         data-testid="text-editor"
-        className="right-panel"
+        className="relative overflow-auto flex-grow min-w-[100px]"
         style={{
           width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
           display: isTextEditorVisible ? 'initial' : 'none'
@@ -127,7 +132,7 @@ export default function WebEditorPage() {
           height="100%"
           defaultLanguage="json"
           defaultValue=""
-          theme="vs-dark"
+          theme={appliedTheme === 'dark' ? 'vs-dark' : 'vs-light'}
           onMount={handleEditorDidMount}
           onChange={onChangeFromCodeEditor}
           options={{
@@ -139,3 +144,5 @@ export default function WebEditorPage() {
     </div>
   );
 }
+
+const cssVariables = { '--accordion-animation-duration': '0.2s' } as React.CSSProperties;

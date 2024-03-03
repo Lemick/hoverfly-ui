@@ -38,7 +38,7 @@ test('should create a full simulation', async ({ page }) => {
     await page.getByRole('tab', { name: 'Method' }).click();
     const currentTab = simulationPage.requestTabContentMethod;
     await currentTab.getByRole('button', { name: 'Add first field matcher for method' }).click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('glob');
+    await simulationPage.selectMatcherOption(currentTab, 'Glob');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('GET');
   });
 
@@ -46,7 +46,7 @@ test('should create a full simulation', async ({ page }) => {
     await page.getByRole('tab', { name: 'Scheme' }).click();
     const currentTab = simulationPage.requestTabContentScheme;
     await currentTab.getByRole('button', { name: 'Add first field matcher for scheme' }).click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('glob');
+    await simulationPage.selectMatcherOption(currentTab, 'Glob');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('http');
   });
 
@@ -56,15 +56,15 @@ test('should create a full simulation', async ({ page }) => {
     await currentTab
       .getByRole('button', { name: 'Add first field matcher for destination' })
       .click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('glob');
+    await simulationPage.selectMatcherOption(currentTab, 'Glob');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('mock.api.com');
   });
 
   await test.step('Edit request HTTP Path', async () => {
     await page.getByRole('tab', { name: 'Path' }).click();
     const currentTab = simulationPage.requestTabContentPath;
-    await currentTab.getByRole('button', { name: 'Add first field matcher for method' }).click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('glob');
+    await currentTab.getByRole('button', { name: 'Add first field matcher for path' }).click();
+    await simulationPage.selectMatcherOption(currentTab, 'Glob');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('path1');
 
     await currentTab.locator(simulationPage.getAddMatcherButton()).click();
@@ -81,7 +81,7 @@ test('should create a full simulation', async ({ page }) => {
     await currentTab
       .locator(page.getByRole('button', { name: "Add first field matcher for query 'param1'" }))
       .click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('glob');
+    await simulationPage.selectMatcherOption(currentTab, 'Glob');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('value1');
 
     await currentTab
@@ -91,10 +91,10 @@ test('should create a full simulation', async ({ page }) => {
     await currentTab
       .locator(page.getByRole('button', { name: "Add first field matcher for query 'param2'" }))
       .click();
-    await currentTab.locator(simulationPage.getMatcherInput(1)).fill('value2');
+    await currentTab.locator(simulationPage.getMatcherInput()).fill('value2');
 
-    await currentTab.locator(simulationPage.getAddMatcherButton(1)).click();
-    await currentTab.locator(simulationPage.getMatcherInput(2)).fill('value3');
+    await currentTab.locator(simulationPage.getAddMatcherButton()).click();
+    await currentTab.locator(simulationPage.getMatcherInput(1)).fill('value3');
   });
 
   await test.step('Edit request HTTP Headers', async () => {
@@ -109,16 +109,17 @@ test('should create a full simulation', async ({ page }) => {
       .click();
 
     await currentTab.locator(simulationPage.getMatcherInput()).fill('valueheader1');
-    await currentTab.locator(page.getByText('Ignore Unknown')).click();
-    await currentTab.locator(page.getByText('Ignore Order')).click();
-    await currentTab.locator(page.getByText('Ignore Occurrences')).click();
+    await currentTab.getByLabel('Advanced options').click();
+    await page.getByText('Ignore Unknown').click();
+    await page.getByText('Ignore Order').click();
+    await page.getByText('Ignore Occurrences').click();
   });
 
   await test.step('Edit request HTTP Body', async () => {
     await page.getByRole('tab', { name: 'Body' }).click();
     const currentTab = simulationPage.requestTabContentBody;
     await currentTab.getByRole('button', { name: 'Add first field matcher for body' }).click();
-    await currentTab.locator(simulationPage.getSelectMatcherType()).selectOption('jsonPartial');
+    await simulationPage.selectMatcherOption(currentTab, 'JSON Partial');
     await currentTab.locator(simulationPage.getMatcherInput()).fill('{ "field1": "value1" }');
   });
 
@@ -127,8 +128,44 @@ test('should create a full simulation', async ({ page }) => {
       simulationPage.responseBodyEditor,
       '{ "response": "body" }'
     );
+
     await page.getByText('Prettify').click();
-    await page.getByTestId('response-status-select').selectOption('204');
+    await page.getByLabel('Status').click();
+    await page.getByText('204').click();
+
+    await page.getByText('Encoded body').click();
+    await page.getByRole('button', { name: 'Delay' }).click();
+    await page.getByLabel('Fixed Delay (ms)').fill('500');
+  });
+
+  await test.step('Edit response HTTP headers', async () => {
+    // Delete a header
+    await page.getByRole('button', { name: 'Add header' }).click();
+    await page.getByLabel('Header name').fill('a header to be');
+    await page.getByLabel('Header value').fill('removed');
+    await page.getByText('Submit').click();
+    await page.getByLabel('Delete response header').click();
+
+    // Add header (fill with keyboard)
+    await page.getByRole('button', { name: 'Add header' }).click();
+    await page.getByLabel('Header name').fill('Content-type');
+    await page.getByLabel('Header name').press('Tab');
+    await page.getByLabel('Header value').fill('application/json');
+    await page.getByLabel('Header value').press('Enter');
+    await expect(page.getByText('Content-type: application/json')).toBeVisible();
+
+    // Edit header
+    await page.getByText('Content-type: application/json').click();
+    await page.getByLabel('Header name').last().fill('Content-Type');
+    await page.getByText('Submit').last().click();
+    await expect(page.getByText('Content-Type: application/json')).toBeVisible();
+
+    // Add another header (with multiple values)
+    await page.getByRole('button', { name: 'Add header' }).click();
+    await page.getByLabel('Header name').last().fill('Cache-control');
+    await page.getByLabel('Header value').last().fill('max-age=604800&must-revalidate');
+    await page.getByText('Submit').last().click();
+    await expect(page.getByText('Cache-control: max-age=604800,must-revalidate')).toBeVisible();
   });
 
   await test.step('Assert text editor content is correct', async () => {
@@ -146,7 +183,8 @@ test('content-type headers should update when body change', async ({ page }) => 
   const simulationPage = new WebUiSimulationPage(page);
   await simulationPage.goto(JSON.stringify(simulationWithContentType));
 
-  await page.locator('.card-header').click();
+  await page.getByRole('button', { name: '- →️ 200' }).click();
+
   await simulationPage.setTextEditorContent(
     simulationPage.responseBodyEditor,
     ', how is it going ?'

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -22,6 +23,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -37,9 +39,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      timeout: 30_000,
+      timeout: 15_000,
       use: {
         ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 1024 },
         contextOptions: {
           permissions: ['clipboard-read', 'clipboard-write']
         }
