@@ -22,7 +22,7 @@ const RecordStringFieldMatcherListForm = ({
   const [newEntryKey, setNewEntryKey] = useState('');
 
   const handleAddEntry = () => {
-    if (entries[newEntryKey]) {
+    if (!newEntryKey || entries[newEntryKey]) {
       return;
     }
 
@@ -48,7 +48,7 @@ const RecordStringFieldMatcherListForm = ({
             type="text"
             placeholder={`Enter the name of the new ${type}`}
             value={newEntryKey}
-            onKeyDown={(e) => (e.code === 'Enter' ? handleAddEntry() : undefined)}
+            onKeyDown={(e) => (e.key === 'Enter' ? handleAddEntry() : undefined)}
             onChange={(e) => setNewEntryKey(e.target.value)}
           />
           <Button

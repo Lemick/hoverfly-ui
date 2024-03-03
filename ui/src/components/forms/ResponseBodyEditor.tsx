@@ -61,12 +61,12 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
           height={`${editorHeightPx}px`}
           language={isBodyJson ? 'json' : ''}
           theme={appliedTheme === 'dark' ? 'vs-dark' : 'vs-light'}
-          value={value}
+          defaultValue={value}
           onMount={onEditorMount}
           onChange={onEditorValueChange}
           options={{
             wordWrap: 'on',
-            smoothScrolling: true,
+            smoothScrolling: false,
             scrollBeyondLastLine: false,
             formatOnType: true,
             scrollbar: {

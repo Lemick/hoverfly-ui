@@ -66,7 +66,7 @@ const RequestResponsePairListForm = ({
         <Accordion
           type="single"
           collapsible={true}
-          className="border rounded-xl max-w-[1200px] w-full">
+          className="border rounded-md max-w-[1200px] w-full">
           {requestResponsePairs.map((pair, index) => (
             <AccordionItem key={index} value={`ìtem-${index}`}>
               <AccordionTrigger onClick={() => onOpenPair(index)}>
