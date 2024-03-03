@@ -62,48 +62,53 @@ const RequestResponsePairListForm = ({
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Accordion
-        type="single"
-        collapsible={true}
-        className="border-x border-t rounded-xl overflow-hidden max-w-[1200px] w-full">
-        {requestResponsePairs.map((pair, index) => (
-          <AccordionItem key={index} value={`ìtem-${index}`}>
-            <AccordionTrigger onClick={() => onOpenPair(index)}>
-              <div className="w-full flex justify-between items-center cursor-pointer gap-4 px-6">
-                <span className="font-bold">
-                  {index} - {getRequestHeader(pair.request)} →️&nbsp;
-                  <ResponseStatusHeader status={pair.response?.status} />
-                </span>
-                <div className="flex gap-2 justify-end">
-                  <TooltipDecorator tooltipText="Duplicate">
-                    <Button
-                      variant="secondary"
-                      type="button"
-                      onClick={(e) => onDuplicate(e, index)}>
-                      <ClipboardIcon />
-                    </Button>
-                  </TooltipDecorator>
+      {requestResponsePairs.length > 0 && (
+        <Accordion
+          type="single"
+          collapsible={true}
+          className="border rounded-xl max-w-[1200px] w-full">
+          {requestResponsePairs.map((pair, index) => (
+            <AccordionItem key={index} value={`ìtem-${index}`}>
+              <AccordionTrigger onClick={() => onOpenPair(index)}>
+                <div className="w-full flex justify-between items-center cursor-pointer gap-4 px-6">
+                  <span className="font-bold">
+                    {index} - {getRequestHeader(pair.request)} →️&nbsp;
+                    <ResponseStatusHeader status={pair.response?.status} />
+                  </span>
+                  <div className="flex gap-2 justify-end">
+                    <TooltipDecorator tooltipText="Duplicate">
+                      <Button
+                        variant="secondary"
+                        type="button"
+                        onClick={(e) => onDuplicate(e, index)}>
+                        <ClipboardIcon />
+                      </Button>
+                    </TooltipDecorator>
 
-                  <TooltipDecorator tooltipText="Delete">
-                    <Button variant="destructive" type="button" onClick={(e) => onDelete(e, index)}>
-                      <TrashIcon />
-                    </Button>
-                  </TooltipDecorator>
+                    <TooltipDecorator tooltipText="Delete">
+                      <Button
+                        variant="destructive"
+                        type="button"
+                        onClick={(e) => onDelete(e, index)}>
+                        <TrashIcon />
+                      </Button>
+                    </TooltipDecorator>
+                  </div>
                 </div>
-              </div>
-            </AccordionTrigger>
+              </AccordionTrigger>
 
-            <AccordionContent>
-              <CardContent>
-                <RequestResponseMatcherForm
-                  pair={pair}
-                  onChange={(newPair) => onUpdate(index, newPair)}
-                />
-              </CardContent>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+              <AccordionContent>
+                <CardContent>
+                  <RequestResponseMatcherForm
+                    pair={pair}
+                    onChange={(newPair) => onUpdate(index, newPair)}
+                  />
+                </CardContent>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      )}
 
       <div className="w-full text-center mt-8">
         <Button variant="default" onClick={onAddRequestResponsePair}>

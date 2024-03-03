@@ -39,11 +39,11 @@ export default function PluginEditorPage({
   }
 
   return (
-    <div className="p-3" style={cssVariables}>
-      <div className="flex justify-between items-center mb-3">
+    <div className="p-3 flex flex-col gap-6" style={cssVariables}>
+      <div className="flex justify-between items-center">
         <ThemeToggle />
         <TypographyH2>Simulations</TypographyH2>
-        <div></div>
+        <div className="w-[47px]"></div>
       </div>
       {parsedJson?.data?.pairs ? (
         <RequestResponsePairListForm

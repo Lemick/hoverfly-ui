@@ -39,3 +39,11 @@ export function removeEmptyValues(arg: Record<string, [] | object>) {
     })
   );
 }
+
+export function parseIntOrDefault(value: string, fallback: number | undefined) {
+  try {
+    return parseInt(value);
+  } catch (e) {
+    return fallback;
+  }
+}

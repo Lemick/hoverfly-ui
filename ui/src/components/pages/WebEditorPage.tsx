@@ -82,7 +82,7 @@ export default function WebEditorPage() {
   return (
     <div className="flex absolute inset-0 overflow-hidden" style={cssVariables}>
       <div
-        className="p-5 relative overflow-auto flex-grow min-w-[100px]"
+        className="p-5 relative overflow-auto flex-grow min-w-[100px] flex flex-col gap-6"
         style={isTextEditorVisible ? { width: leftPanelWidth } : {}}>
         <div className="flex justify-between items-center mb-3">
           <ThemeToggle />

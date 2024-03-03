@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import { TypographyH2 } from '@/components/ui/Typography';
 import { FormControl } from '@/components/utilities/FormControl';
 import { Button } from '@/components/ui/Button';
-import { prettify } from '@/services/json-service';
+import { parseIntOrDefault, prettify } from '@/services/json-service';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { ClockIcon, Cross1Icon, MagicWandIcon } from '@radix-ui/react-icons';
 import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
@@ -83,8 +83,11 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         type="number"
                         className="form-control"
                         value={response.fixedDelay}
-                        onChange={(e) =>
-                          onChange({ ...response, fixedDelay: parseInt(e.target.value) })
+                        onChange={({ target }) =>
+                          onChange({
+                            ...response,
+                            fixedDelay: parseIntOrDefault(target.value, undefined)
+                          })
                         }
                       />
                     </FormControl>
@@ -95,8 +98,11 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         type="text"
                         className="form-control"
                         value={JSON.stringify(response.logNormalDelay)}
-                        onChange={(e) =>
-                          onChange({ ...response, logNormalDelay: JSON.parse(e.target.value) })
+                        onChange={({ target }) =>
+                          onChange({
+                            ...response,
+                            logNormalDelay: !!target.value ? JSON.parse(target.value) : undefined
+                          })
                         }
                       />
                     </FormControl>
@@ -140,7 +146,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               <Label className="mb-1">Headers</Label>
 
               {Object.entries(response.headers ?? {}).map(([headerName, headerValues]) => (
-                <div className="flex flex-row items-center gap-3">
+                <div className="flex flex-row items-center gap-3" key={headerName}>
                   <ResponseHeaderFormPopover
                     onChange={(newName, newValues) =>
                       onHeaderChangeRequest(newName, newValues, headerName)
