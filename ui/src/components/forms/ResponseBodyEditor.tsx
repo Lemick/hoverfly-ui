@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import MonacoEditor, { Monaco, OnMount } from '@monaco-editor/react';
 import { isJSON } from '@/services/json-service';
 import { editor } from 'monaco-editor';
@@ -19,6 +19,12 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [editorHeightPx, setEditorHeightPx] = useState(100);
   const { appliedTheme } = useTheme();
+
+  useEffect(() => {
+    if (!editorRef.current?.hasTextFocus() && editorRef.current?.getValue() != value) {
+      editorRef.current?.setValue(value);
+    }
+  }, [value]);
 
   const onEditorMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
