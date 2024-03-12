@@ -15,7 +15,8 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
 Provide a user-friendly interface for creating and manipulating Hoverfly simulations.</br>
-This tool saves time by allowing developers to create and edit simulations using a simple UI instead of manually modifying a JSON file.
+This tool saves time by allowing developers to create and edit simulations using a simple UI instead of manually modifying a JSON file.</br>
+If you found this plugin helpful, please consider starring the repository!
 <h2>Usage</h2>
 The file extension of your JSON simulation must be '.hfy'
 ]]></description>

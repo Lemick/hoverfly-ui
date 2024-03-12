@@ -7,6 +7,8 @@ Provide a user-friendly interface for creating and manipulating [Hoverfly](https
 simulations. This tool saves time by allowing developers to create and edit simulations using a simple UI instead of
 manually modifying a JSON file.
 
+If you found this plugin helpful, please consider starring the repository!
+
 ## Intellij Plugin
 
 You can download the plugin from the marketplace [here](https://plugins.jetbrains.com/plugin/22779-hoverfly-editor)
