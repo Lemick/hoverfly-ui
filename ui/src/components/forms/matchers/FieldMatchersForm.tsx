@@ -14,6 +14,8 @@ import { Button } from '@/components/ui/Button';
 import { TrashIcon, GearIcon } from '@radix-ui/react-icons';
 import { FormControl } from '@/components/utilities/FormControl';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
+import ResponseBodyEditor from '../ResponseBodyEditor';
+import { prettify } from '@/services/json-service';
 
 type Props = {
   id: string;
@@ -78,14 +80,28 @@ const FieldMatcherForm = ({
 
         <FormControl direction="column" className="w-full">
           <Label htmlFor={generateDomId('matcher-value')}>Value</Label>
-          <Input
-            id={generateDomId('matcher-value')}
-            type="text"
-            name="value"
-            placeholder={valuePlaceholder}
-            value={fieldMatcher.value}
-            onChange={(e) => handleMatcherChange('value', e.target.value)}
-          />
+          {fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial' ? (
+            <div className="flex flex-col gap-2 w-full">
+              <ResponseBodyEditor
+                value={prettify(fieldMatcher.value)}
+                onChange={(e) =>
+                  handleMatcherChange(
+                    'value',
+                    e.replaceAll('<', '\\u003c').replaceAll('>', '\\u003e')
+                  )
+                }
+              />
+            </div>
+          ) : (
+            <Input
+              id={generateDomId('matcher-value')}
+              type="text"
+              name="value"
+              placeholder={valuePlaceholder}
+              value={fieldMatcher.value}
+              onChange={(e) => handleMatcherChange('value', e.target.value)}
+            />
+          )}
         </FormControl>
 
         <Popover>

@@ -7,6 +7,12 @@ import { initHoverflySimulation } from '@/services/request-matcher-service';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { TypographyH2 } from '@/components/ui/Typography';
 
+function b64DecodeUnicode(value: string) {
+  return decodeURIComponent(Array.prototype.map.call(atob(value), function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  }).join(''))
+}
+
 type PluginEditorPageProps = {
   simulationData?: string;
   onSimulationUpdate?: (simulationJson: string) => void;
@@ -19,7 +25,7 @@ export default function PluginEditorPage({
   simulationData,
   onSimulationUpdate = () => {}
 }: PluginEditorPageProps) {
-  const parsedJson = parse(atob(simulationData || ''));
+  const parsedJson = parse(b64DecodeUnicode(simulationData || ''));
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
     const updatedSimulation = {
