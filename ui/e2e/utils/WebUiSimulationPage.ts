@@ -4,6 +4,7 @@ export class WebUiSimulationPage {
   readonly page: Page;
   readonly simulationTextEditor: Locator;
   readonly responseBodyEditor: Locator;
+  readonly requestEditor: Locator;
 
   readonly requestTabContentMethod: Locator;
   readonly requestTabContentScheme: Locator;
@@ -17,6 +18,7 @@ export class WebUiSimulationPage {
     this.page = page;
     this.simulationTextEditor = page.getByTestId('text-editor');
     this.responseBodyEditor = page.getByTestId('response-body-editor');
+    this.requestEditor = page.getByTestId('request-editor');
     this.requestTabContentMethod = page.getByTestId('tab-content-method');
     this.requestTabContentScheme = page.getByTestId('tab-content-scheme');
     this.requestTabContentDestination = page.getByTestId('tab-content-destination');

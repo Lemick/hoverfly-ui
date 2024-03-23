@@ -7,12 +7,6 @@ import { initHoverflySimulation } from '@/services/request-matcher-service';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { TypographyH2 } from '@/components/ui/Typography';
 
-function b64DecodeUnicode(value: string) {
-  return decodeURIComponent(Array.prototype.map.call(atob(value), function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-  }).join(''))
-}
-
 type PluginEditorPageProps = {
   simulationData?: string;
   onSimulationUpdate?: (simulationJson: string) => void;
@@ -25,7 +19,7 @@ export default function PluginEditorPage({
   simulationData,
   onSimulationUpdate = () => {}
 }: PluginEditorPageProps) {
-  const parsedJson = parse(b64DecodeUnicode(simulationData || ''));
+  const parsedJson = parse(decodeBase64Utf8(simulationData || ''));
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
     const updatedSimulation = {
@@ -64,3 +58,14 @@ export default function PluginEditorPage({
 }
 
 const cssVariables = { '--accordion-animation-duration': '0s' } as React.CSSProperties;
+
+function decodeBase64Utf8(base64: string) {
+  const text = atob(base64);
+  const length = text.length;
+  const bytes = new Uint8Array(length);
+  for (let i = 0; i < length; i++) {
+    bytes[i] = text.charCodeAt(i);
+  }
+  const decoder = new TextDecoder();
+  return decoder.decode(bytes);
+}
