@@ -6,13 +6,14 @@ import { useTheme } from '@/hooks/use-theme-provider';
 
 type Props = {
   value?: string;
+  dataTestId?: string;
   onChange: (value: string) => void;
 };
 
 const MIN_EDITOR_LINE = 10;
 const MAX_EDITOR_LINE = 50;
 
-const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
+const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
   const editorRef = useRef<editor.IStandaloneCodeEditor>();
   const monacoRef = useRef<Monaco>();
   const isBodyJson = useMemo(() => isJSON(value), [value]);
@@ -59,7 +60,7 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
     <div className="row gap-2">
       <div
         className="border-x border-y rounded overflow-hidden"
-        data-testid="response-body-editor"
+        data-testid={dataTestId}
         onClick={updateFocus}
         onBlur={updateFocus}>
         <MonacoEditor
@@ -85,4 +86,4 @@ const ResponseBodyEditor = ({ value = '', onChange }: Props) => {
   );
 };
 
-export default ResponseBodyEditor;
+export default InlineMonacoEditor;
