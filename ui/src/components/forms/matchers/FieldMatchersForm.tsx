@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { TrashIcon, GearIcon } from '@radix-ui/react-icons';
 import { FormControl } from '@/components/utilities/FormControl';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
+import InlineMonacoEditor from '../InlineMonacoEditor';
 
 type Props = {
   id: string;
@@ -30,6 +31,9 @@ const FieldMatcherForm = ({
   onDeleteRequest,
   valuePlaceholder
 }: Props) => {
+  const displayFullEditor =
+    fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial';
+
   const handleMatcherChange = (name: string, value: string) => {
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
     onChange(newFieldMatcher);
@@ -50,7 +54,7 @@ const FieldMatcherForm = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-3 items-end">
+      <div className="flex flex-row gap-3 items-start">
         <FormControl direction="column">
           <Label htmlFor={generateDomId('select-matcher')}>Matcher</Label>
           <Select
@@ -78,64 +82,76 @@ const FieldMatcherForm = ({
 
         <FormControl direction="column" className="w-full">
           <Label htmlFor={generateDomId('matcher-value')}>Value</Label>
-          <Input
-            id={generateDomId('matcher-value')}
-            type="text"
-            name="value"
-            placeholder={valuePlaceholder}
-            value={fieldMatcher.value}
-            onChange={(e) => handleMatcherChange('value', e.target.value)}
-          />
+          {displayFullEditor ? (
+            <div className="flex flex-col gap-2 w-full">
+              <InlineMonacoEditor
+                value={fieldMatcher.value}
+                dataTestId="request-editor"
+                onChange={(value) => handleMatcherChange('value', value)}
+              />
+            </div>
+          ) : (
+            <Input
+              id={generateDomId('matcher-value')}
+              type="text"
+              name="value"
+              placeholder={valuePlaceholder}
+              value={fieldMatcher.value}
+              onChange={(e) => handleMatcherChange('value', e.target.value)}
+            />
+          )}
         </FormControl>
 
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" aria-label="Advanced options">
-              <GearIcon />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-50 p-4">
-            <div className="flex flex-col gap-5">
-              <p className="font-medium leading-none">Advanced options</p>
+        <div className="flex gap-2 mt-[22px]">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" aria-label="Advanced options">
+                <GearIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-50 p-4">
+              <div className="flex flex-col gap-5">
+                <p className="font-medium leading-none">Advanced options</p>
 
-              <div className="flex flex-col items-start gap-3">
-                <FormControl direction="row">
-                  <Checkbox
-                    id={generateDomId('ignoreUnknown')}
-                    name="ignoreUnknown"
-                    checked={!!fieldMatcher.config?.ignoreUnknown}
-                    onCheckedChange={(checked) => handleConfigChange('ignoreUnknown', !!checked)}
-                  />
-                  <Label htmlFor={generateDomId('ignoreUnknown')}>Ignore Unknown</Label>
-                </FormControl>
-                <FormControl direction="row">
-                  <Checkbox
-                    id={generateDomId('ignoreOrder')}
-                    name="ignoreOrder"
-                    checked={!!fieldMatcher.config?.ignoreOrder}
-                    onCheckedChange={(checked) => handleConfigChange('ignoreOrder', !!checked)}
-                  />
-                  <Label htmlFor={generateDomId('ignoreOrder')}>Ignore Order</Label>
-                </FormControl>
-                <FormControl direction="row">
-                  <Checkbox
-                    id={generateDomId('ignoreOccurrences')}
-                    name="ignoreOccurrences"
-                    checked={!!fieldMatcher.config?.ignoreOccurrences}
-                    onCheckedChange={(checked) =>
-                      handleConfigChange('ignoreOccurrences', !!checked)
-                    }
-                  />
-                  <Label htmlFor={generateDomId('ignoreOccurrences')}>Ignore Occurrences</Label>
-                </FormControl>
+                <div className="flex flex-col items-start gap-3">
+                  <FormControl direction="row">
+                    <Checkbox
+                      id={generateDomId('ignoreUnknown')}
+                      name="ignoreUnknown"
+                      checked={!!fieldMatcher.config?.ignoreUnknown}
+                      onCheckedChange={(checked) => handleConfigChange('ignoreUnknown', !!checked)}
+                    />
+                    <Label htmlFor={generateDomId('ignoreUnknown')}>Ignore Unknown</Label>
+                  </FormControl>
+                  <FormControl direction="row">
+                    <Checkbox
+                      id={generateDomId('ignoreOrder')}
+                      name="ignoreOrder"
+                      checked={!!fieldMatcher.config?.ignoreOrder}
+                      onCheckedChange={(checked) => handleConfigChange('ignoreOrder', !!checked)}
+                    />
+                    <Label htmlFor={generateDomId('ignoreOrder')}>Ignore Order</Label>
+                  </FormControl>
+                  <FormControl direction="row">
+                    <Checkbox
+                      id={generateDomId('ignoreOccurrences')}
+                      name="ignoreOccurrences"
+                      checked={!!fieldMatcher.config?.ignoreOccurrences}
+                      onCheckedChange={(checked) =>
+                        handleConfigChange('ignoreOccurrences', !!checked)
+                      }
+                    />
+                    <Label htmlFor={generateDomId('ignoreOccurrences')}>Ignore Occurrences</Label>
+                  </FormControl>
+                </div>
               </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+            </PopoverContent>
+          </Popover>
 
-        <Button variant="destructive" onClick={onDeleteRequest}>
-          <TrashIcon />
-        </Button>
+          <Button variant="destructive" onClick={onDeleteRequest}>
+            <TrashIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Response } from '@/types/hoverfly';
-import ResponseBodyEditor from './ResponseBodyEditor';
+import InlineMonacoEditor from './InlineMonacoEditor';
 import SelectHttpStatus from '../utilities/SelectHttpStatus';
 import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
@@ -112,9 +112,10 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             </Popover>
           </div>
 
-          <ResponseBodyEditor
+          <InlineMonacoEditor
             value={response?.body}
             onChange={(value) => onResponseBodyChange(value)}
+            dataTestId="response-body-editor"
           />
 
           <FormControl direction="row">

@@ -120,7 +120,10 @@ test('should create a full simulation', async ({ page }) => {
     const currentTab = simulationPage.requestTabContentBody;
     await currentTab.getByRole('button', { name: 'Add first field matcher for body' }).click();
     await simulationPage.selectMatcherOption(currentTab, 'JSON Partial');
-    await currentTab.locator(simulationPage.getMatcherInput()).fill('{ "field1": "value1" }');
+    await simulationPage.setTextEditorContent(
+      currentTab.locator(simulationPage.requestEditor),
+      '{ "field1": "value1" }'
+    );
   });
 
   await test.step('Edit response HTTP Body', async () => {

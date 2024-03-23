@@ -18,7 +18,7 @@ export type LogNormalDelay = {
 };
 
 export type FieldMatcher = {
-  matcher?: 'exact' | 'glob' | 'regex' | 'json';
+  matcher?: 'exact' | 'glob' | 'regex' | 'json' | 'jsonPartial';
   value: string;
   config?: MatcherConfig;
   doMatch?: FieldMatcher;

@@ -19,7 +19,7 @@ export default function PluginEditorPage({
   simulationData,
   onSimulationUpdate = () => {}
 }: PluginEditorPageProps) {
-  const parsedJson = parse(atob(simulationData || ''));
+  const parsedJson = parse(decodeBase64Utf8(simulationData || ''));
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
     const updatedSimulation = {
@@ -58,3 +58,14 @@ export default function PluginEditorPage({
 }
 
 const cssVariables = { '--accordion-animation-duration': '0s' } as React.CSSProperties;
+
+function decodeBase64Utf8(base64: string) {
+  const text = atob(base64);
+  const length = text.length;
+  const bytes = new Uint8Array(length);
+  for (let i = 0; i < length; i++) {
+    bytes[i] = text.charCodeAt(i);
+  }
+  const decoder = new TextDecoder();
+  return decoder.decode(bytes);
+}

@@ -71,7 +71,7 @@ const RequestResponsePairListForm = ({
             <AccordionItem key={index} value={`ìtem-${index}`}>
               <AccordionTrigger onClick={() => onOpenPair(index)}>
                 <div className="w-full flex justify-between items-center cursor-pointer gap-4 px-6">
-                  <span className="font-bold">
+                  <span className="font-bold text-ellipsis overflow-hidden whitespace-nowrap">
                     {index} - {getRequestHeader(pair.request)} →️&nbsp;
                     <ResponseStatusHeader status={pair.response?.status} />
                   </span>
