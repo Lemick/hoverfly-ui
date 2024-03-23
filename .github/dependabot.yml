@@ -4,3 +4,17 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "[CHORE]"
+  - package-ecosystem: "npm"
+    directory: "/ui"
+    commit-message:
+      prefix: "[CHORE]"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/intellij-plugin"
+    commit-message:
+      prefix: "[CHORE]"
+    schedule:
+      interval: "weekly"
