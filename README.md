@@ -16,3 +16,9 @@ You can download the plugin from the marketplace [here](https://plugins.jetbrain
 ## Web UI
 
 You can try out the Hoverfly Simulation Editor UI [here](https://lemick.github.io/hoverfly-ui/).
+
+---
+
+Thanks to the collaborators, and to JetBrains
+for [their support](https://www.jetbrains.com/community/opensource/?utm_campaign=opensource&utm_content=approved&utm_medium=email&utm_source=newsletter&utm_term=jblogo#support)
+in building this plugin.
