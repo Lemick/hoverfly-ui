@@ -19,6 +19,14 @@ export function prettify(json: string) {
   }
 }
 
+export function minify(json: string) {
+  try {
+    return JSON.stringify(JSON.parse(json));
+  } catch (error) {
+    return json;
+  }
+}
+
 export function isJSON(str: string): boolean {
   try {
     JSON.parse(str);

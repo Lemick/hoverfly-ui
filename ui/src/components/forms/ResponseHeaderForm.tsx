@@ -31,7 +31,7 @@ export default function ResponseHeaderForm({
 
   return (
     <div className="flex flex-col items-start gap-6">
-      <FormControl direction="row" className="items-center">
+      <FormControl direction="row" className="items-center gap-4">
         <Label htmlFor="headerName">Name</Label>
         <Input
           id="headerName"
@@ -43,7 +43,7 @@ export default function ResponseHeaderForm({
           onChange={(event) => setHeaderName(event.target.value)}
         />
       </FormControl>
-      <FormControl direction="row" className="items-center">
+      <FormControl direction="row" className="items-center gap-4">
         <Label htmlFor="headerValue">Value</Label>
         <Input
           id="headerValue"
