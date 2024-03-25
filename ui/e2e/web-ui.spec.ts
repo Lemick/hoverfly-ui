@@ -5,6 +5,8 @@ import expectedComplete from './test-data/output/expected-complete';
 import expectedStartFromScratch from './test-data/output/expected-start-from-scratch';
 import { simulationWithContentType } from './test-data/input/simulation-with-content-type';
 import { expectContentTypeUpdated } from './test-data/output/expected-content-type-updated';
+import { expectedMinifiedResponse } from './test-data/output/expected-minified-response';
+import { simulationWithPrettyResponse } from './test-data/input/simulation-with-pretty-response';
 
 test('should display a simulation example on first app launch', async ({ page }) => {
   const simulationPage = new WebUiSimulationPage(page);
@@ -120,14 +122,14 @@ test('should create a full simulation', async ({ page }) => {
     const currentTab = simulationPage.requestTabContentBody;
     await currentTab.getByRole('button', { name: 'Add first field matcher for body' }).click();
     await simulationPage.selectMatcherOption(currentTab, 'JSON Partial');
-    await simulationPage.setTextEditorContent(
+    await simulationPage.appendTextToEditor(
       currentTab.locator(simulationPage.requestEditor),
       '{ "field1": "value1" }'
     );
   });
 
   await test.step('Edit response HTTP Body', async () => {
-    await simulationPage.setTextEditorContent(
+    await simulationPage.appendTextToEditor(
       simulationPage.responseBodyEditor,
       '{ "response": "body" }'
     );
@@ -182,19 +184,29 @@ test('should create a full simulation', async ({ page }) => {
   });
 });
 
-test('content-type headers should update when body change', async ({ page }) => {
+test('Content-type headers should update when body change', async ({ page }) => {
   const simulationPage = new WebUiSimulationPage(page);
   await simulationPage.goto(JSON.stringify(simulationWithContentType));
 
   await page.getByRole('button', { name: '- →️ 200' }).click();
 
-  await simulationPage.setTextEditorContent(
-    simulationPage.responseBodyEditor,
-    ', how is it going ?'
-  );
+  await simulationPage.appendTextToEditor(simulationPage.responseBodyEditor, ', how is it going ?');
 
   const textEditorContent = await simulationPage.getTextEditorContent(
     simulationPage.simulationTextEditor
   );
   expect(JSON.parse(textEditorContent)).toMatchObject(expectContentTypeUpdated);
+});
+
+test('Should be able to minify JSON', async ({ page }) => {
+  const simulationPage = new WebUiSimulationPage(page);
+  await simulationPage.goto(JSON.stringify(simulationWithPrettyResponse));
+
+  await page.getByRole('button', { name: '- →️ 200' }).click();
+  await page.getByRole('button', { name: 'Minify' }).click();
+
+  const textEditorContent = await simulationPage.getTextEditorContent(
+    simulationPage.simulationTextEditor
+  );
+  expect(JSON.parse(textEditorContent)).toMatchObject(expectedMinifiedResponse);
 });
