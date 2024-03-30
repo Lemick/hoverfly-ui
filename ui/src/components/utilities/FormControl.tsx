@@ -13,8 +13,7 @@ export function FormControl({
   return (
     <div
       className={cn(
-        'flex items-start [&>*]:cursor-pointer',
-        direction === 'column' ? 'gap-2' : 'gap-4',
+        'flex gap-2 items-start [&>*]:cursor-pointer',
         direction === 'column' ? 'flex-col' : 'flex-row',
         className
       )}>

@@ -8,9 +8,9 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import { TypographyH2 } from '@/components/ui/Typography';
 import { FormControl } from '@/components/utilities/FormControl';
 import { Button } from '@/components/ui/Button';
-import { parseIntOrDefault, prettify } from '@/services/json-service';
+import { minify, parseIntOrDefault, prettify } from '@/services/json-service';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
-import { ClockIcon, Cross1Icon, MagicWandIcon } from '@radix-ui/react-icons';
+import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
 import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
 import { updateContentLengthAccordingToBody } from '@/services/headers-service';
 
@@ -62,6 +62,12 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               <MagicWandIcon />
               Prettify
             </Button>
+            <Button
+              variant="outline"
+              onClick={() => response.body && onResponseBodyChange(minify(response.body))}>
+              <ZoomOutIcon className="size-5" />
+              Minify
+            </Button>
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline">
@@ -75,9 +81,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
 
                   <div className="flex flex-col items-start gap-6">
                     <FormControl direction="column">
-                      <Label htmlFor="fixedDelay">
-                        Fixed Delay <i>(ms)</i>
-                      </Label>
+                      <Label htmlFor="fixedDelay">Fixed Delay (ms)</Label>
                       <Input
                         id="fixedDelay"
                         type="number"
@@ -118,7 +122,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             dataTestId="response-body-editor"
           />
 
-          <FormControl direction="row">
+          <FormControl direction="row" className="items-center">
             <Checkbox
               id="encodedBody"
               className="form-check-input"
@@ -171,7 +175,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             </FormControl>
           </div>
 
-          <div className="w-full flex flex-row ">
+          <div className="w-full flex flex-row">
             <ResponseHeaderFormPopover onChange={onHeaderChangeRequest}>
               <Button variant="outline">Add header</Button>
             </ResponseHeaderFormPopover>
