@@ -114,7 +114,7 @@ const FieldMatcherForm = ({
                 <p className="font-medium leading-none">Advanced options</p>
 
                 <div className="flex flex-col items-start gap-3">
-                  <FormControl direction="row">
+                  <FormControl direction="row" className="items-center">
                     <Checkbox
                       id={generateDomId('ignoreUnknown')}
                       name="ignoreUnknown"
@@ -123,7 +123,7 @@ const FieldMatcherForm = ({
                     />
                     <Label htmlFor={generateDomId('ignoreUnknown')}>Ignore Unknown</Label>
                   </FormControl>
-                  <FormControl direction="row">
+                  <FormControl direction="row" className="items-center">
                     <Checkbox
                       id={generateDomId('ignoreOrder')}
                       name="ignoreOrder"
@@ -132,7 +132,7 @@ const FieldMatcherForm = ({
                     />
                     <Label htmlFor={generateDomId('ignoreOrder')}>Ignore Order</Label>
                   </FormControl>
-                  <FormControl direction="row">
+                  <FormControl direction="row" className="items-center">
                     <Checkbox
                       id={generateDomId('ignoreOccurrences')}
                       name="ignoreOccurrences"

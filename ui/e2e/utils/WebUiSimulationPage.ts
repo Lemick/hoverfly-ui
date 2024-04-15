@@ -45,7 +45,7 @@ export class WebUiSimulationPage {
   /**
    * Use clipboard to fill monaco editor as it is not an HTML <input>
    */
-  async setTextEditorContent(editor: Locator, json: string) {
+  async appendTextToEditor(editor: Locator, json: string) {
     await editor.click();
     await editor.pressSequentially(json);
   }
