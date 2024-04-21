@@ -6,7 +6,7 @@ plugins {
 
 node {
     download.set(true)
-    version.set("18.17.1")
+    version.set("20.12.2")
 }
 
 tasks.register("build", NpmTask::class) {
