@@ -10,7 +10,7 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const MIN_EDITOR_LINE = 18;
+const MIN_EDITOR_LINE = 16;
 const MAX_EDITOR_LINE = 50;
 
 const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
