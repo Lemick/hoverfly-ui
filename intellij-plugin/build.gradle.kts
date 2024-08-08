@@ -6,7 +6,7 @@ fun environment(key: String) = project.providers.environmentVariable(key)
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.23"
+    id("org.jetbrains.kotlin.jvm") version "2.0.0"
     id("org.jetbrains.intellij") version "1.17.3"
 }
 
