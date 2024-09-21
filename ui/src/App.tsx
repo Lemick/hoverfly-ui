@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import WebEditorPage from './components/pages/WebEditorPage';
 import PluginEditorPage from './components/pages/PluginEditorPage';
 import './hooks/use-monaco-worker';
+import { usePluginMode } from '@/hooks/use-plugin-mode';
 
 export default function App() {
-  const [simulationData, setSimulationData] = useState<string | undefined>(
-    window.hoverflyUi_initialSimulationData
-  );
+  const { ideSimulationData, isPluginMode } = usePluginMode();
 
-  useEffect(() => {
-    window.hoverflyUi_setUiSimulation = setSimulationData;
-  }, []);
+  if (isPluginMode && ideSimulationData === undefined) {
+    return (
+      <div style={{ display: 'flex', placeContent: 'center', paddingTop: '5rem' }}>
+        <span>Loading...</span>
+      </div>
+    );
+  }
 
-  if (window.hoverflyUi_enablePluginMode) {
+  if (isPluginMode && ideSimulationData !== undefined) {
     return (
       <PluginEditorPage
-        simulationData={simulationData}
+        simulationData={ideSimulationData}
         onSimulationUpdate={window.hoverflyUi_onUiSimulationChange}
       />
     );

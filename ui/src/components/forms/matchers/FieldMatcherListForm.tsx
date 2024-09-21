@@ -10,9 +10,16 @@ type Props = {
   type: string;
   valuePlaceholder?: string;
   onChange: (fieldMatchers: FieldMatcher[]) => void;
+  forceFullEditor?: boolean;
 };
 
-const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange, valuePlaceholder }: Props) => {
+const FieldMatcherListForm = ({
+  fieldMatchers = [],
+  type,
+  onChange,
+  valuePlaceholder,
+  forceFullEditor = false
+}: Props) => {
   const id = useMemo(() => Math.random(), []);
 
   const handleAdd = () => {
@@ -41,6 +48,7 @@ const FieldMatcherListForm = ({ fieldMatchers = [], type, onChange, valuePlaceho
             onChange={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
             onDeleteRequest={() => handleDelete(index)}
             valuePlaceholder={valuePlaceholder}
+            forceFullEditor={forceFullEditor}
           />
         </Card>
       ))}

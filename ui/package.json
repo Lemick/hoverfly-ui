@@ -17,10 +17,10 @@
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
     "lucide-react": "0.372.0",
-    "monaco-editor": "0.47.0",
+    "monaco-editor": "0.52.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwind-merge": "2.3.0",
+    "tailwind-merge": "2.5.2",
     "tailwindcss-animate": "1.0.7",
     "usehooks-ts": "2.16.0"
   },
@@ -41,7 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@playwright/test": "1.43.1",
+    "@playwright/test": "1.47.1",
     "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "14.2.2",
     "@testing-library/user-event": "14.5.2",
