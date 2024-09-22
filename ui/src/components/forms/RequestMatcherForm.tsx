@@ -59,6 +59,7 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             type="body"
             valuePlaceholder='{"key": "value"}'
             onChange={(fieldMatchers) => onChange({ ...request, body: fieldMatchers })}
+            forceFullEditor={true}
           />
         </TabsContent>
         <TabsContent value="destination" data-testid="tab-content-destination">

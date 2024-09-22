@@ -19,7 +19,7 @@ export default function PluginEditorPage({
   simulationData,
   onSimulationUpdate = () => {}
 }: PluginEditorPageProps) {
-  const parsedJson = parse(decodeBase64Utf8(simulationData || ''));
+  const parsedJson = parse(decodeBase64Utf8(simulationData ?? ''));
 
   function onChangeFromForms(updatedPairs: RequestResponsePair[]) {
     const updatedSimulation = {

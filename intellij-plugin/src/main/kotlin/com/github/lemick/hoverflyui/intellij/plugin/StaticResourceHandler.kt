@@ -19,7 +19,8 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
         val url = cefRequest.url
         return if (url != null) {
             val pathToResource = url.replace("http://localhost/${resourceBaseUrl}", staticBaseUrl ?: resourceBaseUrl)
-            val newUrl: URLConnection = javaClass.getClassLoader().getResource(pathToResource)!!.openConnection()
+            val pathToResourceWithoutQueryParams  = pathToResource.split("?")[0]
+            val newUrl: URLConnection = javaClass.getClassLoader().getResource(pathToResourceWithoutQueryParams)!!.openConnection()
             state = OpenedConnection(newUrl)
             cefCallback.Continue()
             true

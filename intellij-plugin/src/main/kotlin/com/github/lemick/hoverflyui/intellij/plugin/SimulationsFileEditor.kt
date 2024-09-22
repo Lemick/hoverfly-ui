@@ -14,9 +14,12 @@ import com.intellij.ui.jcef.JBCefBrowserBase
 import com.intellij.ui.jcef.JBCefJSQuery
 import org.cef.CefApp
 import org.cef.browser.CefBrowser
+import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandlerAdapter
+import org.cef.network.CefRequest
 import java.beans.PropertyChangeListener
 import java.util.Base64
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
 
 internal class SimulationsFileEditor(private val project: Project, private val file: VirtualFile) :
@@ -25,7 +28,6 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     private val browser = JBCefBrowser()
 
     companion object {
-        private const val JS_VAR_ENABLE_PLUGIN_MODE = "window.hoverflyUi_enablePluginMode"
         private const val JS_VAR_INITIAL_SIMULATION_DATA = "window.hoverflyUi_initialSimulationData"
         private const val JS_VAR_SET_UI_SIMULATION = "window.hoverflyUi_setUiSimulation"
         private const val JS_VAR_ON_UI_SIMULATION_CHANGE = "window.hoverflyUi_onUiSimulationChange"
@@ -33,25 +35,25 @@ internal class SimulationsFileEditor(private val project: Project, private val f
 
     init {
         val javascriptCallback = prepareJavascriptCallback()
+        val isInitialized = AtomicBoolean(false)
 
         subscribeFileChanges()
-
         registerAppSchemeHandler()
 
-        browser.loadURL("http://localhost/hoverfly-ui/index.html")
-
         browser.jbCefClient.addLoadHandler(object : CefLoadHandlerAdapter() {
-            override fun onLoadingStateChange(
-                cfeBrowser: CefBrowser,
-                isLoading: Boolean,
-                canGoBack: Boolean,
-                canGoForward: Boolean
+            override fun onLoadStart(
+                cefBrowser: CefBrowser,
+                frame: CefFrame?,
+                transitionType: CefRequest.TransitionType?
             ) {
-                enablePluginModeUI()
-                setInitialContent()
-                browser.cefBrowser.executeJavaScript(javascriptCallback, browser.cefBrowser.url, 0)
+                if (isInitialized.compareAndSet(false, true)) {
+                    cefBrowser.executeJavaScript(javascriptCallback, cefBrowser.url, 0)
+                    setInitialContent()
+                }
             }
         }, browser.cefBrowser)
+
+        browser.loadURL("http://localhost/hoverfly-ui/index.html?plugin=true")
     }
 
     private fun prepareJavascriptCallback(): String {
@@ -81,11 +83,7 @@ internal class SimulationsFileEditor(private val project: Project, private val f
     }
 
     private fun getContent(): String {
-        return Base64.getEncoder().encodeToString(file.contentsToByteArray());
-    }
-
-    private fun enablePluginModeUI() {
-        browser.cefBrowser.executeJavaScript("$JS_VAR_ENABLE_PLUGIN_MODE = true", browser.cefBrowser.url, 0)
+        return Base64.getEncoder().encodeToString(file.contentsToByteArray())
     }
 
     private fun setInitialContent() {

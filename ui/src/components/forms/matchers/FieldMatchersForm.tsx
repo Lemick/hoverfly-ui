@@ -22,6 +22,7 @@ type Props = {
   onChange: (fieldMatcher: FieldMatcher) => void;
   onDeleteRequest: () => void;
   valuePlaceholder?: string;
+  forceFullEditor: boolean;
 };
 
 const FieldMatcherForm = ({
@@ -29,10 +30,11 @@ const FieldMatcherForm = ({
   fieldMatcher = { matcher: 'exact', value: '' },
   onChange,
   onDeleteRequest,
-  valuePlaceholder
+  valuePlaceholder,
+  forceFullEditor
 }: Props) => {
   const displayFullEditor =
-    fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial';
+    forceFullEditor || fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial';
 
   const handleMatcherChange = (name: string, value: string) => {
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
