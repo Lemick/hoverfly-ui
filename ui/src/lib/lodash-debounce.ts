@@ -34,9 +34,7 @@ export function debounce<T extends (...args: any[]) => any>(
   if (typeof options === 'object') {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
-    maxWait = maxing
-      ? nativeMax(Number(options.maxWait) || 0, wait)
-      : undefined;
+    maxWait = maxing ? nativeMax(Number(options.maxWait) || 0, wait) : undefined;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
 
@@ -63,9 +61,7 @@ export function debounce<T extends (...args: any[]) => any>(
     const timeSinceLastInvoke = time - lastInvokeTime;
     const result = wait - timeSinceLastCall;
 
-    return maxing
-      ? nativeMin(result, (maxWait || 0) - timeSinceLastInvoke)
-      : result;
+    return maxing ? nativeMin(result, (maxWait || 0) - timeSinceLastInvoke) : result;
   }
 
   function shouldInvoke(time: number): boolean {

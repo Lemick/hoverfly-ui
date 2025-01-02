@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 export const usePluginMode = () => {
   const isPluginMode = location.search.endsWith('plugin=true');
 
-  const [ideSimulationData, setIdeSimulationData] = useState<
-    string | undefined
-  >(window.hoverflyUi_initialSimulationData);
+  const [ideSimulationData, setIdeSimulationData] = useState<string | undefined>(
+    window.hoverflyUi_initialSimulationData,
+  );
   usePollInitialData({
     enabled: isPluginMode && !window.hoverflyUi_initialSimulationData,
     setInitialData: setIdeSimulationData,

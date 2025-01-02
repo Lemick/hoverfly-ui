@@ -17,9 +17,7 @@ export default function ResponseHeaderForm({
   onSubmit,
 }: Props) {
   const [headerName, setHeaderName] = useState(initialHeaderName);
-  const [headerValues, setHeaderValues] = useState(
-    initialHeaderValues.join('&'),
-  );
+  const [headerValues, setHeaderValues] = useState(initialHeaderValues.join('&'));
   const canSubmit = headerName && headerValues;
   const buttonRef = useRef<HTMLButtonElement>(null);
 

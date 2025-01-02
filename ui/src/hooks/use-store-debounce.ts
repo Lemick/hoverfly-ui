@@ -3,15 +3,8 @@ import { useLocalStorage } from '@/hooks/use-local-storage';
 import { useEffect } from 'react';
 
 // Store a value when it is stabilized for a certain delay
-export default function useStoreDebounce(
-  key: string,
-  value: string,
-  debounceDelay = 1000,
-) {
-  const [storedEditorContent, setStoredEditorContent] = useLocalStorage(
-    key,
-    '',
-  );
+export default function useStoreDebounce(key: string, value: string, debounceDelay = 1000) {
+  const [storedEditorContent, setStoredEditorContent] = useLocalStorage(key, '');
   const [debouncedEditorContent] = useDebounceValue(value, debounceDelay);
 
   useEffect(() => {

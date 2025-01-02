@@ -26,26 +26,16 @@ const LOCAL_STORAGE_KEY = 'content';
  */
 export default function WebEditorPage() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
-  const [hoverflySimulation, setHoverflySimulation] = useState<
-    HoverflySimulation | undefined
-  >();
-  const [leftPanelWidth, setLeftPanelWidth] = useState(
-    window.innerWidth * 0.57,
-  );
+  const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
+  const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
   const [editorContent, setEditorContent] = useState('');
-  const storedEditorContent = useStoreDebounce(
-    LOCAL_STORAGE_KEY,
-    editorContent,
-  );
-  const dragHandle = useDrag((event: MouseEvent) =>
-    setLeftPanelWidth(event.clientX),
-  );
+  const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
+  const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
   const [isTextEditorVisible, setIsTextEditorVisible] = useState(true);
   const { appliedTheme } = useTheme();
 
   const handleEditorDidMount: OnMount = (editor) => {
-    const contentToLoad =
-      storedEditorContent || stringify(exampleEditorContent);
+    const contentToLoad = storedEditorContent || stringify(exampleEditorContent);
     setHoverflySimulation(parse(contentToLoad));
 
     editor.setValue(contentToLoad);
@@ -108,11 +98,7 @@ export default function WebEditorPage() {
                 type="button"
                 onClick={() => setIsTextEditorVisible(!isTextEditorVisible)}
               >
-                {isTextEditorVisible ? (
-                  <ThickArrowRightIcon />
-                ) : (
-                  <ThickArrowLeftIcon />
-                )}
+                {isTextEditorVisible ? <ThickArrowRightIcon /> : <ThickArrowLeftIcon />}
               </Button>
             </TooltipDecorator>
           </div>

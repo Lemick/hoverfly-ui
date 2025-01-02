@@ -28,29 +28,20 @@ const RequestResponsePairListForm = ({
 }: Props) => {
   const [activeIndex, setActiveIndex] = useState<number>();
 
-  const onUpdate = (
-    index: number,
-    requestResponsePair: RequestResponsePair,
-  ) => {
+  const onUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
     onChange(newPairs);
   };
 
-  const onDuplicate = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    index: number,
-  ) => {
+  const onDuplicate = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
     e.stopPropagation();
     const newPairs = [...requestResponsePairs];
     newPairs.splice(index, 0, { ...newPairs[index] });
     onChange(newPairs);
   };
 
-  const onDelete = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    indexToRemove: number,
-  ) => {
+  const onDelete = (e: React.MouseEvent<HTMLButtonElement>, indexToRemove: number) => {
     e.stopPropagation();
 
     if (activeIndex && indexToRemove < activeIndex) {

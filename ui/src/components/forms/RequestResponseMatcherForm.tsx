@@ -21,14 +21,8 @@ const RequestResponseMatcherForm = ({ pair, onChange }: Props) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <RequestMatcherForm
-        request={pair.request || {}}
-        onChange={onRequestChange}
-      />
-      <ResponseMatcherForm
-        response={pair.response || {}}
-        onChange={onResponseChange}
-      />
+      <RequestMatcherForm request={pair.request || {}} onChange={onRequestChange} />
+      <ResponseMatcherForm response={pair.response || {}} onChange={onResponseChange} />
     </div>
   );
 };

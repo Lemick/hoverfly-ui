@@ -9,9 +9,7 @@ export default function App() {
 
   if (isPluginMode && ideSimulationData === undefined) {
     return (
-      <div
-        style={{ display: 'flex', placeContent: 'center', paddingTop: '5rem' }}
-      >
+      <div style={{ display: 'flex', placeContent: 'center', paddingTop: '5rem' }}>
         <span>Loading...</span>
       </div>
     );

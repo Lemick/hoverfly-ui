@@ -3,22 +3,13 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/Popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { TypographyH2 } from '@/components/ui/Typography';
 import { FormControl } from '@/components/utilities/FormControl';
 import { updateContentLengthAccordingToBody } from '@/services/headers-service';
 import { minify, parseIntOrDefault, prettify } from '@/services/json-service';
 import type { Response } from '@/types/hoverfly';
-import {
-  ClockIcon,
-  Cross1Icon,
-  MagicWandIcon,
-  ZoomOutIcon,
-} from '@radix-ui/react-icons';
+import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
 import React from 'react';
 import SelectHttpStatus from '../utilities/SelectHttpStatus';
 import InlineMonacoEditor from './InlineMonacoEditor';
@@ -30,18 +21,11 @@ type Props = {
 
 const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
   const onResponseBodyChange = (newBody: string) => {
-    const newHeaders = updateContentLengthAccordingToBody(
-      newBody,
-      response?.headers,
-    );
+    const newHeaders = updateContentLengthAccordingToBody(newBody, response?.headers);
     onChange({ ...response, body: newBody, headers: newHeaders });
   };
 
-  const onHeaderChangeRequest = (
-    newName: string,
-    newValues: string[],
-    oldName?: string,
-  ) => {
+  const onHeaderChangeRequest = (newName: string, newValues: string[], oldName?: string) => {
     const newHeaders = { ...response.headers, [newName]: newValues };
     if (oldName && oldName !== newName) {
       delete newHeaders[oldName];
@@ -74,18 +58,14 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
           <div className="flex flex-row gap-3">
             <Button
               variant="outline"
-              onClick={() =>
-                response.body && onResponseBodyChange(prettify(response.body))
-              }
+              onClick={() => response.body && onResponseBodyChange(prettify(response.body))}
             >
               <MagicWandIcon />
               Prettify
             </Button>
             <Button
               variant="outline"
-              onClick={() =>
-                response.body && onResponseBodyChange(minify(response.body))
-              }
+              onClick={() => response.body && onResponseBodyChange(minify(response.body))}
             >
               <ZoomOutIcon className="size-5" />
               Minify
@@ -99,9 +79,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               </PopoverTrigger>
               <PopoverContent className="w-60 p-4">
                 <div className="flex flex-col gap-6">
-                  <p className="font-medium leading-none">
-                    Configure response delay
-                  </p>
+                  <p className="font-medium leading-none">Configure response delay</p>
 
                   <div className="flex flex-col items-start gap-6">
                     <FormControl direction="column">
@@ -114,10 +92,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         onChange={({ target }) =>
                           onChange({
                             ...response,
-                            fixedDelay: parseIntOrDefault(
-                              target.value,
-                              undefined,
-                            ),
+                            fixedDelay: parseIntOrDefault(target.value, undefined),
                           })
                         }
                       />
@@ -132,9 +107,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         onChange={({ target }) =>
                           onChange({
                             ...response,
-                            logNormalDelay: target.value
-                              ? JSON.parse(target.value)
-                              : undefined,
+                            logNormalDelay: target.value ? JSON.parse(target.value) : undefined,
                           })
                         }
                       />
@@ -174,9 +147,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               id="status"
               dataTestId="response-status-select"
               code={`${response.status}`}
-              onChange={(code) =>
-                onChange({ ...response, status: Number.parseInt(code) })
-              }
+              onChange={(code) => onChange({ ...response, status: Number.parseInt(code) })}
             />
           </FormControl>
 
@@ -184,36 +155,29 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
             <FormControl direction="column">
               <Label className="mb-1">Headers</Label>
 
-              {Object.entries(response.headers ?? {}).map(
-                ([headerName, headerValues]) => (
-                  <div
-                    className="flex flex-row items-center gap-3"
-                    key={headerName}
+              {Object.entries(response.headers ?? {}).map(([headerName, headerValues]) => (
+                <div className="flex flex-row items-center gap-3" key={headerName}>
+                  <ResponseHeaderFormPopover
+                    onChange={(newName, newValues) =>
+                      onHeaderChangeRequest(newName, newValues, headerName)
+                    }
+                    initialHeaderName={headerName}
+                    initialHeaderValues={headerValues}
                   >
-                    <ResponseHeaderFormPopover
-                      onChange={(newName, newValues) =>
-                        onHeaderChangeRequest(newName, newValues, headerName)
-                      }
-                      initialHeaderName={headerName}
-                      initialHeaderValues={headerValues}
-                    >
-                      <div className="break-all text-sm">
-                        <span className="text-sm">
-                          {'-'} {headerName}:&nbsp;
-                        </span>
-                        <span className="text-sm">
-                          {headerValues.join(',')}
-                        </span>
-                      </div>
-                    </ResponseHeaderFormPopover>
-                    <Cross1Icon
-                      className="cursor-pointer size-4 shrink-0"
-                      onClick={() => onHeaderDeleteRequest(headerName)}
-                      aria-label="Delete response header"
-                    />
-                  </div>
-                ),
-              )}
+                    <div className="break-all text-sm">
+                      <span className="text-sm">
+                        {'-'} {headerName}:&nbsp;
+                      </span>
+                      <span className="text-sm">{headerValues.join(',')}</span>
+                    </div>
+                  </ResponseHeaderFormPopover>
+                  <Cross1Icon
+                    className="cursor-pointer size-4 shrink-0"
+                    onClick={() => onHeaderDeleteRequest(headerName)}
+                    aria-label="Delete response header"
+                  />
+                </div>
+              ))}
             </FormControl>
           </div>
 

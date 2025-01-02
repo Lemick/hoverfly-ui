@@ -22,10 +22,7 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
   const { appliedTheme } = useTheme();
 
   useEffect(() => {
-    if (
-      !editorRef.current?.hasTextFocus() &&
-      editorRef.current?.getValue() !== value
-    ) {
+    if (!editorRef.current?.hasTextFocus() && editorRef.current?.getValue() !== value) {
       editorRef.current?.setValue(value);
     }
   }, [value]);
@@ -37,21 +34,14 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
   };
 
   const updateEditorHeight = () => {
-    if (
-      !monacoRef.current?.editor.EditorOption.lineHeight ||
-      !editorRef.current?.getOptions()
-    ) {
+    if (!monacoRef.current?.editor.EditorOption.lineHeight || !editorRef.current?.getOptions()) {
       return;
     }
 
     const options = editorRef.current.getOptions();
-    const editorLineHeight =
-      options.get(monacoRef.current.editor.EditorOption.lineHeight) || 18;
+    const editorLineHeight = options.get(monacoRef.current.editor.EditorOption.lineHeight) || 18;
     const lineCount = Math.min(
-      Math.max(
-        editorRef.current?.getModel()?.getLineCount() || 0,
-        MIN_EDITOR_LINE,
-      ),
+      Math.max(editorRef.current?.getModel()?.getLineCount() || 0, MIN_EDITOR_LINE),
       MAX_EDITOR_LINE,
     );
     setEditorHeightPx(editorLineHeight * lineCount);

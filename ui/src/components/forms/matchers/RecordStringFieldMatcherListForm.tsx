@@ -30,10 +30,7 @@ const RecordStringFieldMatcherListForm = ({
     setNewEntryKey('');
   };
 
-  const handleUpdateFieldMatchers = (
-    entryKey: string,
-    fieldMatchers: FieldMatcher[],
-  ) => {
+  const handleUpdateFieldMatchers = (entryKey: string, fieldMatchers: FieldMatcher[]) => {
     onChange({ ...entries, [entryKey]: fieldMatchers });
   };
 
@@ -51,9 +48,7 @@ const RecordStringFieldMatcherListForm = ({
             type="text"
             placeholder={`Enter the name of the new ${type}`}
             value={newEntryKey}
-            onKeyDown={(e) =>
-              e.key === 'Enter' ? handleAddEntry() : undefined
-            }
+            onKeyDown={(e) => (e.key === 'Enter' ? handleAddEntry() : undefined)}
             onChange={(e) => setNewEntryKey(e.target.value)}
           />
           <Button
@@ -81,9 +76,7 @@ const RecordStringFieldMatcherListForm = ({
               <FieldMatcherListForm
                 fieldMatchers={matchers}
                 type={`${type} '${entryKey}'`}
-                onChange={(fieldMatchers) =>
-                  handleUpdateFieldMatchers(entryKey, fieldMatchers)
-                }
+                onChange={(fieldMatchers) => handleUpdateFieldMatchers(entryKey, fieldMatchers)}
                 valuePlaceholder={valuePlaceholder}
               />
             </div>

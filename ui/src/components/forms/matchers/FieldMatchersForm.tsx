@@ -2,11 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/Popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import {
   Select,
   SelectContent,
@@ -38,9 +34,7 @@ const FieldMatcherForm = ({
   forceFullEditor,
 }: Props) => {
   const displayFullEditor =
-    forceFullEditor ||
-    fieldMatcher.matcher === 'json' ||
-    fieldMatcher.matcher === 'jsonPartial';
+    forceFullEditor || fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial';
 
   const handleMatcherChange = (name: string, value: string) => {
     const newFieldMatcher = { ...fieldMatcher, [name]: value };
@@ -68,9 +62,7 @@ const FieldMatcherForm = ({
           <Select
             name="matcher"
             value={fieldMatcher.matcher}
-            onValueChange={(value: string) =>
-              handleMatcherChange('matcher', value)
-            }
+            onValueChange={(value: string) => handleMatcherChange('matcher', value)}
           >
             <SelectTrigger
               id={generateDomId('select-matcher')}
@@ -131,26 +123,18 @@ const FieldMatcherForm = ({
                       id={generateDomId('ignoreUnknown')}
                       name="ignoreUnknown"
                       checked={!!fieldMatcher.config?.ignoreUnknown}
-                      onCheckedChange={(checked) =>
-                        handleConfigChange('ignoreUnknown', !!checked)
-                      }
+                      onCheckedChange={(checked) => handleConfigChange('ignoreUnknown', !!checked)}
                     />
-                    <Label htmlFor={generateDomId('ignoreUnknown')}>
-                      Ignore Unknown
-                    </Label>
+                    <Label htmlFor={generateDomId('ignoreUnknown')}>Ignore Unknown</Label>
                   </FormControl>
                   <FormControl direction="row" className="items-center">
                     <Checkbox
                       id={generateDomId('ignoreOrder')}
                       name="ignoreOrder"
                       checked={!!fieldMatcher.config?.ignoreOrder}
-                      onCheckedChange={(checked) =>
-                        handleConfigChange('ignoreOrder', !!checked)
-                      }
+                      onCheckedChange={(checked) => handleConfigChange('ignoreOrder', !!checked)}
                     />
-                    <Label htmlFor={generateDomId('ignoreOrder')}>
-                      Ignore Order
-                    </Label>
+                    <Label htmlFor={generateDomId('ignoreOrder')}>Ignore Order</Label>
                   </FormControl>
                   <FormControl direction="row" className="items-center">
                     <Checkbox
@@ -161,9 +145,7 @@ const FieldMatcherForm = ({
                         handleConfigChange('ignoreOccurrences', !!checked)
                       }
                     />
-                    <Label htmlFor={generateDomId('ignoreOccurrences')}>
-                      Ignore Occurrences
-                    </Label>
+                    <Label htmlFor={generateDomId('ignoreOccurrences')}>Ignore Occurrences</Label>
                   </FormControl>
                 </div>
               </div>

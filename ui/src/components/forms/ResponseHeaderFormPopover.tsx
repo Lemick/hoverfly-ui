@@ -1,9 +1,5 @@
 import ResponseHeaderForm from '@/components/forms/ResponseHeaderForm';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/Popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import React, { type ReactNode } from 'react';
 
 type Props = {

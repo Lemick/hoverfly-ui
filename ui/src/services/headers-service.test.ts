@@ -14,22 +14,15 @@ describe('updateContentLengthAccordingToBody', () => {
       { 'content-Length': '0' },
       { 'content-Length': '0' },
     ],
-    [
-      'do nothing when headers array is empty',
-      { 'content-Length': [] },
-      { 'content-Length': [] },
-    ],
+    ['do nothing when headers array is empty', { 'content-Length': [] }, { 'content-Length': [] }],
     [
       'update Content-Length header',
       { 'Other-header': 'Value', 'content-Length': ['0'] },
       { 'Other-header': 'Value', 'content-Length': ['13'] },
     ],
   ])('should %s', (_, headers, expected) => {
-    expect(
-      updateContentLengthAccordingToBody(
-        'Hello, world!',
-        headers as ResponseHeaders,
-      ),
-    ).toEqual(expected);
+    expect(updateContentLengthAccordingToBody('Hello, world!', headers as ResponseHeaders)).toEqual(
+      expected,
+    );
   });
 });

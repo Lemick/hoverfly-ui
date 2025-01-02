@@ -45,25 +45,16 @@ const FieldMatcherListForm = ({
           <FieldMatcherForm
             id={`${id}_idx${index}`}
             fieldMatcher={fieldMatcher}
-            onChange={(newFieldMatcher: FieldMatcher) =>
-              handleUpdate(index, newFieldMatcher)
-            }
+            onChange={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
             onDeleteRequest={() => handleDelete(index)}
             valuePlaceholder={valuePlaceholder}
             forceFullEditor={forceFullEditor}
           />
         </Card>
       ))}
-      <div
-        className="w-full flex flex-row justify-center"
-        data-testid="add-matcher-button"
-      >
+      <div className="w-full flex flex-row justify-center" data-testid="add-matcher-button">
         {fieldMatchers?.length === 0 ? (
-          <Button
-            className="w-[400px] mt-6 mb-6"
-            variant="secondary"
-            onClick={handleAdd}
-          >
+          <Button className="w-[400px] mt-6 mb-6" variant="secondary" onClick={handleAdd}>
             <span>{`Add first field matcher for ${type}`}</span>
           </Button>
         ) : (
