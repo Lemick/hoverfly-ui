@@ -27,13 +27,13 @@ export default defineConfig({
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    baseURL: 'http://localhost:9696'
+    baseURL: 'http://localhost:9696',
   },
   webServer: {
     command: 'npm run serve',
     timeout: 120 * 1000,
     url: 'http://localhost:9696',
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: !process.env.CI,
   },
   /* Configure projects for major browsers */
   projects: [
@@ -44,10 +44,10 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 1024 },
         contextOptions: {
-          permissions: ['clipboard-read', 'clipboard-write']
-        }
-      }
-    }
+          permissions: ['clipboard-read', 'clipboard-write'],
+        },
+      },
+    },
 
     // {
     //   name: 'firefox',
@@ -78,7 +78,7 @@ export default defineConfig({
     //   name: 'Google Chrome',
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
-  ]
+  ],
 
   /* Run your local dev server before starting the tests */
   // webServer: {

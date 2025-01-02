@@ -21,7 +21,9 @@ export class WebUiSimulationPage {
     this.requestEditor = page.getByTestId('request-editor');
     this.requestTabContentMethod = page.getByTestId('tab-content-method');
     this.requestTabContentScheme = page.getByTestId('tab-content-scheme');
-    this.requestTabContentDestination = page.getByTestId('tab-content-destination');
+    this.requestTabContentDestination = page.getByTestId(
+      'tab-content-destination',
+    );
     this.requestTabContentPath = page.getByTestId('tab-content-path');
     this.requestTabContentQuery = page.getByTestId('tab-content-query');
     this.requestTabContentHeaders = page.getByTestId('tab-content-headers');

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export function TypographyH2({ children }: { children: ReactNode }) {
   return (
@@ -9,9 +9,17 @@ export function TypographyH2({ children }: { children: ReactNode }) {
 }
 
 export function TypographyH3({ children }: { children: ReactNode }) {
-  return <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">{children}</h3>;
+  return (
+    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+      {children}
+    </h3>
+  );
 }
 
 export function TypographyH4({ children }: { children: ReactNode }) {
-  return <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">{children}</h4>;
+  return (
+    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+      {children}
+    </h4>
+  );
 }

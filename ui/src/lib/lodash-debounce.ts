@@ -7,35 +7,41 @@ type DebounceOptions = {
   trailing?: boolean;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny:
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number,
-  options?: DebounceOptions
+  options?: DebounceOptions,
 ): T & { cancel: () => void; flush: () => ReturnType<T> | undefined } {
-  let lastArgs: Parameters<T> | undefined,
-    lastThis: any,
-    maxWait: number | undefined,
-    result: ReturnType<T> | undefined,
-    timerId: ReturnType<typeof setTimeout> | undefined,
-    lastCallTime: number | undefined,
-    lastInvokeTime = 0,
-    leading = false,
-    maxing = false,
-    trailing = true;
+  let lastArgs: Parameters<T> | undefined;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  let lastThis: any;
+  let maxWait: number | undefined;
+  let result: ReturnType<T> | undefined;
+  let timerId: ReturnType<typeof setTimeout> | undefined;
+  let lastCallTime: number | undefined;
+  let lastInvokeTime = 0;
+  let leading = false;
+  let maxing = false;
+  let trailing = true;
 
   if (typeof func !== 'function') {
     throw new TypeError('Expected a function');
   }
+  // biome-ignore lint/style/noParameterAssign:
   wait = Number(wait) || 0;
 
   if (typeof options === 'object') {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(Number(options.maxWait) || 0, wait) : undefined;
+    maxWait = maxing
+      ? nativeMax(Number(options.maxWait) || 0, wait)
+      : undefined;
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
 
   function invokeFunc(time: number): ReturnType<T> {
+    // biome-ignore lint/style/noNonNullAssertion:
     const args = lastArgs!;
     const thisArg = lastThis;
 
@@ -57,7 +63,9 @@ export function debounce<T extends (...args: any[]) => any>(
     const timeSinceLastInvoke = time - lastInvokeTime;
     const result = wait - timeSinceLastCall;
 
-    return maxing ? nativeMin(result, (maxWait || 0) - timeSinceLastInvoke) : result;
+    return maxing
+      ? nativeMin(result, (maxWait || 0) - timeSinceLastInvoke)
+      : result;
   }
 
   function shouldInvoke(time: number): boolean {
@@ -103,7 +111,11 @@ export function debounce<T extends (...args: any[]) => any>(
     return timerId === undefined ? result : trailingEdge(Date.now());
   }
 
-  function debounced(this: any, ...args: Parameters<T>): ReturnType<T> | undefined {
+  function debounced(
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    this: any,
+    ...args: Parameters<T>
+  ): ReturnType<T> | undefined {
     const time = Date.now();
     const isInvoking = shouldInvoke(time);
 
@@ -128,24 +140,8 @@ export function debounce<T extends (...args: any[]) => any>(
 
   debounced.cancel = cancel;
   debounced.flush = flush;
-  return debounced as T & { cancel: () => void; flush: () => ReturnType<T> | undefined };
-}
-
-function throttle<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number,
-  options?: DebounceOptions
-): T & { cancel: () => void; flush: () => ReturnType<T> | undefined } {
-  const leading = options?.leading ?? true;
-  const trailing = options?.trailing ?? true;
-
-  if (typeof func !== 'function') {
-    throw new TypeError('Expected a function');
-  }
-
-  return debounce(func, wait, {
-    leading,
-    maxWait: wait,
-    trailing
-  });
+  return debounced as T & {
+    cancel: () => void;
+    flush: () => ReturnType<T> | undefined;
+  };
 }

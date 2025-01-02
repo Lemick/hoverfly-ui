@@ -1,10 +1,10 @@
-import { CSSProperties, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import type { CSSProperties, ReactNode } from 'react';
 
 export function FormControl({
   children,
   direction,
-  className
+  className,
 }: {
   children: ReactNode;
   direction: CSSProperties['flexDirection'];
@@ -15,8 +15,9 @@ export function FormControl({
       className={cn(
         'flex gap-2 items-start [&>*]:cursor-pointer',
         direction === 'column' ? 'flex-col' : 'flex-row',
-        className
-      )}>
+        className,
+      )}
+    >
       {children}
     </div>
   );

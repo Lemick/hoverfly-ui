@@ -1,6 +1,6 @@
 import React from 'react';
-import WebEditorPage from './components/pages/WebEditorPage';
 import PluginEditorPage from './components/pages/PluginEditorPage';
+import WebEditorPage from './components/pages/WebEditorPage';
 import './hooks/use-monaco-worker';
 import { usePluginMode } from '@/hooks/use-plugin-mode';
 
@@ -9,7 +9,9 @@ export default function App() {
 
   if (isPluginMode && ideSimulationData === undefined) {
     return (
-      <div style={{ display: 'flex', placeContent: 'center', paddingTop: '5rem' }}>
+      <div
+        style={{ display: 'flex', placeContent: 'center', paddingTop: '5rem' }}
+      >
         <span>Loading...</span>
       </div>
     );

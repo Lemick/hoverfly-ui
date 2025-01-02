@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { Request } from '@/types/hoverfly';
 import FieldMatcherListForm from '@/components/forms/matchers/FieldMatcherListForm';
 import RecordStringFieldMatcherListForm from '@/components/forms/matchers/RecordStringFieldMatcherListForm';
+import { Badge } from '@/components/ui/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { TypographyH2 } from '@/components/ui/Typography';
-import { Badge } from '@/components/ui/Badge';
+import type { Request } from '@/types/hoverfly';
+import * as React from 'react';
 
 type Props = {
   request: Request;
@@ -26,7 +26,8 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             <CountMatcherBadge elements={request.scheme} />
           </TabsTrigger>
           <TabsTrigger value="destination">
-            Destination &#8239; <CountMatcherBadge elements={request.destination} />
+            Destination &#8239;{' '}
+            <CountMatcherBadge elements={request.destination} />
           </TabsTrigger>
           <TabsTrigger value="path">
             Path &#8239;
@@ -50,7 +51,9 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             fieldMatchers={request.method}
             type="method"
             valuePlaceholder="GET"
-            onChange={(fieldMatchers) => onChange({ ...request, method: fieldMatchers })}
+            onChange={(fieldMatchers) =>
+              onChange({ ...request, method: fieldMatchers })
+            }
           />
         </TabsContent>
         <TabsContent value="body" data-testid="tab-content-body">
@@ -58,7 +61,9 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             fieldMatchers={request.body}
             type="body"
             valuePlaceholder='{"key": "value"}'
-            onChange={(fieldMatchers) => onChange({ ...request, body: fieldMatchers })}
+            onChange={(fieldMatchers) =>
+              onChange({ ...request, body: fieldMatchers })
+            }
             forceFullEditor={true}
           />
         </TabsContent>
@@ -67,7 +72,9 @@ const RequestMatcherForm = ({ request, onChange }: Props) => {
             fieldMatchers={request.destination}
             type="destination"
             valuePlaceholder="hoverfly.io"
-            onChange={(fieldMatchers) => onChange({ ...request, destination: fieldMatchers })}
+            onChange={(fieldMatchers) =>
+              onChange({ ...request, destination: fieldMatchers })
+            }
           />
         </TabsContent>
         <TabsContent value="headers" data-testid="tab-content-headers">
@@ -119,8 +126,14 @@ const CountMatcherBadge = ({ elements }: { elements?: unknown[] | object }) => {
     return null;
   }
 
-  const elementsCount = Array.isArray(elements) ? elements.length : Object.keys(elements).length;
-  return <Badge variant={elementsCount > 0 ? 'default' : 'secondary'}>{elementsCount}</Badge>;
+  const elementsCount = Array.isArray(elements)
+    ? elements.length
+    : Object.keys(elements).length;
+  return (
+    <Badge variant={elementsCount > 0 ? 'default' : 'secondary'}>
+      {elementsCount}
+    </Badge>
+  );
 };
 
 export default RequestMatcherForm;

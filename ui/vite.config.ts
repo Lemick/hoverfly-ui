@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -7,7 +7,7 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   build: {
-    outDir: 'build'
+    outDir: 'build',
   },
   output: {
     manualChunks(id: string) {
@@ -20,12 +20,12 @@ export default defineConfig({
         const name2 = basic.split('/')[1];
         return name2.split('@')[name2[0] === '@' ? 1 : 0].toString();
       }
-    }
+    },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   test: {
     globals: true,
@@ -37,7 +37,7 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*'],
-      exclude: []
-    }
-  }
+      exclude: [],
+    },
+  },
 });

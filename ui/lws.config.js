@@ -4,8 +4,8 @@ module.exports = {
   rewrite: [
     {
       from: '/hoverfly-ui/(.*)',
-      to: '/$1'
-    }
+      to: '/$1',
+    },
   ],
-  directory: 'build'
+  directory: 'build',
 };

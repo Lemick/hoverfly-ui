@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { FieldMatcher } from '@/types/hoverfly';
-import FieldMatcherForm from './FieldMatchersForm';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import type { FieldMatcher } from '@/types/hoverfly';
 import { PlusIcon } from '@radix-ui/react-icons';
+import React, { useMemo } from 'react';
+import FieldMatcherForm from './FieldMatchersForm';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
@@ -18,7 +18,7 @@ const FieldMatcherListForm = ({
   type,
   onChange,
   valuePlaceholder,
-  forceFullEditor = false
+  forceFullEditor = false,
 }: Props) => {
   const id = useMemo(() => Math.random(), []);
 
@@ -45,16 +45,25 @@ const FieldMatcherListForm = ({
           <FieldMatcherForm
             id={`${id}_idx${index}`}
             fieldMatcher={fieldMatcher}
-            onChange={(newFieldMatcher: FieldMatcher) => handleUpdate(index, newFieldMatcher)}
+            onChange={(newFieldMatcher: FieldMatcher) =>
+              handleUpdate(index, newFieldMatcher)
+            }
             onDeleteRequest={() => handleDelete(index)}
             valuePlaceholder={valuePlaceholder}
             forceFullEditor={forceFullEditor}
           />
         </Card>
       ))}
-      <div className="w-full flex flex-row justify-center" data-testid="add-matcher-button">
+      <div
+        className="w-full flex flex-row justify-center"
+        data-testid="add-matcher-button"
+      >
         {fieldMatchers?.length === 0 ? (
-          <Button className="w-[400px] mt-6 mb-6" variant="secondary" onClick={handleAdd}>
+          <Button
+            className="w-[400px] mt-6 mb-6"
+            variant="secondary"
+            onClick={handleAdd}
+          >
             <span>{`Add first field matcher for ${type}`}</span>
           </Button>
         ) : (

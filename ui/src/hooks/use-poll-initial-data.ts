@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 // Force initialSimulationData init in plugin mode if the browser is too fast to load
 export const usePollInitialData = ({
   enabled,
-  setInitialData
+  setInitialData,
 }: {
   enabled: boolean;
   setInitialData: (value: string) => void;

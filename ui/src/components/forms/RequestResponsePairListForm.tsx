@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import RequestResponseMatcherForm from './RequestResponseMatcherForm';
-import { RequestResponsePair } from '@/types/hoverfly';
-import { CardContent } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger
+  AccordionTrigger,
 } from '@/components/ui/Accordion';
-import { getRequestHeader } from '@/services/request-matcher-service';
-import { ClipboardIcon, TrashIcon } from '@radix-ui/react-icons';
-import TooltipDecorator from '../utilities/TooltipDecorator';
+import { Button } from '@/components/ui/Button';
+import { CardContent } from '@/components/ui/Card';
 import { useTheme } from '@/hooks/use-theme-provider';
+import { getRequestHeader } from '@/services/request-matcher-service';
+import type { RequestResponsePair } from '@/types/hoverfly';
+import { ClipboardIcon, TrashIcon } from '@radix-ui/react-icons';
+import type React from 'react';
+import { useState } from 'react';
+import TooltipDecorator from '../utilities/TooltipDecorator';
+import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 
 type Props = {
   requestResponsePairs: RequestResponsePair[];
@@ -23,24 +24,33 @@ type Props = {
 const RequestResponsePairListForm = ({
   requestResponsePairs,
   onChange,
-  onOpenPair = (_) => {}
+  onOpenPair = (_) => {},
 }: Props) => {
   const [activeIndex, setActiveIndex] = useState<number>();
 
-  const onUpdate = (index: number, requestResponsePair: RequestResponsePair) => {
+  const onUpdate = (
+    index: number,
+    requestResponsePair: RequestResponsePair,
+  ) => {
     const newPairs = [...requestResponsePairs];
     newPairs[index] = requestResponsePair;
     onChange(newPairs);
   };
 
-  const onDuplicate = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+  const onDuplicate = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
     e.stopPropagation();
     const newPairs = [...requestResponsePairs];
     newPairs.splice(index, 0, { ...newPairs[index] });
     onChange(newPairs);
   };
 
-  const onDelete = (e: React.MouseEvent<HTMLButtonElement>, indexToRemove: number) => {
+  const onDelete = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    indexToRemove: number,
+  ) => {
     e.stopPropagation();
 
     if (activeIndex && indexToRemove < activeIndex) {
@@ -55,7 +65,7 @@ const RequestResponsePairListForm = ({
   function onAddRequestResponsePair() {
     const newPair = {
       request: {},
-      response: { status: 200 }
+      response: { status: 200 },
     };
     onChange([...requestResponsePairs, newPair]);
   }
@@ -66,7 +76,8 @@ const RequestResponsePairListForm = ({
         <Accordion
           type="single"
           collapsible={true}
-          className="border rounded-md max-w-[1200px] w-full">
+          className="border rounded-md max-w-[1200px] w-full"
+        >
           {requestResponsePairs.map((pair, index) => (
             <AccordionItem key={index} value={`ìtem-${index}`}>
               <AccordionTrigger onClick={() => onOpenPair(index)}>
@@ -80,7 +91,8 @@ const RequestResponsePairListForm = ({
                       <Button
                         variant="secondary"
                         type="button"
-                        onClick={(e) => onDuplicate(e, index)}>
+                        onClick={(e) => onDuplicate(e, index)}
+                      >
                         <ClipboardIcon />
                       </Button>
                     </TooltipDecorator>
@@ -89,7 +101,8 @@ const RequestResponsePairListForm = ({
                       <Button
                         variant="destructive"
                         type="button"
-                        onClick={(e) => onDelete(e, index)}>
+                        onClick={(e) => onDelete(e, index)}
+                      >
                         <TrashIcon />
                       </Button>
                     </TooltipDecorator>
@@ -131,18 +144,21 @@ const ResponseStatusHeader = ({ status }: { status?: number }) => {
 
   function getColorForHTTPCode(httpCode: number) {
     if (httpCode >= 100 && httpCode < 200) {
-      return isDark ? 'text-yellow-200' : `text-yellow-500`;
-    } else if (httpCode >= 200 && httpCode < 300) {
-      return isDark ? `text-green-200` : `text-green-500`;
-    } else if (httpCode >= 300 && httpCode < 400) {
-      return isDark ? `text-blue-200` : `text-blue-500`;
-    } else if (httpCode >= 400 && httpCode < 500) {
-      return isDark ? `text-orange-200` : `text-orange-500`;
-    } else if (httpCode >= 500 && httpCode < 600) {
-      return isDark ? `text-red-200` : `text-red-500`;
-    } else {
-      return '';
+      return isDark ? 'text-yellow-200' : 'text-yellow-500';
     }
+    if (httpCode >= 200 && httpCode < 300) {
+      return isDark ? 'text-green-200' : 'text-green-500';
+    }
+    if (httpCode >= 300 && httpCode < 400) {
+      return isDark ? 'text-blue-200' : 'text-blue-500';
+    }
+    if (httpCode >= 400 && httpCode < 500) {
+      return isDark ? 'text-orange-200' : 'text-orange-500';
+    }
+    if (httpCode >= 500 && httpCode < 600) {
+      return isDark ? 'text-red-200' : 'text-red-500';
+    }
+    return '';
   }
 
   return <span className={getColorForHTTPCode(status)}>{status}</span>;

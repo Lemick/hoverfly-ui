@@ -1,11 +1,11 @@
-import React from 'react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/Select';
+import React from 'react';
 
 type Props = {
   code?: string;
@@ -15,9 +15,20 @@ type Props = {
   dataTestId?: string;
 };
 
-export default function SelectHttpStatus({ id, name, code, onChange, dataTestId }: Props) {
+export default function SelectHttpStatus({
+  id,
+  name,
+  code,
+  onChange,
+  dataTestId,
+}: Props) {
   return (
-    <Select data-testid={dataTestId} name={name} value={code} onValueChange={onChange}>
+    <Select
+      data-testid={dataTestId}
+      name={name}
+      value={code}
+      onValueChange={onChange}
+    >
       <SelectTrigger id={id} className="w-full">
         <SelectValue placeholder="matcher" />
       </SelectTrigger>

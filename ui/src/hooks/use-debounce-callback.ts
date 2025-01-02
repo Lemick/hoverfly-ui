@@ -32,6 +32,7 @@ type ControlFunctions = {
   isPending: () => boolean;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type DebouncedState<T extends (...args: any) => ReturnType<T>> = ((
   ...args: Parameters<T>
 ) => ReturnType<T> | undefined) &
@@ -46,14 +47,15 @@ function useUnmount(func: () => void) {
     () => () => {
       funcRef.current();
     },
-    []
+    [],
   );
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function useDebounceCallback<T extends (...args: any) => ReturnType<T>>(
   func: T,
   delay = 500,
-  options?: DebounceOptions
+  options?: DebounceOptions,
 ): DebouncedState<T> {
   const debouncedFunc = useRef<ReturnType<typeof debounce>>(null);
 

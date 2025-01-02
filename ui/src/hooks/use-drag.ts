@@ -30,6 +30,6 @@ export default function useDrag(onMouseMove: (event: MouseEvent) => void) {
 
   return {
     start: handleMouseDown,
-    stop: handleMouseUp
+    stop: handleMouseUp,
   };
 }
