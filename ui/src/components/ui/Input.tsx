@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
