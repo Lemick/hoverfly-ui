@@ -10,7 +10,6 @@ import useStoreDebounce from '@/hooks/use-store-debounce';
 import TooltipDecorator from '@/components/utilities/TooltipDecorator';
 import { Button } from '@/components/ui/Button';
 import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
-import { useToggle } from 'usehooks-ts';
 import InvalidSimulation from '@/components/utilities/InvalidSimulation';
 import { initHoverflySimulation } from '@/services/request-matcher-service';
 import { TypographyH2 } from '@/components/ui/Typography';
@@ -25,13 +24,13 @@ const LOCAL_STORAGE_KEY = 'content';
  * JSON is stored in the localstorage
  */
 export default function WebEditorPage() {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>();
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
   const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
   const [editorContent, setEditorContent] = useState('');
   const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
   const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
-  const [isTextEditorVisible, toggleTextEditor] = useToggle(true);
+  const [isTextEditorVisible, setIsTextEditorVisible] = useState(true);
   const { appliedTheme } = useTheme();
 
   const handleEditorDidMount: OnMount = (editor) => {
@@ -89,7 +88,10 @@ export default function WebEditorPage() {
           <TypographyH2>Simulations</TypographyH2>
           <div className="flex justify-end">
             <TooltipDecorator tooltipText="Toggle JSON editor">
-              <Button variant="secondary" type="button" onClick={toggleTextEditor}>
+              <Button
+                variant="secondary"
+                type="button"
+                onClick={() => setIsTextEditorVisible(!isTextEditorVisible)}>
                 {isTextEditorVisible ? <ThickArrowRightIcon /> : <ThickArrowLeftIcon />}
               </Button>
             </TooltipDecorator>

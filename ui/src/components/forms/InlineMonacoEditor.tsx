@@ -14,8 +14,8 @@ const MIN_EDITOR_LINE = 16;
 const MAX_EDITOR_LINE = 50;
 
 const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>();
-  const monacoRef = useRef<Monaco>();
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
+  const monacoRef = useRef<Monaco>(null);
   const isBodyJson = useMemo(() => isJSON(value), [value]);
   const [isFocused, setIsFocused] = useState(false);
   const [editorHeightPx, setEditorHeightPx] = useState(100);
