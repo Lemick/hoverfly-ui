@@ -24,7 +24,7 @@ jobs:
         run: ln -s ../gradlew gradlew && chmod +x gradlew
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v2.1.2
+        uses: gradle/actions/wrapper-validation@v4
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -33,9 +33,7 @@ jobs:
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
-        with:
-          gradle-home-cache-cleanup: true
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Export Properties
         id: properties
@@ -83,10 +81,10 @@ jobs:
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: current
-          gradle-home-cache-cleanup: true
+          cache-cleanup: true
 
       - name: Run Tests
         run: ../gradlew check
@@ -115,8 +113,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-home-cache-cleanup: true
 
       - name: Setup Plugin Verifier IDEs Cache
         uses: actions/cache@v4
