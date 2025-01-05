@@ -84,7 +84,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: current
-          cache-cleanup: true
 
       - name: Run Tests
         run: ../gradlew check
