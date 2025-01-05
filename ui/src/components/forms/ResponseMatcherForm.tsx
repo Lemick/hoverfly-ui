@@ -1,18 +1,18 @@
-import React from 'react';
-import { Response } from '@/types/hoverfly';
-import InlineMonacoEditor from './InlineMonacoEditor';
-import SelectHttpStatus from '../utilities/SelectHttpStatus';
-import { Label } from '@/components/ui/Label';
-import { Input } from '@/components/ui/Input';
+import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
+import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { TypographyH2 } from '@/components/ui/Typography';
 import { FormControl } from '@/components/utilities/FormControl';
-import { Button } from '@/components/ui/Button';
-import { minify, parseIntOrDefault, prettify } from '@/services/json-service';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
-import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
-import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
 import { updateContentLengthAccordingToBody } from '@/services/headers-service';
+import { minify, parseIntOrDefault, prettify } from '@/services/json-service';
+import type { Response } from '@/types/hoverfly';
+import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
+import React from 'react';
+import SelectHttpStatus from '../utilities/SelectHttpStatus';
+import InlineMonacoEditor from './InlineMonacoEditor';
 
 type Props = {
   response?: Response;
@@ -33,7 +33,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
 
     onChange({
       ...response,
-      headers: newHeaders
+      headers: newHeaders,
     });
   };
 
@@ -45,7 +45,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
     delete newHeaders[headerName];
     onChange({
       ...response,
-      headers: newHeaders
+      headers: newHeaders,
     });
   };
 
@@ -58,13 +58,15 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
           <div className="flex flex-row gap-3">
             <Button
               variant="outline"
-              onClick={() => response.body && onResponseBodyChange(prettify(response.body))}>
+              onClick={() => response.body && onResponseBodyChange(prettify(response.body))}
+            >
               <MagicWandIcon />
               Prettify
             </Button>
             <Button
               variant="outline"
-              onClick={() => response.body && onResponseBodyChange(minify(response.body))}>
+              onClick={() => response.body && onResponseBodyChange(minify(response.body))}
+            >
               <ZoomOutIcon className="size-5" />
               Minify
             </Button>
@@ -90,7 +92,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         onChange={({ target }) =>
                           onChange({
                             ...response,
-                            fixedDelay: parseIntOrDefault(target.value, undefined)
+                            fixedDelay: parseIntOrDefault(target.value, undefined),
                           })
                         }
                       />
@@ -105,7 +107,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                         onChange={({ target }) =>
                           onChange({
                             ...response,
-                            logNormalDelay: !!target.value ? JSON.parse(target.value) : undefined
+                            logNormalDelay: target.value ? JSON.parse(target.value) : undefined,
                           })
                         }
                       />
@@ -128,7 +130,10 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               className="form-check-input"
               checked={response.encodedBody || false}
               onCheckedChange={(checked) =>
-                onChange({ ...response, encodedBody: !!checked ? true : undefined })
+                onChange({
+                  ...response,
+                  encodedBody: checked ? true : undefined,
+                })
               }
             />
             <Label htmlFor="encodedBody">Encoded body</Label>
@@ -142,7 +147,7 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
               id="status"
               dataTestId="response-status-select"
               code={`${response.status}`}
-              onChange={(code) => onChange({ ...response, status: parseInt(code) })}
+              onChange={(code) => onChange({ ...response, status: Number.parseInt(code) })}
             />
           </FormControl>
 
@@ -157,7 +162,8 @@ const ResponseMatcherForm = ({ response = {}, onChange }: Props) => {
                       onHeaderChangeRequest(newName, newValues, headerName)
                     }
                     initialHeaderName={headerName}
-                    initialHeaderValues={headerValues}>
+                    initialHeaderValues={headerValues}
+                  >
                     <div className="break-all text-sm">
                       <span className="text-sm">
                         {'-'} {headerName}:&nbsp;

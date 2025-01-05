@@ -1,11 +1,11 @@
-import React from 'react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/Select';
+import React from 'react';
 
 type Props = {
   code?: string;

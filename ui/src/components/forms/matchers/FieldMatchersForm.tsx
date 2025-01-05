@@ -1,19 +1,19 @@
-import React from 'react';
-import { FieldMatcher } from '@/types/hoverfly';
+import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
-import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from '@/components/ui/Select';
-import { Button } from '@/components/ui/Button';
-import { TrashIcon, GearIcon } from '@radix-ui/react-icons';
 import { FormControl } from '@/components/utilities/FormControl';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
+import type { FieldMatcher } from '@/types/hoverfly';
+import { GearIcon, TrashIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import InlineMonacoEditor from '../InlineMonacoEditor';
 
 type Props = {
@@ -31,7 +31,7 @@ const FieldMatcherForm = ({
   onChange,
   onDeleteRequest,
   valuePlaceholder,
-  forceFullEditor
+  forceFullEditor,
 }: Props) => {
   const displayFullEditor =
     forceFullEditor || fieldMatcher.matcher === 'json' || fieldMatcher.matcher === 'jsonPartial';
@@ -47,7 +47,7 @@ const FieldMatcherForm = ({
 
     const newFieldMatcher = {
       ...fieldMatcher,
-      config: atLeastOneTrueValue ? newConfig : undefined
+      config: atLeastOneTrueValue ? newConfig : undefined,
     };
     onChange(newFieldMatcher);
   };
@@ -62,11 +62,13 @@ const FieldMatcherForm = ({
           <Select
             name="matcher"
             value={fieldMatcher.matcher}
-            onValueChange={(value: string) => handleMatcherChange('matcher', value)}>
+            onValueChange={(value: string) => handleMatcherChange('matcher', value)}
+          >
             <SelectTrigger
               id={generateDomId('select-matcher')}
               className="w-[180px]"
-              data-testid="select-matcher">
+              data-testid="select-matcher"
+            >
               <SelectValue placeholder="matcher" />
             </SelectTrigger>
             <SelectContent data-testid="select-matcher-options">

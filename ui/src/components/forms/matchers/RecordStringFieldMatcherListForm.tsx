@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { FieldMatcher } from '@/types/hoverfly';
-import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import FieldMatcherListForm from './FieldMatcherListForm';
-import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
+import { Card, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import type { FieldMatcher } from '@/types/hoverfly';
+import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
+import React, { useState } from 'react';
+import FieldMatcherListForm from './FieldMatcherListForm';
 
 type Props = {
   entries?: Record<string, FieldMatcher[]>;
@@ -17,7 +17,7 @@ const RecordStringFieldMatcherListForm = ({
   entries = {},
   type,
   onChange,
-  valuePlaceholder
+  valuePlaceholder,
 }: Props) => {
   const [newEntryKey, setNewEntryKey] = useState('');
 
@@ -55,7 +55,8 @@ const RecordStringFieldMatcherListForm = ({
             className="flex gap-2"
             variant="default"
             onClick={handleAddEntry}
-            disabled={!newEntryKey}>
+            disabled={!newEntryKey}
+          >
             <PlusIcon /> Add
           </Button>
         </div>
@@ -66,7 +67,8 @@ const RecordStringFieldMatcherListForm = ({
               <Button
                 variant="ghost"
                 onClick={() => handleDeleteEntry(entryKey)}
-                className="w-auto">
+                className="w-auto"
+              >
                 <Cross1Icon />
               </Button>
             </div>

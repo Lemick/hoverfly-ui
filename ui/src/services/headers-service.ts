@@ -1,22 +1,22 @@
-import { ResponseHeaders } from '../types/hoverfly';
+import type { ResponseHeaders } from '../types/hoverfly';
 
 export const byteLengthUtf8 = (str: string) => new Blob([str]).size;
 
 export const updateContentLengthAccordingToBody = (
   body: string,
-  headers: ResponseHeaders | undefined
+  headers: ResponseHeaders | undefined,
 ): ResponseHeaders | undefined => {
   if (!headers) {
     return undefined;
   }
 
   const contentLengthKey = Object.keys(headers).find(
-    (key) => key.toLowerCase() === 'content-length'
+    (key) => key.toLowerCase() === 'content-length',
   );
   if (
     !contentLengthKey ||
     !Array.isArray(headers[contentLengthKey]) ||
-    headers[contentLengthKey].length == 0
+    headers[contentLengthKey].length === 0
   ) {
     return headers;
   }

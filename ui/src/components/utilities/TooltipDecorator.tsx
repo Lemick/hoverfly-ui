@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { TooltipContent, Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
+import React, { type ReactElement } from 'react';
 
 interface TooltipDecoratorProps {
   tooltipText: string;
@@ -10,7 +10,7 @@ interface TooltipDecoratorProps {
 const TooltipDecorator = ({
   tooltipText,
   placement = 'bottom',
-  children
+  children,
 }: TooltipDecoratorProps) => {
   return (
     <TooltipProvider>

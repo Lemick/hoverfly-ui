@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { FieldMatcher } from '@/types/hoverfly';
-import FieldMatcherForm from './FieldMatchersForm';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import type { FieldMatcher } from '@/types/hoverfly';
 import { PlusIcon } from '@radix-ui/react-icons';
+import React, { useMemo } from 'react';
+import FieldMatcherForm from './FieldMatchersForm';
 
 type Props = {
   fieldMatchers?: FieldMatcher[];
@@ -18,7 +18,7 @@ const FieldMatcherListForm = ({
   type,
   onChange,
   valuePlaceholder,
-  forceFullEditor = false
+  forceFullEditor = false,
 }: Props) => {
   const id = useMemo(() => Math.random(), []);
 

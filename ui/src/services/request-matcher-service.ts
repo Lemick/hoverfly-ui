@@ -1,4 +1,4 @@
-import { HoverflySimulation, Request } from '../types/hoverfly';
+import type { HoverflySimulation, Request } from '../types/hoverfly';
 
 export function getRequestHeader(request: Request) {
   const method = (request?.method?.length && request.method[0].value) || '';
@@ -14,8 +14,10 @@ export function initHoverflySimulation(initRequestResponsePair: boolean): Hoverf
     meta: {
       schemaVersion: 'v5.2',
       hoverflyVersion: 'v1.6.0',
-      timeExported: new Date().toISOString()
+      timeExported: new Date().toISOString(),
     },
-    data: { pairs: initRequestResponsePair ? [{ request: {}, response: { status: 200 } }] : [] }
+    data: {
+      pairs: initRequestResponsePair ? [{ request: {}, response: { status: 200 } }] : [],
+    },
   };
 }

@@ -1,21 +1,21 @@
-import React, { useRef, useState } from 'react';
-import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
-import { HoverflySimulation, RequestResponsePair } from '@/types/hoverfly';
-import exampleEditorContent from '../../example-mock.json';
-import { parse, stringify } from '@/services/json-service';
-import { editor } from 'monaco-editor';
+import { Button } from '@/components/ui/Button';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { TypographyH2 } from '@/components/ui/Typography';
+import InvalidSimulation from '@/components/utilities/InvalidSimulation';
+import TooltipDecorator from '@/components/utilities/TooltipDecorator';
 import useDrag from '@/hooks/use-drag';
 import useStoreDebounce from '@/hooks/use-store-debounce';
-import TooltipDecorator from '@/components/utilities/TooltipDecorator';
-import { Button } from '@/components/ui/Button';
-import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
-import { useToggle } from 'usehooks-ts';
-import InvalidSimulation from '@/components/utilities/InvalidSimulation';
-import { initHoverflySimulation } from '@/services/request-matcher-service';
-import { TypographyH2 } from '@/components/ui/Typography';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useTheme } from '@/hooks/use-theme-provider';
+import { parse, stringify } from '@/services/json-service';
+import { initHoverflySimulation } from '@/services/request-matcher-service';
+import type { HoverflySimulation, RequestResponsePair } from '@/types/hoverfly';
+import MonacoEditor, { type OnMount } from '@monaco-editor/react';
+import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
+import type { editor } from 'monaco-editor';
+import type React from 'react';
+import { useRef, useState } from 'react';
+import exampleEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 8;
 const LOCAL_STORAGE_KEY = 'content';
@@ -25,13 +25,13 @@ const LOCAL_STORAGE_KEY = 'content';
  * JSON is stored in the localstorage
  */
 export default function WebEditorPage() {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>();
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
   const [hoverflySimulation, setHoverflySimulation] = useState<HoverflySimulation | undefined>();
   const [leftPanelWidth, setLeftPanelWidth] = useState(window.innerWidth * 0.57);
   const [editorContent, setEditorContent] = useState('');
   const storedEditorContent = useStoreDebounce(LOCAL_STORAGE_KEY, editorContent);
   const dragHandle = useDrag((event: MouseEvent) => setLeftPanelWidth(event.clientX));
-  const [isTextEditorVisible, toggleTextEditor] = useToggle(true);
+  const [isTextEditorVisible, setIsTextEditorVisible] = useState(true);
   const { appliedTheme } = useTheme();
 
   const handleEditorDidMount: OnMount = (editor) => {
@@ -64,14 +64,17 @@ export default function WebEditorPage() {
       ...hoverflySimulation,
       data: {
         ...hoverflySimulation?.data,
-        pairs: updatedPairs
-      }
+        pairs: updatedPairs,
+      },
     };
     updateFormAndEditor(updatedSimulation);
   }
 
   function scrollToPairIndex(index: number) {
-    const model = editorRef.current?.getModel()!;
+    const model = editorRef.current?.getModel();
+    if (!model) {
+      return;
+    }
     const match = model.findMatches('"request"', true, false, true, null, true);
 
     if (index < match.length) {
@@ -83,13 +86,18 @@ export default function WebEditorPage() {
     <div className="flex absolute inset-0 overflow-hidden" style={cssVariables}>
       <div
         className="p-5 relative overflow-auto flex-grow min-w-[100px] flex flex-col gap-6"
-        style={isTextEditorVisible ? { width: leftPanelWidth } : {}}>
+        style={isTextEditorVisible ? { width: leftPanelWidth } : {}}
+      >
         <div className="flex justify-between items-center mb-3">
           <ThemeToggle />
           <TypographyH2>Simulations</TypographyH2>
           <div className="flex justify-end">
             <TooltipDecorator tooltipText="Toggle JSON editor">
-              <Button variant="secondary" type="button" onClick={toggleTextEditor}>
+              <Button
+                variant="secondary"
+                type="button"
+                onClick={() => setIsTextEditorVisible(!isTextEditorVisible)}
+              >
                 {isTextEditorVisible ? <ThickArrowRightIcon /> : <ThickArrowLeftIcon />}
               </Button>
             </TooltipDecorator>
@@ -117,7 +125,7 @@ export default function WebEditorPage() {
         style={{
           width: WIDTH_SEPARATOR_PX,
           left: leftPanelWidth,
-          display: isTextEditorVisible ? 'initial' : 'none'
+          display: isTextEditorVisible ? 'initial' : 'none',
         }}
       />
       <div
@@ -125,8 +133,9 @@ export default function WebEditorPage() {
         className="relative overflow-auto flex-grow min-w-[100px]"
         style={{
           width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
-          display: isTextEditorVisible ? 'initial' : 'none'
-        }}>
+          display: isTextEditorVisible ? 'initial' : 'none',
+        }}
+      >
         <MonacoEditor
           width="100%"
           height="100%"
@@ -137,7 +146,7 @@ export default function WebEditorPage() {
           onChange={onChangeFromCodeEditor}
           options={{
             wordWrap: 'on',
-            smoothScrolling: true
+            smoothScrolling: true,
           }}
         />
       </div>
@@ -145,4 +154,6 @@ export default function WebEditorPage() {
   );
 }
 
-const cssVariables = { '--accordion-animation-duration': '0.2s' } as React.CSSProperties;
+const cssVariables = {
+  '--accordion-animation-duration': '0.2s',
+} as React.CSSProperties;

@@ -1,7 +1,9 @@
+// biome-ignore lint/suspicious/noExplicitAny:
 export function stringify(json: any): string {
   return JSON.stringify(json, null, 4);
 }
 
+// biome-ignore lint/suspicious/noExplicitAny:
 export function parse(json: any): any {
   try {
     return JSON.parse(json);
@@ -44,13 +46,13 @@ export function removeEmptyValues(arg: Record<string, [] | object>) {
       }
 
       return Object.keys(value).length > 0;
-    })
+    }),
   );
 }
 
 export function parseIntOrDefault(value: string, fallback: number | undefined) {
   try {
-    return parseInt(value);
+    return Number.parseInt(value);
   } catch (e) {
     return fallback;
   }

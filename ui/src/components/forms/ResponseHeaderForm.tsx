@@ -1,9 +1,9 @@
-import { FormControl } from '@/components/utilities/FormControl';
-import { Label } from '@/components/ui/Label';
-import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import React, { KeyboardEventHandler, useRef, useState } from 'react';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import { FormControl } from '@/components/utilities/FormControl';
 import { PopoverClose } from '@radix-ui/react-popover';
+import React, { type KeyboardEventHandler, useRef, useState } from 'react';
 
 type Props = {
   initialHeaderName?: string;
@@ -14,7 +14,7 @@ type Props = {
 export default function ResponseHeaderForm({
   initialHeaderName = '',
   initialHeaderValues = [],
-  onSubmit
+  onSubmit,
 }: Props) {
   const [headerName, setHeaderName] = useState(initialHeaderName);
   const [headerValues, setHeaderValues] = useState(initialHeaderValues.join('&'));

@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import ResponseHeaderForm from '@/components/forms/ResponseHeaderForm';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
+import React, { type ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -13,7 +13,7 @@ export default function ResponseHeaderFormPopover({
   children,
   onChange,
   initialHeaderName = '',
-  initialHeaderValues = []
+  initialHeaderValues = [],
 }: Props) {
   return (
     <Popover>

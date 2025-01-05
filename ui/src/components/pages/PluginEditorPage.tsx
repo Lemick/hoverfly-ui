@@ -1,11 +1,11 @@
-import React from 'react';
 import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
-import { RequestResponsePair } from '@/types/hoverfly';
-import { parse, stringify } from '@/services/json-service';
-import InvalidSimulation from '../utilities/InvalidSimulation';
-import { initHoverflySimulation } from '@/services/request-matcher-service';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { TypographyH2 } from '@/components/ui/Typography';
+import { parse, stringify } from '@/services/json-service';
+import { initHoverflySimulation } from '@/services/request-matcher-service';
+import type { RequestResponsePair } from '@/types/hoverfly';
+import type React from 'react';
+import InvalidSimulation from '../utilities/InvalidSimulation';
 
 type PluginEditorPageProps = {
   simulationData?: string;
@@ -17,7 +17,7 @@ type PluginEditorPageProps = {
  */
 export default function PluginEditorPage({
   simulationData,
-  onSimulationUpdate = () => {}
+  onSimulationUpdate = () => {},
 }: PluginEditorPageProps) {
   const parsedJson = parse(decodeBase64Utf8(simulationData ?? ''));
 
@@ -26,8 +26,8 @@ export default function PluginEditorPage({
       ...parsedJson,
       data: {
         ...parsedJson?.data,
-        pairs: updatedPairs
-      }
+        pairs: updatedPairs,
+      },
     };
 
     onSimulationUpdate(stringify(updatedSimulation));
@@ -43,7 +43,7 @@ export default function PluginEditorPage({
       <div className="flex justify-between items-center">
         <ThemeToggle />
         <TypographyH2>Simulations</TypographyH2>
-        <div className="w-[47px]"></div>
+        <div className="w-[47px]" />
       </div>
       {parsedJson?.data?.pairs ? (
         <RequestResponsePairListForm
@@ -57,7 +57,9 @@ export default function PluginEditorPage({
   );
 }
 
-const cssVariables = { '--accordion-animation-duration': '0s' } as React.CSSProperties;
+const cssVariables = {
+  '--accordion-animation-duration': '0s',
+} as React.CSSProperties;
 
 function decodeBase64Utf8(base64: string) {
   const text = atob(base64);

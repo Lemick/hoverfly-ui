@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import MonacoEditor, { Monaco, OnMount } from '@monaco-editor/react';
-import { isJSON } from '@/services/json-service';
-import { editor } from 'monaco-editor';
 import { useTheme } from '@/hooks/use-theme-provider';
+import { isJSON } from '@/services/json-service';
+import MonacoEditor, { type Monaco, type OnMount } from '@monaco-editor/react';
+import type { editor } from 'monaco-editor';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
   value?: string;
@@ -14,15 +14,15 @@ const MIN_EDITOR_LINE = 16;
 const MAX_EDITOR_LINE = 50;
 
 const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>();
-  const monacoRef = useRef<Monaco>();
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
+  const monacoRef = useRef<Monaco>(null);
   const isBodyJson = useMemo(() => isJSON(value), [value]);
   const [isFocused, setIsFocused] = useState(false);
   const [editorHeightPx, setEditorHeightPx] = useState(100);
   const { appliedTheme } = useTheme();
 
   useEffect(() => {
-    if (!editorRef.current?.hasTextFocus() && editorRef.current?.getValue() != value) {
+    if (!editorRef.current?.hasTextFocus() && editorRef.current?.getValue() !== value) {
       editorRef.current?.setValue(value);
     }
   }, [value]);
@@ -42,7 +42,7 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
     const editorLineHeight = options.get(monacoRef.current.editor.EditorOption.lineHeight) || 18;
     const lineCount = Math.min(
       Math.max(editorRef.current?.getModel()?.getLineCount() || 0, MIN_EDITOR_LINE),
-      MAX_EDITOR_LINE
+      MAX_EDITOR_LINE,
     );
     setEditorHeightPx(editorLineHeight * lineCount);
   };
@@ -58,11 +58,13 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
 
   return (
     <div className="row gap-2">
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: No need here */}
       <div
         className="border-x border-y rounded overflow-hidden"
         data-testid={dataTestId}
         onClick={updateFocus}
-        onBlur={updateFocus}>
+        onBlur={updateFocus}
+      >
         <MonacoEditor
           width="100%"
           height={`${editorHeightPx}px`}
@@ -77,8 +79,8 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
             scrollBeyondLastLine: false,
             formatOnType: true,
             scrollbar: {
-              handleMouseWheel: isFocused
-            }
+              handleMouseWheel: isFocused,
+            },
           }}
         />
       </div>
