@@ -1,11 +1,13 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+// biome-ignore lint/style/useNodejsImportProtocol:
 import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   build: {
     outDir: 'build',
   },

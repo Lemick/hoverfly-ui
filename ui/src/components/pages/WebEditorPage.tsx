@@ -85,7 +85,7 @@ export default function WebEditorPage() {
   return (
     <div className="flex absolute inset-0 overflow-hidden" style={cssVariables}>
       <div
-        className="p-5 relative overflow-auto flex-grow min-w-[100px] flex flex-col gap-6"
+        className="p-5 relative overflow-auto grow min-w-[100px] flex flex-col gap-6"
         style={isTextEditorVisible ? { width: leftPanelWidth } : {}}
       >
         <div className="flex justify-between items-center mb-3">
@@ -130,7 +130,7 @@ export default function WebEditorPage() {
       />
       <div
         data-testid="text-editor"
-        className="relative overflow-auto flex-grow min-w-[100px]"
+        className="relative overflow-auto grow min-w-[100px]"
         style={{
           width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
           display: isTextEditorVisible ? 'initial' : 'none',
