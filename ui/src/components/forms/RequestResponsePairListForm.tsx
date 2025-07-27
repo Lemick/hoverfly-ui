@@ -1,3 +1,6 @@
+import { ClipboardIcon, TrashIcon } from '@radix-ui/react-icons';
+import type React from 'react';
+import { useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -9,9 +12,6 @@ import { CardContent } from '@/components/ui/Card';
 import { useTheme } from '@/hooks/use-theme-provider';
 import { getRequestHeader } from '@/services/request-matcher-service';
 import type { RequestResponsePair } from '@/types/hoverfly';
-import { ClipboardIcon, TrashIcon } from '@radix-ui/react-icons';
-import type React from 'react';
-import { useState } from 'react';
 import TooltipDecorator from '../utilities/TooltipDecorator';
 import RequestResponseMatcherForm from './RequestResponseMatcherForm';
 

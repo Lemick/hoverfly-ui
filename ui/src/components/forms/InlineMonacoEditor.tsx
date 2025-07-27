@@ -1,8 +1,8 @@
-import { useTheme } from '@/hooks/use-theme-provider';
-import { isJSON } from '@/services/json-service';
 import MonacoEditor, { type Monaco, type OnMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@/hooks/use-theme-provider';
+import { isJSON } from '@/services/json-service';
 
 type Props = {
   value?: string;

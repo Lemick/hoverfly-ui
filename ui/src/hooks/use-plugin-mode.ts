@@ -1,5 +1,5 @@
-import { usePollInitialData } from '@/hooks/use-poll-initial-data';
 import { useEffect, useState } from 'react';
+import { usePollInitialData } from '@/hooks/use-poll-initial-data';
 
 export const usePluginMode = () => {
   const isPluginMode = location.search.endsWith('plugin=true');

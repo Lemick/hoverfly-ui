@@ -1,3 +1,8 @@
+import MonacoEditor, { type OnMount } from '@monaco-editor/react';
+import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
+import type { editor } from 'monaco-editor';
+import type React from 'react';
+import { useRef, useState } from 'react';
 import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
@@ -10,11 +15,6 @@ import { useTheme } from '@/hooks/use-theme-provider';
 import { parse, stringify } from '@/services/json-service';
 import { initHoverflySimulation } from '@/services/request-matcher-service';
 import type { HoverflySimulation, RequestResponsePair } from '@/types/hoverfly';
-import MonacoEditor, { type OnMount } from '@monaco-editor/react';
-import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
-import type { editor } from 'monaco-editor';
-import type React from 'react';
-import { useRef, useState } from 'react';
 import exampleEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 8;
@@ -118,7 +118,8 @@ export default function WebEditorPage() {
           />
         ) : null}
       </div>
-      <div
+      <button
+        type="button"
         className="top-0 bottom-0 cursor-col-resize z-10 bg-foreground/5 hover:bg-foreground/10"
         onMouseUp={dragHandle.stop}
         onMouseDown={dragHandle.start}

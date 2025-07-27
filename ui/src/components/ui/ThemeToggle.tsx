@@ -1,8 +1,8 @@
+import { MoonIcon, PersonIcon, SunIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import { Button } from '@/components/ui/Button';
 import TooltipDecorator from '@/components/utilities/TooltipDecorator';
 import { useTheme } from '@/hooks/use-theme-provider';
-import { MoonIcon, PersonIcon, SunIcon } from '@radix-ui/react-icons';
-import React from 'react';
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();

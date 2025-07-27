@@ -1,10 +1,10 @@
+import type React from 'react';
 import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { TypographyH2 } from '@/components/ui/Typography';
 import { parse, stringify } from '@/services/json-service';
 import { initHoverflySimulation } from '@/services/request-matcher-service';
 import type { RequestResponsePair } from '@/types/hoverfly';
-import type React from 'react';
 import InvalidSimulation from '../utilities/InvalidSimulation';
 
 type PluginEditorPageProps = {

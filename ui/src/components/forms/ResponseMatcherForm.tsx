@@ -1,3 +1,5 @@
+import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
+import React from 'react';
 import ResponseHeaderFormPopover from '@/components/forms/ResponseHeaderFormPopover';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -9,8 +11,6 @@ import { FormControl } from '@/components/utilities/FormControl';
 import { updateContentLengthAccordingToBody } from '@/services/headers-service';
 import { minify, parseIntOrDefault, prettify } from '@/services/json-service';
 import type { Response } from '@/types/hoverfly';
-import { ClockIcon, Cross1Icon, MagicWandIcon, ZoomOutIcon } from '@radix-ui/react-icons';
-import React from 'react';
 import SelectHttpStatus from '../utilities/SelectHttpStatus';
 import InlineMonacoEditor from './InlineMonacoEditor';
 

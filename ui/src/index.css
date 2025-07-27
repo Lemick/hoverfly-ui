@@ -78,15 +78,18 @@ body {
   min-height: 100vh;
 }
 
-/* Cursor fixes */
 button,
 [role="button"],
 .cursor-pointer,
 button:not(:disabled) {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 button:disabled,
 .cursor-not-allowed {
-  cursor: not-allowed !important;
+  cursor: not-allowed;
+}
+
+.cursor-col-resize:hover {
+  cursor: col-resize;
 }

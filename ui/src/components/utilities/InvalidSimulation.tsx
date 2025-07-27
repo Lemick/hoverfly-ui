@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button';
 import { ResetIcon } from '@radix-ui/react-icons';
 import React from 'react';
+import { Button } from '@/components/ui/Button';
 
 type Props = {
   onClick: () => void;
