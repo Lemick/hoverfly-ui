@@ -58,12 +58,13 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
 
   return (
     <div className="row gap-2">
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: No need here */}
+      {/** biome-ignore lint/a11y/noStaticElementInteractions: _ */}
       <div
         className="border-x border-y rounded overflow-hidden"
         data-testid={dataTestId}
         onClick={updateFocus}
         onBlur={updateFocus}
+        role="presentation"
       >
         <MonacoEditor
           width="100%"

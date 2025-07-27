@@ -1,5 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
-import { useState } from 'react';
+import { forwardRef, type InputHTMLAttributes, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 

@@ -1,5 +1,4 @@
 import { GearIcon, TrashIcon } from '@radix-ui/react-icons';
-import React from 'react';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';

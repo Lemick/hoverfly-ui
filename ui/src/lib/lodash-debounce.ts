@@ -7,14 +7,14 @@ type DebounceOptions = {
   trailing?: boolean;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny:
+// biome-ignore lint/suspicious/noExplicitAny: _
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number,
   options?: DebounceOptions,
 ): T & { cancel: () => void; flush: () => ReturnType<T> | undefined } {
   let lastArgs: Parameters<T> | undefined;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: _
   let lastThis: any;
   let maxWait: number | undefined;
   let result: ReturnType<T> | undefined;
@@ -28,7 +28,6 @@ export function debounce<T extends (...args: any[]) => any>(
   if (typeof func !== 'function') {
     throw new TypeError('Expected a function');
   }
-  // biome-ignore lint/style/noParameterAssign:
   wait = Number(wait) || 0;
 
   if (typeof options === 'object') {
@@ -39,7 +38,7 @@ export function debounce<T extends (...args: any[]) => any>(
   }
 
   function invokeFunc(time: number): ReturnType<T> {
-    // biome-ignore lint/style/noNonNullAssertion:
+    // biome-ignore lint/style/noNonNullAssertion: _
     const args = lastArgs!;
     const thisArg = lastThis;
 
@@ -108,7 +107,7 @@ export function debounce<T extends (...args: any[]) => any>(
   }
 
   function debounced(
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: _
     this: any,
     ...args: Parameters<T>
   ): ReturnType<T> | undefined {

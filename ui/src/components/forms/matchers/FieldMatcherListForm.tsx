@@ -1,5 +1,5 @@
 import { PlusIcon } from '@radix-ui/react-icons';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import type { FieldMatcher } from '@/types/hoverfly';

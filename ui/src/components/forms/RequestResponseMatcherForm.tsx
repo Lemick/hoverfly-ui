@@ -1,4 +1,3 @@
-import React from 'react';
 import { removeEmptyValues } from '@/services/json-service';
 import type { Request, RequestResponsePair, Response } from '@/types/hoverfly';
 import RequestMatcherForm from './RequestMatcherForm';

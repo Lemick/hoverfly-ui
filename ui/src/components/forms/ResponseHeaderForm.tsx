@@ -1,5 +1,5 @@
 import { PopoverClose } from '@radix-ui/react-popover';
-import React, { type KeyboardEventHandler, useRef, useState } from 'react';
+import { type KeyboardEventHandler, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';

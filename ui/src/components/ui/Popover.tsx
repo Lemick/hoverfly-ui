@@ -1,5 +1,5 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import { forwardRef, ComponentRef, ComponentProps } from 'react';
+import { type ComponentProps, type ComponentRef, forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
 

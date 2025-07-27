@@ -1,5 +1,5 @@
 import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

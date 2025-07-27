@@ -68,16 +68,6 @@
   --color-ring: var(--ring);
 }
 
-* {
-  border-color: theme(colors.border);
-}
-
-body {
-  background-color: theme(colors.background);
-  color: theme(colors.foreground);
-  min-height: 100vh;
-}
-
 button,
 [role="button"],
 .cursor-pointer,
@@ -92,4 +82,14 @@ button:disabled,
 
 .cursor-col-resize:hover {
   cursor: col-resize;
+}
+
+* {
+  border-color: theme(colors.border); /* biome-ignore parse: Tailwind theme() function is valid for Tailwind/PostCSS */
+}
+
+body {
+  background-color: theme(colors.background); /* biome-ignore parse: Tailwind theme() function is valid for Tailwind/PostCSS */
+  color: theme(colors.foreground); /* biome-ignore parse: Tailwind theme() function is valid for Tailwind/PostCSS */
+  min-height: 100vh;
 }
