@@ -1,6 +1,6 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
-import * as React from 'react';
+import { forwardRef, ComponentRef, ComponentProps } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -10,9 +10,9 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
-const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+const SelectTrigger = forwardRef<
+  ComponentRef<typeof SelectPrimitive.Trigger>,
+  ComponentProps<typeof SelectPrimitive.Trigger>
 >(function SelectTrigger({ className, children, ...props }, ref) {
   return (
     <SelectPrimitive.Trigger
@@ -32,9 +32,9 @@ const SelectTrigger = React.forwardRef<
 });
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
-const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+const SelectScrollUpButton = forwardRef<
+  ComponentRef<typeof SelectPrimitive.ScrollUpButton>,
+  ComponentProps<typeof SelectPrimitive.ScrollUpButton>
 >(function SelectScrollUpButton({ className, ...props }, ref) {
   return (
     <SelectPrimitive.ScrollUpButton
@@ -48,9 +48,9 @@ const SelectScrollUpButton = React.forwardRef<
 });
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
 
-const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+const SelectScrollDownButton = forwardRef<
+  ComponentRef<typeof SelectPrimitive.ScrollDownButton>,
+  ComponentProps<typeof SelectPrimitive.ScrollDownButton>
 >(function SelectScrollDownButton({ className, ...props }, ref) {
   return (
     <SelectPrimitive.ScrollDownButton
@@ -64,9 +64,9 @@ const SelectScrollDownButton = React.forwardRef<
 });
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 
-const SelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+const SelectContent = forwardRef<
+  ComponentRef<typeof SelectPrimitive.Content>,
+  ComponentProps<typeof SelectPrimitive.Content>
 >(function SelectContent({ className, children, position = 'popper', ...props }, ref) {
   return (
     <SelectPrimitive.Portal>
@@ -98,9 +98,9 @@ const SelectContent = React.forwardRef<
 });
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+const SelectLabel = forwardRef<
+  ComponentRef<typeof SelectPrimitive.Label>,
+  ComponentProps<typeof SelectPrimitive.Label>
 >(function SelectLabel({ className, ...props }, ref) {
   return (
     <SelectPrimitive.Label
@@ -112,9 +112,9 @@ const SelectLabel = React.forwardRef<
 });
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
-const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+const SelectItem = forwardRef<
+  ComponentRef<typeof SelectPrimitive.Item>,
+  ComponentProps<typeof SelectPrimitive.Item>
 >(function SelectItem({ className, children, ...props }, ref) {
   return (
     <SelectPrimitive.Item
@@ -137,9 +137,9 @@ const SelectItem = React.forwardRef<
 });
 SelectItem.displayName = SelectPrimitive.Item.displayName;
 
-const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+const SelectSeparator = forwardRef<
+  ComponentRef<typeof SelectPrimitive.Separator>,
+  ComponentProps<typeof SelectPrimitive.Separator>
 >(function SelectSeparator({ className, ...props }, ref) {
   return (
     <SelectPrimitive.Separator
