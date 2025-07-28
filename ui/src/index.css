@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+  font-family: 'Inter var';
+  src: url('@/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(222.2 84% 4.9%);
@@ -91,5 +99,6 @@ button:disabled,
 body {
   background-color: theme(colors.background); /* biome-ignore parse: Tailwind theme() function is valid for Tailwind/PostCSS */
   color: theme(colors.foreground); /* biome-ignore parse: Tailwind theme() function is valid for Tailwind/PostCSS */
+  font-family: Inter var, sans-serif;
   min-height: 100vh;
 }

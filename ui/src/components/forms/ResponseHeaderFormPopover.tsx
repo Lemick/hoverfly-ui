@@ -18,7 +18,7 @@ export default function ResponseHeaderFormPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="w-120 p-4">
+      <PopoverContent className="w-80 p-4">
         <div className="flex flex-col gap-6">
           <p className="font-medium leading-none">Add header</p>
           <ResponseHeaderForm

@@ -15,9 +15,6 @@ const config = {
       },
     },
     extend: {
-      fontFamily: {
-        sans: ['Inter var', 'Segoe UI', 'sans-serif'],
-      },
       borderRadius: {
         lg: 'calc(var(--radius) + 2px)',
         md: 'var(--radius)',
