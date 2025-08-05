@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { debounce } from '../lib/lodash-debounce';
+import { debounce } from '@/lib/lodash-debounce';
 
 /** Configuration options for controlling the behavior of the debounced function. */
 type DebounceOptions = {
@@ -32,7 +32,7 @@ type ControlFunctions = {
   isPending: () => boolean;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: _
 export type DebouncedState<T extends (...args: any) => ReturnType<T>> = ((
   ...args: Parameters<T>
 ) => ReturnType<T> | undefined) &
@@ -51,7 +51,7 @@ function useUnmount(func: () => void) {
   );
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: _
 export function useDebounceCallback<T extends (...args: any) => ReturnType<T>>(
   func: T,
   delay = 500,

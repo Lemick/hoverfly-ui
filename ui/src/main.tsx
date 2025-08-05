@@ -1,10 +1,9 @@
-import React from 'react';
 import PluginEditorPage from './components/pages/PluginEditorPage';
 import WebEditorPage from './components/pages/WebEditorPage';
 import './hooks/use-monaco-worker';
 import { usePluginMode } from '@/hooks/use-plugin-mode';
 
-export default function App() {
+export default function Main() {
   const { ideSimulationData, isPluginMode } = usePluginMode();
 
   if (isPluginMode && ideSimulationData === undefined) {

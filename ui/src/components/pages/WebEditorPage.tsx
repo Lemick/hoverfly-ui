@@ -1,3 +1,8 @@
+import MonacoEditor, { type OnMount } from '@monaco-editor/react';
+import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
+import type { editor } from 'monaco-editor';
+import type React from 'react';
+import { useRef, useState } from 'react';
 import RequestResponsePairListForm from '@/components/forms/RequestResponsePairListForm';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
@@ -10,11 +15,6 @@ import { useTheme } from '@/hooks/use-theme-provider';
 import { parse, stringify } from '@/services/json-service';
 import { initHoverflySimulation } from '@/services/request-matcher-service';
 import type { HoverflySimulation, RequestResponsePair } from '@/types/hoverfly';
-import MonacoEditor, { type OnMount } from '@monaco-editor/react';
-import { ThickArrowLeftIcon, ThickArrowRightIcon } from '@radix-ui/react-icons';
-import type { editor } from 'monaco-editor';
-import type React from 'react';
-import { useRef, useState } from 'react';
 import exampleEditorContent from '../../example-mock.json';
 
 const WIDTH_SEPARATOR_PX = 8;
@@ -85,7 +85,7 @@ export default function WebEditorPage() {
   return (
     <div className="flex absolute inset-0 overflow-hidden" style={cssVariables}>
       <div
-        className="p-5 relative overflow-auto flex-grow min-w-[100px] flex flex-col gap-6"
+        className="p-5 relative overflow-auto grow min-w-[100px] flex flex-col gap-6"
         style={isTextEditorVisible ? { width: leftPanelWidth } : {}}
       >
         <div className="flex justify-between items-center mb-3">
@@ -118,7 +118,8 @@ export default function WebEditorPage() {
           />
         ) : null}
       </div>
-      <div
+      <button
+        type="button"
         className="top-0 bottom-0 cursor-col-resize z-10 bg-foreground/5 hover:bg-foreground/10"
         onMouseUp={dragHandle.stop}
         onMouseDown={dragHandle.start}
@@ -130,7 +131,7 @@ export default function WebEditorPage() {
       />
       <div
         data-testid="text-editor"
-        className="relative overflow-auto flex-grow min-w-[100px]"
+        className="relative overflow-auto grow min-w-[100px]"
         style={{
           width: `calc(100% - ${leftPanelWidth}px - ${WIDTH_SEPARATOR_PX}px)`,
           display: isTextEditorVisible ? 'initial' : 'none',

@@ -1,5 +1,5 @@
+import type { ReactElement } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
-import React, { type ReactElement } from 'react';
 
 interface TooltipDecoratorProps {
   tooltipText: string;

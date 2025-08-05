@@ -1,3 +1,4 @@
+import { GearIcon, TrashIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Input } from '@/components/ui/Input';
@@ -12,8 +13,6 @@ import {
 } from '@/components/ui/Select';
 import { FormControl } from '@/components/utilities/FormControl';
 import type { FieldMatcher } from '@/types/hoverfly';
-import { GearIcon, TrashIcon } from '@radix-ui/react-icons';
-import React from 'react';
 import InlineMonacoEditor from '../InlineMonacoEditor';
 
 type Props = {

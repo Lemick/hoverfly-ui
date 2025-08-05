@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import type { CSSProperties, ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 export function FormControl({
   children,
@@ -13,7 +13,7 @@ export function FormControl({
   return (
     <div
       className={cn(
-        'flex gap-2 items-start [&>*]:cursor-pointer',
+        'flex gap-2 items-start *:cursor-pointer',
         direction === 'column' ? 'flex-col' : 'flex-row',
         className,
       )}

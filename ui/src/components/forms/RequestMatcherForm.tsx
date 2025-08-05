@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/Badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { TypographyH2 } from '@/components/ui/Typography';
 import type { Request } from '@/types/hoverfly';
-import * as React from 'react';
 
 type Props = {
   request: Request;

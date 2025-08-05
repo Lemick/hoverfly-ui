@@ -1,9 +1,9 @@
+import { PopoverClose } from '@radix-ui/react-popover';
+import { type KeyboardEventHandler, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { FormControl } from '@/components/utilities/FormControl';
-import { PopoverClose } from '@radix-ui/react-popover';
-import React, { type KeyboardEventHandler, useRef, useState } from 'react';
 
 type Props = {
   initialHeaderName?: string;

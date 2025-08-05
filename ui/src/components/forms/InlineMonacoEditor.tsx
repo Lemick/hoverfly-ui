@@ -1,8 +1,8 @@
-import { useTheme } from '@/hooks/use-theme-provider';
-import { isJSON } from '@/services/json-service';
 import MonacoEditor, { type Monaco, type OnMount } from '@monaco-editor/react';
 import type { editor } from 'monaco-editor';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTheme } from '@/hooks/use-theme-provider';
+import { isJSON } from '@/services/json-service';
 
 type Props = {
   value?: string;
@@ -58,12 +58,13 @@ const InlineMonacoEditor = ({ value = '', onChange, dataTestId }: Props) => {
 
   return (
     <div className="row gap-2">
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: No need here */}
+      {/** biome-ignore lint/a11y/noStaticElementInteractions: _ */}
       <div
         className="border-x border-y rounded overflow-hidden"
         data-testid={dataTestId}
         onClick={updateFocus}
         onBlur={updateFocus}
+        role="presentation"
       >
         <MonacoEditor
           width="100%"
