@@ -3,19 +3,19 @@ import { useEffect, useRef } from 'react';
 // Force initialSimulationData init in plugin mode if the browser is too fast to load
 export const usePollInitialData = ({
   enabled,
-  setInitialData,
+  setInitialData
 }: {
   enabled: boolean;
   setInitialData: (value: string) => void;
 }) => {
-  const intervalIdRef = useRef<number>(null);
-  const timeoutIdRef = useRef<number>(null);
+  const intervalIdRef = useRef<number>(undefined);
+  const timeoutIdRef = useRef<number>(undefined);
 
   const clearPolling = () => {
-    intervalIdRef.current && clearInterval(intervalIdRef.current);
-    timeoutIdRef.current && clearTimeout(timeoutIdRef.current);
-    intervalIdRef.current = null;
-    timeoutIdRef.current = null;
+    clearInterval(intervalIdRef.current);
+    clearTimeout(timeoutIdRef.current);
+    intervalIdRef.current = undefined;
+    timeoutIdRef.current = undefined;
   };
 
   const startPolling = () => {

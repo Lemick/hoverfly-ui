@@ -1,4 +1,5 @@
-import type { Request } from '@/types/hoverfly';
+import { describe, expect, it, test } from 'vitest';
+import { Request } from '@/types/hoverfly';
 import { getRequestHeader } from './request-matcher-service';
 
 describe('getPairDisplayName', () => {
@@ -7,7 +8,7 @@ describe('getPairDisplayName', () => {
       method: [{ value: 'GET' }],
       scheme: [{ value: 'https' }],
       destination: [{ value: 'example.com' }],
-      path: [{ value: '/' }],
+      path: [{ value: '/' }]
     };
     const displayName = getRequestHeader(request);
     expect(displayName).toEqual('GET https example.com /');

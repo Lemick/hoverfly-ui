@@ -1,4 +1,5 @@
-import { isJSON, parse, prettify, removeEmptyValues, stringify } from './json-service';
+import { describe, expect, it, test } from 'vitest';
+import { stringify, removeEmptyValues, prettify, isJSON, parse } from './json-service';
 
 describe('stringify', () => {
   test('should return the stringified JSON with 4 spaces', () => {
