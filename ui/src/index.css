@@ -3,142 +3,152 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* 1. Add "inline" here and remove the hsl() wrappers */
+@font-face {
+    font-family: "Inter var";
+    src: url("@/fonts/InterVariable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 @theme inline {
-  /* Colors */
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
 
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
 
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
 
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
 
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
 
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
 
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
 
-  /* Border Radius */
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
 
-  /* Fonts */
-  --font-sans: "Inter var", "Segoe UI", sans-serif;
+    --font-sans: "Inter var", "Segoe UI", sans-serif;
 
-  /* Animations & Keyframes */
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
 
-  @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
-  }
-  @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
-  }
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+        to {
+            height: var(--radix-accordion-content-height);
+        }
+    }
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+        }
+        to {
+            height: 0;
+        }
+    }
 }
 
 @utility container {
-  margin-inline: auto;
-  padding-inline: 2rem;
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
+    margin-inline: auto;
+    padding-inline: 2rem;
+    @media (width >= 1400px) {
+        max-width: 1400px;
+    }
 }
 
-/* 2. Move variables OUT of @layer base and wrap values in hsl() */
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(222.2 84% 4.9%);
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(222.2 84% 4.9%);
 
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222.2 84% 4.9%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(222.2 84% 4.9%);
 
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222.2 84% 4.9%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(222.2 84% 4.9%);
 
-  --primary: hsl(222.2 47.4% 11.2%);
-  --primary-foreground: hsl(210 40% 98%);
+    --primary: hsl(222.2 47.4% 11.2%);
+    --primary-foreground: hsl(210 40% 98%);
 
-  --secondary: hsl(210 40% 96.1%);
-  --secondary-foreground: hsl(222.2 47.4% 11.2%);
+    --secondary: hsl(210 40% 96.1%);
+    --secondary-foreground: hsl(222.2 47.4% 11.2%);
 
-  --muted: hsl(210 40% 96.1%);
-  --muted-foreground: hsl(215.4 16.3% 46.9%);
+    --muted: hsl(210 40% 96.1%);
+    --muted-foreground: hsl(215.4 16.3% 46.9%);
 
-  --accent: hsl(210 40% 96.1%);
-  --accent-foreground: hsl(222.2 47.4% 11.2%);
+    --accent: hsl(210 40% 96.1%);
+    --accent-foreground: hsl(222.2 47.4% 11.2%);
 
-  --destructive: hsl(0 50.2% 50%);
-  --destructive-foreground: hsl(210 40% 99%);
+    --destructive: hsl(0 50.2% 50%);
+    --destructive-foreground: hsl(210 40% 99%);
 
-  --border: hsl(214.3 31.8% 91.4%);
-  --input: hsl(214.3 31.8% 91.4%);
-  --ring: hsl(222.2 84% 4.9%);
+    --border: hsl(214.3 31.8% 91.4%);
+    --input: hsl(214.3 31.8% 91.4%);
+    --ring: hsl(222.2 84% 4.9%);
 
-  --radius: 0.5rem;
+    --radius: 0.5rem;
 }
 
 .dark {
-  --background: hsl(220 5% 15%);
-  --foreground: hsl(208 33% 98%);
+    --background: hsl(220 5% 15%);
+    --foreground: hsl(208 33% 98%);
 
-  --card: hsl(220 5% 15%);
-  --card-foreground: hsl(208 33% 90%);
+    --card: hsl(220 5% 15%);
+    --card-foreground: hsl(208 33% 90%);
 
-  --popover: hsl(220 5% 15%);
-  --popover-foreground: hsl(208 33% 90%);
+    --popover: hsl(220 5% 15%);
+    --popover-foreground: hsl(208 33% 90%);
 
-  --primary: hsl(210 40% 90%);
-  --primary-foreground: hsl(222.2 47.4% 11.2%);
+    --primary: hsl(210 40% 90%);
+    --primary-foreground: hsl(222.2 47.4% 11.2%);
 
-  --secondary: hsl(221 35% 25%);
-  --secondary-foreground: hsl(210 40% 98%);
+    --secondary: hsl(221 35% 25%);
+    --secondary-foreground: hsl(210 40% 98%);
 
-  --muted: hsl(217.2 10% 23%);
-  --muted-foreground: hsl(208 15% 72%);
+    --muted: hsl(217.2 10% 23%);
+    --muted-foreground: hsl(208 15% 72%);
 
-  --accent: hsl(217.2 32.6% 17.5%);
-  --accent-foreground: hsl(210 40% 98%);
+    --accent: hsl(217.2 32.6% 17.5%);
+    --accent-foreground: hsl(210 40% 98%);
 
-  --destructive: hsl(0 62.8% 25.6%);
-  --destructive-foreground: hsl(210 40% 98%);
+    --destructive: hsl(0 62.8% 25.6%);
+    --destructive-foreground: hsl(210 40% 98%);
 
-  --border: hsl(215 7% 35%);
-  --input: hsl(215 10% 30%);
-  --ring: hsl(215 52% 62%);
+    --border: hsl(215 7% 35%);
+    --input: hsl(215 10% 30%);
+    --ring: hsl(215 52% 62%);
 }
 
 /* 3. Keep base element styles in @layer base */
 @layer base {
-  * {
-    @apply border-border;
-  }
+    * {
+        @apply border-border;
+    }
 
-  body {
-    @apply bg-background text-foreground;
-    min-height: 100vh;
-  }
+    body {
+        @apply bg-background text-foreground;
+        min-height: 100vh;
+    }
 
-  button:not(:disabled),
+    button:not(:disabled),
     [role="button"]:not(:disabled) {
-      cursor: pointer;
+        cursor: pointer;
     }
 }
