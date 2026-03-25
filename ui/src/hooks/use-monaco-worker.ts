@@ -13,7 +13,7 @@ self.MonacoEnvironment = {
   },
 };
 
-monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+monaco.typescript.typescriptDefaults.setEagerModelSync(true);
 
 // Makes editor available to React monaco editor
 loader.config({ monaco });

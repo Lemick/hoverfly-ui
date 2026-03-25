@@ -1,12 +1,12 @@
 import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
-    id("com.github.node-gradle.node") version "7.0.0"
+    id("com.github.node-gradle.node") version "7.1.0"
 }
 
 node {
     download.set(true)
-    version.set("22.17.1")
+    version.set("24.14.0")
 }
 
 tasks.register("build", NpmTask::class) {
