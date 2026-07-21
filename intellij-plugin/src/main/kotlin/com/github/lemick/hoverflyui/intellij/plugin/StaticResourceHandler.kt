@@ -1,9 +1,13 @@
 package com.github.lemick.hoverflyui.intellij.plugin
 
 import org.cef.callback.CefCallback
+import org.cef.callback.CefResourceReadCallback
+import org.cef.callback.CefResourceSkipCallback
 import org.cef.handler.CefLoadHandler
 import org.cef.handler.CefResourceHandler
+import org.cef.misc.BoolRef
 import org.cef.misc.IntRef
+import org.cef.misc.LongRef
 import org.cef.misc.StringRef
 import org.cef.network.CefRequest
 import org.cef.network.CefResponse
@@ -15,14 +19,21 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
 
     private var state: ResourceHandlerState = ClosedConnection
 
-    override fun processRequest(cefRequest: CefRequest, cefCallback: CefCallback): Boolean {
+    @Deprecated("Required by the JCEF interface; use open instead")
+    override fun processRequest(cefRequest: CefRequest, callback: CefCallback): Boolean {
+        val opened = open(cefRequest, BoolRef(true), callback)
+        if (opened) callback.Continue()
+        return opened
+    }
+
+    override fun open(cefRequest: CefRequest, handleRequest: BoolRef, callback: CefCallback): Boolean {
+        handleRequest.set(true)
         val url = cefRequest.url
         return if (url != null) {
             val pathToResource = url.replace("http://localhost/${resourceBaseUrl}", staticBaseUrl ?: resourceBaseUrl)
             val pathToResourceWithoutQueryParams  = pathToResource.split("?")[0]
             val newUrl: URLConnection = javaClass.getClassLoader().getResource(pathToResourceWithoutQueryParams)!!.openConnection()
             state = OpenedConnection(newUrl)
-            cefCallback.Continue()
             true
         } else {
             false
@@ -33,9 +44,23 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
         state.getResponseHeaders(cefResponse, responseLength, redirectUrl)
     }
 
-    override fun readResponse(dataOut: ByteArray, designedBytesToRead: Int, bytesRead: IntRef, callback: CefCallback): Boolean {
-        return state.readResponse(dataOut, designedBytesToRead, bytesRead, callback)
-    }
+    @Deprecated("Required by the JCEF interface; use read instead")
+    override fun readResponse(
+        dataOut: ByteArray,
+        designedBytesToRead: Int,
+        bytesRead: IntRef,
+        callback: CefCallback
+    ): Boolean = state.read(dataOut, designedBytesToRead, bytesRead)
+
+    override fun read(
+        dataOut: ByteArray,
+        designedBytesToRead: Int,
+        bytesRead: IntRef,
+        callback: CefResourceReadCallback
+    ): Boolean = state.read(dataOut, designedBytesToRead, bytesRead)
+
+    override fun skip(bytesToSkip: Long, bytesSkipped: LongRef, callback: CefResourceSkipCallback): Boolean =
+        state.skip(bytesToSkip, bytesSkipped)
 
     override fun cancel() {
         state.close()
@@ -49,12 +74,9 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
             redirectUrl: StringRef
         )
 
-        fun readResponse(
-            dataOut: ByteArray,
-            designedBytesToRead: Int,
-            bytesRead: IntRef,
-            callback: CefCallback
-        ): Boolean
+        fun read(dataOut: ByteArray, designedBytesToRead: Int, bytesRead: IntRef): Boolean
+
+        fun skip(bytesToSkip: Long, bytesSkipped: LongRef): Boolean
 
         fun close() {}
     }
@@ -93,12 +115,7 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
             }
         }
 
-        override fun readResponse(
-            dataOut: ByteArray,
-            designedBytesToRead: Int,
-            bytesRead: IntRef,
-            callback: CefCallback
-        ): Boolean {
+        override fun read(dataOut: ByteArray, designedBytesToRead: Int, bytesRead: IntRef): Boolean {
             val availableSize = inputStream.available()
             return if (availableSize > 0) {
                 val maxBytesToRead = Math.min(availableSize, designedBytesToRead)
@@ -110,6 +127,12 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
                 inputStream.close()
                 false
             }
+        }
+
+        override fun skip(bytesToSkip: Long, bytesSkipped: LongRef): Boolean {
+            val skipped = inputStream.skip(bytesToSkip)
+            bytesSkipped.set(skipped)
+            return skipped > 0
         }
 
         override fun close() {
@@ -126,13 +149,8 @@ class StaticResourceHandler(private val resourceBaseUrl: String, private val sta
             cefResponse.status = 404
         }
 
-        override fun readResponse(
-            dataOut: ByteArray,
-            designedBytesToRead: Int,
-            bytesRead: IntRef,
-            callback: CefCallback
-        ): Boolean {
-            return false
-        }
+        override fun read(dataOut: ByteArray, designedBytesToRead: Int, bytesRead: IntRef): Boolean = false
+
+        override fun skip(bytesToSkip: Long, bytesSkipped: LongRef): Boolean = false
     }
 }
