@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 
 fun Project.localGradleProperty(name: String): Provider<String> = provider {
     if (hasProperty(name)) property(name)?.toString() else null
@@ -15,7 +16,7 @@ val version: String = localGradleProperty("pluginVersion").get()
 
 // Set the JVM language level used to build the project.
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 repositories {
@@ -34,17 +35,9 @@ dependencies {
 
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
-        create(localGradleProperty("platformType"), localGradleProperty("platformVersion"))
-
-        // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
-        bundledPlugins(localGradleProperty("platformBundledPlugins").map { it.split(',') })
-
-        // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file for plugin from JetBrains Marketplace.
-        plugins(localGradleProperty("platformPlugins").map { it.split(',') })
-
-        instrumentationTools()
-        pluginVerifier()
-        zipSigner()
+        intellijIdea("2026.2")
+        bundledModule("intellij.platform.ui.jcef")
+        bundledModule("intellij.libraries.jcef")
         testFramework(TestFrameworkType.Platform)
     }
 }
@@ -69,8 +62,8 @@ intellijPlatform {
         version = localGradleProperty("pluginVersion")
 
         ideaVersion {
-            sinceBuild = localGradleProperty("pluginSinceBuild")
-            untilBuild = localGradleProperty("pluginUntilBuild")
+            sinceBuild = "262"
+            untilBuild = "262.*"
         }
     }
 
@@ -90,7 +83,7 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            create(IntelliJPlatformType.IntellijIdea, "2026.2")
         }
     }
 }
